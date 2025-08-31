@@ -29,6 +29,8 @@ use App\Http\Controllers\ProductLabelsPrintController;
 use App\Http\Controllers\PurcheseController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +142,28 @@ Route::controller(UnitController::class)->group(function () {
     Route::get('/unit/edit/{id}', 'UnitEdit')->name('unit.edit');
     Route::post('/unit/update', 'UnitUpdate')->name('unit.update');
     Route::get('/unit/delete/{id}', 'UnitDelete')->name('unit.delete');
+});
+
+//Expense Category All Route
+Route::controller(ExpenseCategoryController::class)->group(function () {
+    Route::get('/expenses-category/all', 'index')->name('expenses.category.index');
+    Route::get('/expenses-category/create', 'create')->name('expenses.category.create');
+    Route::post('/expenses-category', 'store')->name('expenses.category.store');
+    Route::get('/expenses-category/{expense}/edit', 'edit')->name('expenses.category.edit');
+    Route::put('/expenses-category/{expense}', 'update')->name('expenses.category.update');
+    Route::get('/expenses-category/delete/{id}', 'destroy')->name('expenses.category.delete');
+});
+
+
+//Expenses All Route
+Route::controller(ExpenseController::class)->group(function () {
+    Route::get('/expenses', 'index')->name('expenses.index');
+    Route::get('/expenses/create', 'create')->name('expenses.create');
+    Route::post('/expenses', 'store')->name('expenses.store');
+    Route::get('/expenses/{expense}', 'show')->name('expenses.show');
+    Route::get('/expenses/{expense}/edit', 'edit')->name('expenses.edit');
+    Route::put('/expenses/{expense}', 'update')->name('expenses.update');
+    Route::delete('/expenses/{expense}', 'destroy')->name('expenses.destroy');
 });
 
 //Categroy All Route

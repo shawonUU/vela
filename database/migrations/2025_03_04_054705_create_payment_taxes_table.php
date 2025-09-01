@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('payment_id')->constrained()->onDelete('cascade');
             $table->foreignId('tax_id')->constrained();
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

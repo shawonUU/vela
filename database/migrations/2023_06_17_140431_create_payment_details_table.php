@@ -17,6 +17,7 @@ return new class extends Migration
             $table->double('current_paid_amount',15,2)->nullable();
             $table->date('date')->nullable();
             $table->integer('updated_by')->nullable();
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

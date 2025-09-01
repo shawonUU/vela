@@ -34,6 +34,7 @@ use App\Http\Controllers\Pos\DeliveryzoneController;
 use App\Http\Controllers\ProductLabelsPrintController;
 use App\Http\Controllers\Pos\PurchasePaymentController;
 use App\Http\Controllers\pos\ProductPriceCodeController;
+use App\Http\Controllers\BusinessDayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,8 +66,8 @@ Route::middleware('auth')->group(function () {
 // Group Middleware for session expire 
 Route::middleware('auth')->group(function () {
     
-    // Dashboard controller
-    Route::get('/dashboard-data/{startDate?}/{endDate?}', [DashboardController::class, 'getDashboardData'])->name('getDashboardData');
+// Dashboard controller
+Route::get('/dashboard-data/{startDate?}/{endDate?}', [DashboardController::class, 'getDashboardData'])->name('getDashboardData');
 //Admin All Route
 Route::controller(adminController::class)->group(function () {
     Route::get('/admin/logout', 'destroy')->name('admin.logout');
@@ -424,8 +425,15 @@ Route::controller(DefaultController::class)->group(function () {
 Route::get('dashboard-report-generate-pdf/{startDate?}/{endDate?}/{filterName?}/{total_amount?}/{total_profit?}/{total_paid?}/{total_due?}', [PDFController::class, 'dashboardReportPDF'])->name('dashboard-report-generate.pdf');
 
 
+Route::controller(BusinessDayController::class)->group(function () {
+    Route::get('business-days/', 'index')->name('business-days.index');
+    Route::post('business-days/open', 'openDay')->name('business-days.open');
+    Route::post('business-days/close', 'closeDay')->name('business-days.close');
+});
+
+
 require __DIR__.'/auth.php';
 Route::get("/inv/{id}",[InvoiceController::class,'PrintInvoice'])->name('PublicPrintInvoice');
 Route::get('/test',function(){
-dd(\App\Models\Invoice::withSum('payment','due_amount')->where('id','!=',94)->get()->sum('payment_sum_due_amount'));
+    dd(\App\Models\Invoice::withSum('payment','due_amount')->where('id','!=',94)->get()->sum('payment_sum_due_amount'));
 });

@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    protected $fillable = [
+   protected $fillable = [
+        'type',           
+        'management_name',  
         'category_id',
         'amount',
         'date',
         'note',
+        'business_day_id',
+        'payment_method',
         'is_approved',
         'created_by',
         'updated_by',

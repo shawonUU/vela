@@ -48,39 +48,60 @@ class ExpenseController extends Controller
     /**
      * Show the form for creating a new expense.
      */
-    public function create()
+   public function create()
     {
         $categories = ExpenseCategory::where('status', 1)->get();
-        return view('backend.expense.create', compact('categories'));
+
+        // Static array for management names
+        $managements = [
+            ['id' => 1, 'name' => 'Management A'],
+            ['id' => 2, 'name' => 'Management B'],
+            ['id' => 3, 'name' => 'Management C'],
+        ];
+
+        return view('backend.expense.create', compact('categories', 'managements'));
     }
 
     /**
      * Store a newly created expense in storage.
      */
-    public function store(Request $request)
+   public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|exists:expense_categories,id',
-            'amount'      => 'required|numeric|min:0',
-            'date'        => 'required|date',
-            'note'        => 'nullable|string',
+            'type'           => 'required|in:daily,management',
+            'management_name'=> 'nullable|string', // only required if type is management
+            'category_id'    => 'required|exists:expense_categories,id',
+            'amount'         => 'required|numeric|min:0',
+            'date'           => 'required|date',
+            'note'           => 'nullable|string',
+            'payment_method' => 'required|in:cash,bkash,nagad,bank',
         ]);
+
+        // If type is management, management_name is required
+        if ($request->type === 'management' && empty($request->management_name)) {
+            return back()->withErrors(['management_name' => 'Management Name is required for management expense'])->withInput();
+        }
 
         Expense::create([
-            'category_id' => $request->category_id,
-            'amount'      => $request->amount,
-            'date'        => $request->date,
-            'note'        => $request->note,
-            'created_by'  => Auth::id(),
+            'type'            => $request->type,
+            'management_name' => $request->management_name,
+            'category_id'     => $request->category_id,
+            'amount'          => $request->amount,
+            'date'            => $request->date,
+            'note'            => $request->note,
+            'payment_method'  => $request->payment_method,
+            'business_day_id' => '1',
+            'created_by'      => Auth::id(),
         ]);
 
-        $notification = array(
+        $notification = [
             'message' => 'Expense Saved Successfully',
             'alert-type' => 'success'
-        );
+        ];
 
         return redirect()->route('expenses.index')->with($notification);
     }
+
 
     /**
      * Display the specified expense.
@@ -96,38 +117,56 @@ class ExpenseController extends Controller
     public function edit(Expense $expense)
     {
         $categories = ExpenseCategory::where('status', 1)->get();
-        return view('backend.expense.edit', compact('expense', 'categories'));
+         $managements = [
+            ['id' => 1, 'name' => 'Management A'],
+            ['id' => 2, 'name' => 'Management B'],
+            ['id' => 3, 'name' => 'Management C'],
+        ];
+
+        return view('backend.expense.edit', compact('expense', 'categories', 'managements'));
     }
 
     /**
      * Update the specified expense in storage.
      */
-    public function update(Request $request, Expense $expense)
-    {
-        $request->validate([
-            'category_id' => 'required|exists:expense_categories,id',
-            'amount'      => 'required|numeric|min:0',
-            'date'        => 'required|date',
-            'note'        => 'nullable|string',
-            'approval' => 'nullable|numeric|in:0,1',
-        ]);
+  public function update(Request $request, Expense $expense)
+{
+    $request->validate([
+        'type'            => 'required|in:daily,management',
+        'management_name' => 'nullable|string', // required if type is management
+        'category_id'     => 'required|exists:expense_categories,id',
+        'amount'          => 'required|numeric|min:0',
+        'date'            => 'required|date',
+        'note'            => 'nullable|string',
+        'payment_method'  => 'required|in:cash,bkash,nagad,bank',
+        'approval'        => 'nullable|numeric|in:0,1',
+    ]);
 
-        $expense->update([
-            'category_id' => $request->category_id,
-            'amount'      => $request->amount,
-            'date'        => $request->date,
-            'note'        => $request->note,
-            'is_approved' => $request->approval,
-            'updated_by'  => Auth::id(),
-        ]);
-
-        $notification = array(
-            'message' => 'Expense Updated Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('expenses.index')->with($notification);
+    // If type is management, management_name is required
+    if ($request->type === 'management' && empty($request->management_name)) {
+        return back()->withErrors(['management_name' => 'Management Name is required for management expense'])->withInput();
     }
+
+    $expense->update([
+        'type'            => $request->type,
+        'management_name' => $request->management_name,
+        'category_id'     => $request->category_id,
+        'amount'          => $request->amount,
+        'date'            => $request->date,
+        'note'            => $request->note,
+        'payment_method'  => $request->payment_method,
+        'is_approved'     => $request->approval,
+        'updated_by'      => Auth::id(),
+    ]);
+
+    $notification = [
+        'message' => 'Expense Updated Successfully',
+        'alert-type' => 'success'
+    ];
+
+    return redirect()->route('expenses.index')->with($notification);
+}
+
 
     /**
      * Remove the specified expense from storage.

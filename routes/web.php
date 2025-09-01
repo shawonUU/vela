@@ -1,36 +1,39 @@
 <?php
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\adminController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PDFController;
-use App\Http\Controllers\Pos\BrandController;
-use App\Http\Controllers\Pos\SupplierController;
-use App\Http\Controllers\Pos\CustomerController;
-use App\Http\Controllers\Pos\UnitController;
-use App\Http\Controllers\Pos\CategoryController;
-use App\Http\Controllers\Pos\ProductController;
-use App\Http\Controllers\Pos\PurchaseController;
-use App\Http\Controllers\Pos\Purchase2Controller;
-use App\Http\Controllers\Pos\DefaultController;
-use App\Http\Controllers\Pos\InvoiceController;
-use App\Http\Controllers\Pos\StockController;
-use App\Http\Controllers\Pos\ReturnController;
-use App\Http\Controllers\Pos\SalesRepController;
-use App\Http\Controllers\Pos\DeliveryzoneController;
-use App\Http\Controllers\Pos\FabricController;
-use App\Http\Controllers\pos\ProductPriceCodeController;
-use App\Http\Controllers\Pos\PurchasePaymentController;
-use App\Http\Controllers\Pos\SalesReturnController;
-use App\Http\Controllers\Pos\SizeController;
-use App\Http\Controllers\Pos\TaxController;
-use App\Http\Controllers\ProductLabelsPrintController;
-use App\Http\Controllers\PurcheseController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\adminController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\Pos\TaxController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Pos\SizeController;
+use App\Http\Controllers\Pos\UnitController;
+use App\Http\Controllers\PurcheseController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Pos\BrandController;
+use App\Http\Controllers\Pos\StockController;
+use App\Http\Controllers\Pos\FabricController;
+use App\Http\Controllers\Pos\ReturnController;
+use App\Http\Controllers\Pos\DefaultController;
+use App\Http\Controllers\Pos\InvoiceController;
+use App\Http\Controllers\Pos\ProductController;
+use App\Http\Controllers\Pos\CategoryController;
+use App\Http\Controllers\Pos\CustomerController;
+use App\Http\Controllers\Pos\PurchaseController;
+use App\Http\Controllers\Pos\SalesRepController;
+use App\Http\Controllers\Pos\SupplierController;
+use App\Http\Controllers\Pos\Purchase2Controller;
+use App\Http\Controllers\Pos\CashReportController;
+use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\Pos\ClosingCashController;
+use App\Http\Controllers\Pos\OpeningCashController;
+use App\Http\Controllers\Pos\SalesReturnController;
+use App\Http\Controllers\Pos\DeliveryzoneController;
+use App\Http\Controllers\ProductLabelsPrintController;
+use App\Http\Controllers\Pos\PurchasePaymentController;
+use App\Http\Controllers\pos\ProductPriceCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -165,6 +168,28 @@ Route::controller(ExpenseController::class)->group(function () {
     Route::put('/expenses/{expense}', 'update')->name('expenses.update');
     Route::delete('/expenses/{expense}', 'destroy')->name('expenses.destroy');
 });
+
+// Opening Cash Routes
+Route::controller(OpeningCashController::class)->group(function () {
+    Route::get('/cash-opening', 'index')->name('cash.opening.index'); // list all opening
+    Route::get('/cash-opening/create', 'create')->name('cash.opening.create'); // form
+    Route::post('/cash-opening', 'store')->name('cash.opening.store'); // save
+    Route::get('/cash-opening/{id}/edit', 'edit')->name('cash.opening.edit'); // edit form
+    Route::put('/cash-opening/{id}', 'update')->name('cash.opening.update'); // update
+    Route::get('/cash-opening/delete/{id}', 'destroy')->name('cash.opening.delete'); // delete
+});
+// Closing Cash Routes
+Route::controller(ClosingCashController::class)->group(function () {
+    Route::get('/cash-closing', 'index')->name('cash.closing.index'); // list all closing
+    Route::get('/cash-closing/create', 'create')->name('cash.closing.create'); // form
+    Route::post('/cash-closing', 'store')->name('cash.closing.store'); // save
+    Route::get('/cash-closing/{id}/edit', 'edit')->name('cash.closing.edit'); // edit form
+    Route::put('/cash-closing/{id}', 'update')->name('cash.closing.update'); // update
+    Route::get('/cash-closing/delete/{id}', 'destroy')->name('cash.closing.delete'); // delete
+    Route::get('/get-closing-balance', 'getClosingBalance')->name('cash.getClosingBalance');
+});
+
+Route::get('/cash-report', [CashReportController::class, 'index'])->name('cash.report');
 
 //Categroy All Route
 Route::controller(CategoryController::class)->group(function () {

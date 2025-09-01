@@ -1,5 +1,6 @@
 <?php
 use NumberToWords\NumberToWords;
+use App\Models\BusinessDay;
 
 if (!function_exists('convertNumberToWords')) {
     function convertNumberToWords($number)
@@ -68,5 +69,13 @@ function convertDoubleDigit($number, $words)
         return trim($words[$tens] . ' ' . $words[$units]);
     }
 }
+
+
+function isDayOpen(){
+    $businessDay = BusinessDay::where('status', 'open')->latest()->first();
+    return  $businessDay ? true : false;
+}
+
+
 
 ?>

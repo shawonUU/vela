@@ -12,8 +12,10 @@ class BusinessDayController extends Controller
      */
     public function index()
     {
-        $days = BusinessDay::orderBy('id', 'desc')->get();
-        return response()->json($days);
+        $businessDay = BusinessDay::where('status', 'open')->latest()->first();
+        $closedDay = BusinessDay::where('status', 'close')->latest()->first();
+
+        return view('backend.business-day.index', compact('businessDay','closedDay'));
     }
 
     /**
@@ -21,20 +23,51 @@ class BusinessDayController extends Controller
      */
     public function openDay(Request $request)
     {
-        // আগে কোনো open day আছে কিনা চেক করি
         $openDay = BusinessDay::where('status', 'open')->first();
         if ($openDay) {
             return response()->json(['error' => 'Another business day is already open!'], 400);
         }
 
+        $today = now()->toDateString();
+        $existingDay = BusinessDay::where('business_date', $today)->first();
+
+        if ($existingDay) {
+            if ($existingDay->status === 'closed') {
+                $existingDay->update([
+                    'status'       => 'open',
+                    'opening_time' => now(),
+                    'closing_time' => null,
+                ]);
+
+                return response()->json(['message' => 'Business day reopened!', 'day' => $existingDay]);
+            }
+            return response()->json(['error' => 'Business day already exists!'], 400);
+        }
+
+        $previousDay = BusinessDay::where('status', 'closed')
+            ->orderBy('business_date', 'desc')
+            ->first();
+
         $day = BusinessDay::create([
-            'business_date' => now()->toDateString(),
-            'opening_time'  => now(),
-            'status'        => 'open'
+            'business_date'   => $today,
+            'opening_time'    => now(),
+            'status'          => 'open',
+
+            'opening_cash'        => $previousDay?->closing_cash ?? 0,
+            'opening_visa_card'   => $previousDay?->closing_visa_card ?? 0,
+            'opening_master_card' => $previousDay?->closing_master_card ?? 0,
+            'opening_bkash'       => $previousDay?->closing_bkash ?? 0,
+            'opening_nagad'       => $previousDay?->closing_nagad ?? 0,
+            'opening_rocket'      => $previousDay?->closing_rocket ?? 0,
+            'opening_upay'        => $previousDay?->closing_upay ?? 0,
+            'opening_surecash'    => $previousDay?->closing_surecash ?? 0,
+            'opening_online'      => $previousDay?->closing_online ?? 0,
         ]);
 
         return response()->json(['message' => 'Business day opened!', 'day' => $day]);
     }
+
+
 
     /**
      * Day Close করা

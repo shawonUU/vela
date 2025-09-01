@@ -186,12 +186,16 @@ $adminData = App\Models\User::find($id);
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fa-solid fa-money-bill"></i>
-                            <span>Cash Management</span>
+                            <span>Business Day</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
-                            <li><a href="{{ route('cash.opening.index') }}">Opening Cash</a></li>
-                            <li><a href="{{ route('cash.closing.index') }}">Closing Cash</a></li>
-                            <li><a href="{{ route('cash.report') }}">Cash Reports</a></li>
+                            @if(!isDayOpen())
+                                <li><a href="{{ route('business-days.index') }}">Opening Day</a></li>
+                            @endif
+                            @if(isDayOpen())
+                                <li><a href="{{ route('business-days.index') }}">Closing Day</a></li>
+                            @endif
+                            <li><a href="{{ route('cash.report') }}">Balance Reports</a></li>
                         </ul>
                     </li>
                 {{-- @endcan --}}

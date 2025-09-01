@@ -66,6 +66,7 @@ return new class extends Migration
             $table->string('received_by')->nullable();
             $table->date('date')->nullable();
             $table->integer('updated_by')->nullable();
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

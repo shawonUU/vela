@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('is_approved', ['0', '1'])->default('0');
             $table->unsignedBigInteger('created_by')->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

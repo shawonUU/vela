@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('tax_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

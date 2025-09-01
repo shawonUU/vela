@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('qty')->default(1);
             $table->string('unit', 20)->default('pcs'); // Limited string length
             $table->enum('status', ['incoming', 'outgoing'])->default('incoming');
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

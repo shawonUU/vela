@@ -20,7 +20,7 @@ return new class extends Migration
             $table->double('due_amount',15,2)->nullable();
             $table->double('total_amount',15,2)->nullable();
             $table->double('discount_amount',15,2)->nullable();
-
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

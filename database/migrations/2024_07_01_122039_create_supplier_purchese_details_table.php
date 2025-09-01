@@ -30,6 +30,7 @@ return new class extends Migration
             $table->integer('updated_by')->nullable();
             $table->tinyInteger('status')->default('1')->comment('0=Pending, 1=Approved');
             $table->date('date')->nullable();
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

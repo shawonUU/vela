@@ -21,6 +21,7 @@ return new class extends Migration
             $table->double('unit_price',15,2);
             $table->tinyInteger('status')->default('0')->comment('0=Pending, 1=Approved');
             $table->date('date')->nullable();
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
     }

@@ -38,6 +38,7 @@ return new class extends Migration
             $table->decimal('selling_price', 10, 2)->nullable();
 
             $table->text('remarks')->nullable();
+            $table->unsignedBigInteger('business_day_id');
 
             $table->timestamps();
 

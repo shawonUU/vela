@@ -25,6 +25,7 @@ return new class extends Migration
             $table->date('date');
             $table->enum('status', ['draft', 'sent', 'accepted', 'rejected'])->default('draft');
             $table->string('currency', 3)->default('USD'); // Standard currency code length is 3 (ISO 4217)
+            $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
         

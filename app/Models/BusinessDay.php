@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BuisnessDay extends Model
+class BusinessDay extends Model
 {
     //
 }

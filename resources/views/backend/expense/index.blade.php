@@ -210,37 +210,45 @@
                             <thead>
                                 <tr>
                                     <th width="5%">Sl</th>
+                                    <th>Type</th>
+                                    <th>Management Name</th>
                                     <th>Category</th>
                                     <th>Amount</th>
-                                    <th>Notes </th>
+                                    <th>Payment Method</th>
+                                    <th>Notes</th>
                                     <th>Created By</th>
                                     <th>Approval Status</th>
                                     <th>Action</th>
-
+                                </tr>
                             </thead>
 
-
                             <tbody>
-
                                 @foreach($expenses as $key => $item)
                                 <tr>
-                                    <td width="5%"> {{ $key+1}} </td>
-                                    <td>{{$item->category->name}} </td>
-                                    <td>{{$item->amount}} </td>
-                                    <td>{{$item->note}} </td>
-                                    <td>{{$item->creator->name}} </td>
-                                    <td>{{$item->is_approved == '1' ? 'Approved' : 'Not Approved'}} </td>
-                                    
+                                    <td width="5%">{{ $key + 1 }}</td>
+                                    <td>{{ ucfirst($item->type) }}</td>
+                                    <td>{{ $item->management_name ?? '-' }}</td>
+                                    <td>{{ $item->category->name }}</td>
+                                    <td>{{ $item->amount }}</td>
+                                    <td>{{ ucfirst($item->payment_method) }}</td>
+                                    <td>{{ $item->note ?? '-' }}</td>
+                                    <td>{{ $item->creator->name }}</td>
                                     <td>
-                                        <!-- <a href="{{ route('purchase.print.pos_pdf',$item->id) }}" class="btn btn-success sm" title="Print Invoice"> <i class="fas fa-print"></i> </a> -->
-                                        <a href="{{ route('expenses.edit', $item) }}" class="btn btn-info sm" title="Purchase Edit"> <i class="fas fa-edit"></i></a>
-                                        
+                                        <span class="{{ $item->is_approved == '1' ? 'text-success' : 'text-danger' }}">
+                                            {{ $item->is_approved == '1' ? 'Approved' : 'Not Approved' }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <a href="{{ route('expenses.edit', $item) }}" class="btn btn-info sm" title="Edit Expense">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
+
 
                     </div>
                 </div>

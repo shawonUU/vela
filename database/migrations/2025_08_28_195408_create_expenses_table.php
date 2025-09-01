@@ -13,16 +13,20 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
+            $table->enum('type', ['daily', 'management']); // Type column
+            $table->string('management_name')->nullable(); // Management name, nullable for daily expenses
             $table->unsignedBigInteger('category_id')->index();
             $table->decimal('amount')->default(0);
             $table->date('date')->index();
             $table->text('note')->nullable();
+            $table->enum('payment_method', ['cash', 'bkash', 'nagad', 'bank'])->nullable(); // Added payment method
             $table->enum('is_approved', ['0', '1'])->default('0');
             $table->unsignedBigInteger('created_by')->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->unsignedBigInteger('business_day_id');
             $table->timestamps();
         });
+
     }
 
     /**

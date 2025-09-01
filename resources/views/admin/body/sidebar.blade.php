@@ -169,7 +169,7 @@ $adminData = App\Models\User::find($id);
                 </li>
                 @endcan
 
-                @can('expanse-list')
+                {{-- @can('expanse-list') --}}
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fa fa-credit-card" aria-hidden="true"></i>
@@ -181,7 +181,7 @@ $adminData = App\Models\User::find($id);
                         <li><a href="{{ route('expenses.index') }}">All Expense</a></li>
                     </ul>
                 </li>
-                @endcan
+                {{-- @endcan --}}
                 {{-- @can('cash-management') --}}
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">

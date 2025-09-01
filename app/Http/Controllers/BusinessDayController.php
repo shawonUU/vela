@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BusinessDay;
+use App\Models\Payment;
 
 class BusinessDayController extends Controller
 {
@@ -13,9 +14,29 @@ class BusinessDayController extends Controller
     public function index()
     {
         $businessDay = BusinessDay::where('status', 'open')->latest()->first();
-        $closedDay = BusinessDay::where('status', 'close')->latest()->first();
+        $previousDay = BusinessDay::where('status', 'closed')
+            ->orderBy('business_date', 'desc')
+            ->first();
 
-        return view('backend.business-day.index', compact('businessDay','closedDay'));
+        $closing = [];
+        if($businessDay){
+            $payments = Payment::whereDate('created_at', $businessDay->business_date)->get();
+
+            $closing = [
+                'closing_balance'        => $payments->sum('paid_amount'),
+                'closing_cash'           => $payments->sum('cash'),
+                'closing_visa_card'      => $payments->sum('visa_card'),
+                'closing_master_card'    => $payments->sum('master_card'),
+                'closing_bkash'          => $payments->sum('bKash'),
+                'closing_nagad'          => $payments->sum('Nagad'),
+                'closing_rocket'         => $payments->sum('Rocket'),
+                'closing_upay'           => $payments->sum('Upay'),
+                'closing_surecash'       => $payments->sum('SureCash'),
+                'closing_online'         => $payments->sum('online'),
+            ];
+        }
+
+        return view('backend.business-day.index', compact('businessDay','previousDay','closing'));
     }
 
     /**
@@ -35,12 +56,13 @@ class BusinessDayController extends Controller
             if ($existingDay->status === 'closed') {
                 $existingDay->update([
                     'status'       => 'open',
-                    'opening_time' => now(),
                     'closing_time' => null,
                 ]);
 
                 return response()->json(['message' => 'Business day reopened!', 'day' => $existingDay]);
             }
+
+
             return response()->json(['error' => 'Business day already exists!'], 400);
         }
 
@@ -48,11 +70,12 @@ class BusinessDayController extends Controller
             ->orderBy('business_date', 'desc')
             ->first();
 
-        $day = BusinessDay::create([
+        $businessDay = BusinessDay::create([
             'business_date'   => $today,
             'opening_time'    => now(),
             'status'          => 'open',
 
+            'opening_balance'        => $previousDay?->closing_balance ?? 0,
             'opening_cash'        => $previousDay?->closing_cash ?? 0,
             'opening_visa_card'   => $previousDay?->closing_visa_card ?? 0,
             'opening_master_card' => $previousDay?->closing_master_card ?? 0,
@@ -64,7 +87,7 @@ class BusinessDayController extends Controller
             'opening_online'      => $previousDay?->closing_online ?? 0,
         ]);
 
-        return response()->json(['message' => 'Business day opened!', 'day' => $day]);
+        return response()->json(['message' => 'Business day opened!', 'businessDay' => $businessDay]);
     }
 
 
@@ -74,16 +97,27 @@ class BusinessDayController extends Controller
      */
     public function closeDay()
     {
-        $day = BusinessDay::where('status', 'open')->latest()->first();
-        if (!$day) {
+        $businessDay = BusinessDay::where('status', 'open')->latest()->first();
+        if (!$businessDay) {
             return response()->json(['error' => 'No open business day found!'], 400);
         }
+        $payments = Payment::whereDate('created_at', $businessDay->business_date)->get();
 
-        $day->update([
+        $businessDay->update([
             'closing_time' => now(),
-            'status'       => 'closed'
+            'closing_balance'        => $payments->sum('paid_amount'),
+            'closing_cash'           => $payments->sum('cash'),
+            'closing_visa_card'      => $payments->sum('visa_card'),
+            'closing_master_card'    => $payments->sum('master_card'),
+            'closing_bkash'          => $payments->sum('bKash'),
+            'closing_nagad'          => $payments->sum('Nagad'),
+            'closing_rocket'         => $payments->sum('Rocket'),
+            'closing_upay'           => $payments->sum('Upay'),
+            'closing_surecash'       => $payments->sum('SureCash'),
+            'closing_online'         => $payments->sum('online'),
+            'status'                 => 'closed'
         ]);
 
-        return response()->json(['message' => 'Business day closed!', 'day' => $day]);
+        return response()->json(['message' => 'Business day closed!', 'businessDay' => $businessDay]);
     }
 }

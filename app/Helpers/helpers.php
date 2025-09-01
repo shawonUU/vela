@@ -72,8 +72,7 @@ function convertDoubleDigit($number, $words)
 
 
 function isDayOpen(){
-    $businessDay = BusinessDay::where('status', 'open')->latest()->first();
-    return  $businessDay ? true : false;
+    return $businessDay = BusinessDay::where('status', 'open')->latest()->first();
 }
 
 

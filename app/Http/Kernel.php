@@ -69,4 +69,9 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
     ];
+
+    protected $routeMiddleware = [
+        // others ...
+        'business_day' => \App\Http\Middleware\BusinessDayMiddleware::class,
+    ];
 }

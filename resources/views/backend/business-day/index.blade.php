@@ -17,7 +17,7 @@
         {{-- Closing Cash Form --}}
         <div class="row">
 
-            @if(true)
+            @if(isDayOpen())
                 <div class="card-body p-0">
                     <table class="table table-striped table-bordered mb-0 text-center align-middle">
                         <thead class="table-dark">
@@ -31,59 +31,60 @@
                             <tr>
                                 <td>Cash</td>
                                 <td>{{ number_format($businessDay->opening_cash, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_cash, 2) }}</td>
+                                <td>{{ number_format($closing['closing_cash'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Visa Card</td>
                                 <td>{{ number_format($businessDay->opening_visa_card, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_visa_card, 2) }}</td>
+                                <td>{{ number_format($closing['closing_visa_card'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Master Card</td>
                                 <td>{{ number_format($businessDay->opening_master_card, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_master_card, 2) }}</td>
+                                <td>{{ number_format($closing['closing_master_card'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Bkash</td>
                                 <td>{{ number_format($businessDay->opening_bkash, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_bkash, 2) }}</td>
+                                <td>{{ number_format($closing['closing_bkash'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Nagad</td>
                                 <td>{{ number_format($businessDay->opening_nagad, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_nagad, 2) }}</td>
+                                <td>{{ number_format($closing['closing_nagad'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Rocket</td>
                                 <td>{{ number_format($businessDay->opening_rocket, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_rocket, 2) }}</td>
+                                <td>{{ number_format($closing['closing_rocket'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Upay</td>
                                 <td>{{ number_format($businessDay->opening_upay, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_upay, 2) }}</td>
+                                <td>{{ number_format($closing['closing_upay'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>SureCash</td>
                                 <td>{{ number_format($businessDay->opening_surecash, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_surecash, 2) }}</td>
+                                <td>{{ number_format($closing['closing_surecash'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Online</td>
                                 <td>{{ number_format($businessDay->opening_online, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_online, 2) }}</td>
+                                <td>{{ number_format($closing['closing_online'], 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
                                 <td>{{ number_format($businessDay->opening_balance, 2) }}</td>
-                                <td>{{ number_format($businessDay->opening_balance, 2) }}</td>
+                                <td>{{ number_format($closing['closing_balance'], 2) }}</td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             @endif
 
-            @if(false)
+            @if(!isDayOpen())
                 <div class="card-body p-0">
                     <table class="table table-striped table-bordered mb-0 text-center align-middle">
                         <thead class="table-dark">
@@ -95,43 +96,43 @@
                         <tbody>
                             <tr>
                                 <td>Cash</td>
-                                <td>{{ number_format($closedDay->opening_cash, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_cash, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Visa Card</td>
-                                <td>{{ number_format($closedDay->opening_visa_card, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_visa_card, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Master Card</td>
-                                <td>{{ number_format($closedDay->opening_master_card, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_master_card, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Bkash</td>
-                                <td>{{ number_format($closedDay->opening_bkash, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_bkash, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Nagad</td>
-                                <td>{{ number_format($closedDay->opening_nagad, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_nagad, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Rocket</td>
-                                <td>{{ number_format($closedDay->opening_rocket, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_rocket, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Upay</td>
-                                <td>{{ number_format($closedDay->opening_upay, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_upay, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>SureCash</td>
-                                <td>{{ number_format($closedDay->opening_surecash, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_surecash, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Online</td>
-                                <td>{{ number_format($closedDay->opening_online, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_online, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td>{{ number_format($closedDay->opening_balance, 2) }}</td>
+                                <td>{{ number_format($previousDay?->closing_balance, 2) }}</td>
                             </tr>
                         </tbody>
                     </table>

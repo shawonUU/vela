@@ -46,9 +46,14 @@ use App\Http\Controllers\BusinessDayController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::middleware(['business_day'])->group(function () {
+
+
 Route::get('/', function () {
     return view('auth.login');
 });
+
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -436,4 +441,6 @@ require __DIR__.'/auth.php';
 Route::get("/inv/{id}",[InvoiceController::class,'PrintInvoice'])->name('PublicPrintInvoice');
 Route::get('/test',function(){
     dd(\App\Models\Invoice::withSum('payment','due_amount')->where('id','!=',94)->get()->sum('payment_sum_due_amount'));
+});
+
 });

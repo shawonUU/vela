@@ -206,13 +206,13 @@
                                 
                             </div>
                         </div>
-                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                       <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th width="5%">Sl</th>
-                                    <th>Type</th>
-                                    <th>Management Name</th>
                                     <th>Category</th>
+                                    <th>Article ID</th>
+                                    <th>Pay To</th>
                                     <th>Amount</th>
                                     <th>Payment Method</th>
                                     <th>Notes</th>
@@ -226,16 +226,16 @@
                                 @foreach($expenses as $key => $item)
                                 <tr>
                                     <td width="5%">{{ $key + 1 }}</td>
-                                    <td>{{ ucfirst($item->type) }}</td>
-                                    <td>{{ $item->management_name ?? '-' }}</td>
-                                    <td>{{ $item->category->name }}</td>
+                                    <td>{{ $item->category->name ?? '-' }}</td>                                     
+                                    <td>{{ $item->article->name ?? '-' }}</td>
+                                    <td>{{ $item->pay_to ?? '-' }}</td>
                                     <td>{{ $item->amount }}</td>
                                     <td>{{ ucfirst($item->payment_method) }}</td>
                                     <td>{{ $item->note ?? '-' }}</td>
-                                    <td>{{ $item->creator->name }}</td>
+                                    <td>{{ $item->creator->name ?? '-' }}</td>
                                     <td>
-                                        <span class="{{ $item->is_approved == '1' ? 'text-success' : 'text-danger' }}">
-                                            {{ $item->is_approved == '1' ? 'Approved' : 'Not Approved' }}
+                                        <span class="{{ $item->is_approved == 1 ? 'text-success' : 'text-danger' }}">
+                                            {{ $item->is_approved == 1 ? 'Approved' : 'Not Approved' }}
                                         </span>
                                     </td>
 
@@ -248,6 +248,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+
 
 
                     </div>

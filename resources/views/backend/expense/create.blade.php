@@ -14,44 +14,11 @@
 
                             <h4 class="card-title mb-4">Add Expense</h4>
 
-                            <!-- Type -->
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Type <span class="text-danger">*</span></label>
-                                <div class="col-sm-10">
-                                    <select name="type" id="expense_type" class="form-control" required>
-                                        <option value="">-- Select Type --</option>
-                                        <option value="daily" {{ old('type')=='daily' ? 'selected' : '' }}>Daily Expense</option>
-                                        <option value="management" {{ old('type')=='management' ? 'selected' : '' }}>Management Expense</option>
-                                    </select>
-                                    @error('type')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Management Name -->
-                            <div class="row mb-3" id="management_name_div" style="display:{{ old('type')=='management' ? 'block' : 'none' }};">
-                                <label class="col-sm-2 col-form-label">Management Name <span class="text-danger">*</span></label>
-                                <div class="col-sm-10">
-                                    <select name="management_name" class="form-control">
-                                        <option value="">-- Select Management --</option>
-                                        @foreach($managements as $management)
-                                            <option value="{{ $management['name'] }}" {{ old('management_name')==$management['name'] ? 'selected' : '' }}>
-                                                {{ $management['name'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('management_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
                             <!-- Category -->
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Category <span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
-                                    <select name="category_id" class="form-control" required>
+                                    <select name="category_id" id="category_id" class="form-control" required>
                                         <option value="">-- Select Category --</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id')==$category->id ? 'selected' : '' }}>
@@ -60,6 +27,30 @@
                                         @endforeach
                                     </select>
                                     @error('category_id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Article (load via AJAX) -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Article <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <select name="article_id" id="article_id" class="form-control" required>
+                                        <option value="">-- Select Article --</option>
+                                    </select>
+                                    @error('article_id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Pay To -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Pay To <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="pay_to" class="form-control" placeholder="Enter payee name" value="{{ old('pay_to') }}" required>
+                                    @error('pay_to')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -94,15 +85,16 @@
                             </div>
 
                             <!-- Date -->
-                            <div class="row mb-3">
+                           <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Date <span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
-                                    <input name="date" class="form-control" type="date" value="{{ old('date') }}" required>
+                                    <input name="date" class="form-control" type="date" value="{{ old('date', date('Y-m-d')) }}" required>
                                     @error('date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
+
 
                             <!-- Note -->
                             <div class="row mb-3">
@@ -134,20 +126,27 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-    // Show/Hide management name based on type
-    function toggleManagement() {
-        if ($('#expense_type').val() === 'management') {
-            $('#management_name_div').slideDown();
+    // Load Articles based on Category
+    $('#category_id').on('change', function () {
+        var categoryID = $(this).val();
+        if(categoryID) {
+            $.ajax({
+                url: '/expenses/get-articles/'+categoryID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $('#article_id').empty();
+                    $('#article_id').append('<option value="">-- Select Article --</option>');
+                    $.each(data, function(key, value) {
+                        $('#article_id').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+                    });
+                }
+            });
         } else {
-            $('#management_name_div').slideUp();
-            $('#management_name_div select').val('');
+            $('#article_id').empty();
+            $('#article_id').append('<option value="">-- Select Article --</option>');
         }
-    }
-
-    $('#expense_type').on('change', toggleManagement);
-
-    // Call on page load in case of old data
-    toggleManagement();
+    });
 });
 </script>
 

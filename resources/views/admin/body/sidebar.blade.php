@@ -175,8 +175,9 @@ $adminData = App\Models\User::find($id);
                         <i class="fa fa-credit-card" aria-hidden="true"></i>
                         <span>Manage Expense</span>
                     </a>
-                    <ul class="sub-menu" aria-expanded="false">
+                    <ul class="sub-menu" aria-expanded="false">                        
                         <li><a href="{{ route('expenses.category.index') }}">Expense Category</a></li>
+                        <li><a href="{{ route('expenses.article.index') }}">Expense Article</a></li>
                         <li><a href="{{ route('expenses.create') }}">Add Expense</a></li>
                         <li><a href="{{ route('expenses.index') }}">All Expense</a></li>
                     </ul>

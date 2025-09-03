@@ -13,20 +13,20 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['daily', 'management']); // Type column
-            $table->string('management_name')->nullable(); // Management name, nullable for daily expenses
-            $table->unsignedBigInteger('category_id')->index();
-            $table->decimal('amount')->default(0);
-            $table->date('date')->index();
-            $table->text('note')->nullable();
-            $table->enum('payment_method', ['cash', 'bkash', 'nagad', 'bank'])->nullable(); // Added payment method
-            $table->enum('is_approved', ['0', '1'])->default('0');
-            $table->unsignedBigInteger('created_by')->index();
-            $table->unsignedBigInteger('updated_by')->nullable()->index();
-            $table->unsignedBigInteger('business_day_id');
+
+            $table->unsignedBigInteger('article_id')->index();       // Article ID
+            $table->unsignedBigInteger('category_id')->index();      // Category ID
+            $table->decimal('amount', 12, 2)->default(0);            // Amount
+            $table->date('date')->index();                            // Expense date
+            $table->text('note')->nullable();                         // Notes
+            $table->string('pay_to')->nullable();                     // Pay to
+            $table->enum('payment_method', ['cash', 'bkash', 'nagad', 'bank'])->nullable(); // Payment method
+            $table->enum('is_approved', ['0', '1'])->default('0');   // Approval status
+            $table->unsignedBigInteger('created_by')->index();        // Created by
+            $table->unsignedBigInteger('updated_by')->nullable()->index(); // Updated by
+            $table->unsignedBigInteger('business_day_id');           // Business day ID
             $table->timestamps();
         });
-
     }
 
     /**

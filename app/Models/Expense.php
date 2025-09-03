@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-   protected $fillable = [
-        'type',           
-        'management_name',  
+    protected $fillable = [
         'category_id',
+        'article_id',
+        'pay_to',
         'amount',
         'date',
         'note',
@@ -20,16 +20,33 @@ class Expense extends Model
         'updated_by',
     ];
 
+    /**
+     * Relation to ExpenseArticle
+     */
+    public function article()
+    {
+        return $this->belongsTo(ExpenseArticle::class, 'article_id');
+    }
+
+    /**
+     * Relation to ExpenseCategory
+     */
     public function category()
     {
         return $this->belongsTo(ExpenseCategory::class, 'category_id');
     }
 
+    /**
+     * Relation to User who created the expense
+     */
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * Relation to User who last updated the expense
+     */
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');

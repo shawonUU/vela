@@ -63,7 +63,7 @@ class BusinessDayMiddleware
                     'message' => 'Please Open a Business Day!',
                     'alert-type' => 'error'
                 );
-                return redirect()->route('business-days.index');
+                return redirect()->route('business-days.index')->with($notification);
             }
         }
 

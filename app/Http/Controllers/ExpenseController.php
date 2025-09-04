@@ -71,7 +71,7 @@ class ExpenseController extends Controller
 
         // Article approval check
         $article = ExpenseArticle::findOrFail($request->article_id);
-        $isApproved = $article->is_approved == 1 ? '1' : '0';
+        $isApproved = $article->is_approved == 1 ? '0' : '1';
 
         Expense::create([
             'category_id'     => $request->category_id,

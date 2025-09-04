@@ -443,7 +443,9 @@ Route::middleware(['business_day'])->group(function () {
         Route::get('business-days/', 'index')->name('business-days.index');
         Route::post('business-days/open', 'openDay')->name('business-days.open');
         Route::post('business-days/close', 'closeDay')->name('business-days.close');
-        Route::get('business-days/reports', 'report')->name('business-days.report');
+        Route::get('business-days/list', 'dayList')->name('business-days.list');
+        Route::get('business-days/reports/{id}', 'report')->name('business-days.report');
+        Route::get('business-days/reports/{id}/pdf', 'generatePDF')->name('business-days.pdf');
     });
 
 

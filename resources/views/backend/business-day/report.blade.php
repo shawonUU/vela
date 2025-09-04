@@ -9,6 +9,7 @@
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 class="mb-sm-0">Business Day Report - {{ $businessDay->business_date }}</h4>
+                    <a href="{{route('business-days.pdf', $businessDay->id)}}" class="btn btn-sm btn-primary">Download pdf</a>
                 </div>
             </div>
         </div>
@@ -50,7 +51,7 @@
             {{-- Payments --}}
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header bg-success text-white">Payments</div>
+                    <div class="card-header bg-success text-white">Sales</div>
                     <div class="card-body p-0">
                         <table class="table table-bordered mb-0 text-center">
                             <thead class="table-light">

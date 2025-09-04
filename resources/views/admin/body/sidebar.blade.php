@@ -196,7 +196,7 @@ $adminData = App\Models\User::find($id);
                             @if(isDayOpen())
                                 <li><a href="{{ route('business-days.index') }}">Closing Day</a></li>
                             @endif
-                            <li><a href="{{ route('business-days.report') }}">Balance Reports</a></li>
+                            <li><a href="{{ route('business-days.list') }}">Business Day List</a></li>
                         </ul>
                     </li>
                 {{-- @endcan --}}

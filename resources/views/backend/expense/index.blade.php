@@ -210,6 +210,7 @@
                             <thead>
                                 <tr>
                                     <th width="5%">Sl</th>
+                                    <th>Date</th>
                                     <th>Category</th>
                                     <th>Article ID</th>
                                     <th>Pay To</th>
@@ -226,6 +227,7 @@
                                 @foreach($expenses as $key => $item)
                                 <tr>
                                     <td width="5%">{{ $key + 1 }}</td>
+                                    <td>{{ $item->date ?? '-' }}</td>                                     
                                     <td>{{ $item->category->name ?? '-' }}</td>                                     
                                     <td>{{ $item->article->name ?? '-' }}</td>
                                     <td>{{ $item->pay_to ?? '-' }}</td>

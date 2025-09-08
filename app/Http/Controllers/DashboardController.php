@@ -11,6 +11,7 @@ use App\Models\SalesReturn;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Expense;
 
 class DashboardController extends Controller
 {
@@ -43,6 +44,7 @@ class DashboardController extends Controller
         $filtered_invoice_ids = $allData->pluck('id')->toArray();
         // Fetch sales data based on the date range
         $payment = Payment::whereIn('invoice_id', $filtered_invoice_ids)->get();
+        $total_expense = Expense::whereBetween('date', [$startDate, $endDate])->sum('amount');
         // dd( $payment);
 
         $total_amount = 0;
@@ -100,7 +102,7 @@ class DashboardController extends Controller
          'total_refund',
          'show_start_date',
          'show_end_date',
-         'startDate', 'endDate', 'total_amount', 'total_profit', 'total_paid', 'total_due', 'top_selling_products', 'low_stock_products', 'out_of_stock_products'));
+         'startDate', 'endDate', 'total_amount', 'total_profit', 'total_paid', 'total_due', 'top_selling_products', 'low_stock_products', 'out_of_stock_products','total_expense'));
     }
 
     public function dashboardReportPrint($startDate, $endDate, $filterName = 'Today', $total_amount, $total_profit, $total_paid, $total_due)

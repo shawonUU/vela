@@ -14,6 +14,7 @@ class BusinessDayMiddleware
     
     protected $expectedRoutes = [
        'invoice.add',
+       'expenses.create',
 
     ];
 

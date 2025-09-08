@@ -66,7 +66,7 @@ class ExpenseController extends Controller
             'amount'         => 'required|numeric|min:0',
             'date'           => 'required|date',
             'note'           => 'nullable|string',
-            'payment_method' => 'required|in:cash,bkash,nagad,bank',
+            'payment_method' => 'required|in:cash,bkash,nagad,visa_card,master_card,rocket,upay,surecash,online',
         ]);
 
         // Article approval check
@@ -125,7 +125,7 @@ class ExpenseController extends Controller
             'amount'         => 'required|numeric|min:0',
             'date'           => 'required|date',
             'note'           => 'nullable|string',
-            'payment_method' => 'required|in:cash,bkash,nagad,bank',
+            'payment_method' => 'required|in:cash,bkash,nagad,visa_card,master_card,rocket,upay,surecash,online',
         ]);
 
         // Article approval check

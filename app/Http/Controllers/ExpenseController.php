@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\PayToUser;
 use Illuminate\Http\Request;
 use App\Models\ExpenseArticle;
 use Illuminate\Support\Carbon;
@@ -36,7 +37,7 @@ class ExpenseController extends Controller
             $expenses = $expenses->where('is_approved', $approval);
         }
 
-        $expenses = $expenses->with(['category', 'creator', 'updater', 'article'])->latest()->get();
+        $expenses = $expenses->with(['category', 'creator', 'updater', 'article','payTo'])->latest()->get();
 
         $totalExpanseAmount            = $expenses->sum('amount');
         $totalNoApprovedExpanseAmount  = $expenses->where('is_approved', '0')->sum('amount');
@@ -51,7 +52,8 @@ class ExpenseController extends Controller
     public function create()
     {
         $categories = ExpenseCategory::where('status', 1)->latest()->get();
-        return view('backend.expense.create', compact('categories'));
+        $payToUsers = PayToUser::latest()->get();
+        return view('backend.expense.create', compact('categories','payToUsers'));
     }
 
     /**
@@ -62,7 +64,7 @@ class ExpenseController extends Controller
         $request->validate([
             'category_id'    => 'required|exists:expense_categories,id',
             'article_id'     => 'required|exists:expense_articles,id',
-            'pay_to'         => 'required|string|max:255',
+            'pay_to_user_id'         => 'nullable',
             'amount'         => 'required|numeric|min:0',
             'date'           => 'required|date',
             'note'           => 'nullable|string',
@@ -76,7 +78,7 @@ class ExpenseController extends Controller
         Expense::create([
             'category_id'     => $request->category_id,
             'article_id'      => $request->article_id,
-            'pay_to'          => $request->pay_to,
+            'pay_to'          => $request->pay_to_user_id,
             'amount'          => $request->amount,
             'date'            => $request->date,
             'note'            => $request->note,
@@ -108,9 +110,10 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
+        $payToUsers = PayToUser::latest()->get();
         $categories = ExpenseCategory::where('status', 1)->latest()->get();
         $articles = ExpenseArticle::where('status', 1)->latest()->get();
-        return view('backend.expense.edit', compact('expense', 'categories', 'articles'));
+        return view('backend.expense.edit', compact('expense', 'categories', 'articles','payToUsers'));
     }
 
     /**
@@ -121,7 +124,7 @@ class ExpenseController extends Controller
         $request->validate([
             'category_id'    => 'required|exists:expense_categories,id',
             'article_id'     => 'required|exists:expense_articles,id',
-            'pay_to'         => 'required|string|max:255',
+            'pay_to_user_id'         => 'nullable',
             'amount'         => 'required|numeric|min:0',
             'date'           => 'required|date',
             'note'           => 'nullable|string',
@@ -135,7 +138,7 @@ class ExpenseController extends Controller
         $expense->update([
             'category_id'    => $request->category_id,
             'article_id'     => $request->article_id,
-            'pay_to'         => $request->pay_to,
+            'pay_to'         => $request->pay_to_user_id,
             'amount'         => $request->amount,
             'date'           => $request->date,
             'note'           => $request->note,

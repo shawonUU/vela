@@ -47,10 +47,17 @@
 
                             <!-- Pay To -->
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Pay To <span class="text-danger">*</span></label>
+                                <label class="col-sm-2 col-form-label">Pay To</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="pay_to" class="form-control" placeholder="Enter payee name" value="{{ old('pay_to') }}" required>
-                                    @error('pay_to')
+                                    <select name="pay_to_user_id" class="form-control">
+                                        <option value="">-- Select Payee --</option>
+                                        @foreach($payToUsers as $user)
+                                            <option value="{{ $user->id }}" {{ old('pay_to_user_id') == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('pay_to_user_id')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

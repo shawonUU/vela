@@ -13,6 +13,7 @@ use App\Http\Controllers\Pos\SizeController;
 use App\Http\Controllers\Pos\UnitController;
 use App\Http\Controllers\PurcheseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PayToUserController;
 use App\Http\Controllers\Pos\BrandController;
 use App\Http\Controllers\Pos\StockController;
 use App\Http\Controllers\Pos\FabricController;
@@ -152,6 +153,15 @@ Route::middleware(['business_day'])->group(function () {
             Route::get('/unit/edit/{id}', 'UnitEdit')->name('unit.edit');
             Route::post('/unit/update', 'UnitUpdate')->name('unit.update');
             Route::get('/unit/delete/{id}', 'UnitDelete')->name('unit.delete');
+        });
+       // Pay To User All Routes
+        Route::controller(PayToUserController::class)->group(function () {
+            Route::get('/payto-users/all', 'index')->name('payto.users.index');
+            Route::get('/payto-users/create', 'create')->name('payto.users.create');
+            Route::post('/payto-users', 'store')->name('payto.users.store');
+            Route::get('/payto-users/{user}/edit', 'edit')->name('payto.users.edit');
+            Route::put('/payto-users/{user}', 'update')->name('payto.users.update');
+            Route::get('/payto-users/delete/{id}', 'destroy')->name('payto.users.delete');
         });
 
         //Expense Article All Route

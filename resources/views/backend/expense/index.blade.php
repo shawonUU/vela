@@ -216,7 +216,7 @@
                                     <th>Pay To</th>
                                     <th>Amount</th>
                                     <th>Payment Method</th>
-                                    <th>Notes</th>
+                                    {{-- <th>Notes</th> --}}
                                     <th>Created By</th>
                                     <th>Approval Status</th>
                                     <th>Action</th>
@@ -230,10 +230,10 @@
                                     <td>{{ $item->date ?? '-' }}</td>                                     
                                     <td>{{ $item->category->name ?? '-' }}</td>                                     
                                     <td>{{ $item->article->name ?? '-' }}</td>
-                                    <td>{{ $item->pay_to ?? '-' }}</td>
+                                    <td>{{ $item->payTo->name ?? '-' }}</td>
                                     <td>{{ $item->amount }}</td>
                                     <td>{{ ucfirst($item->payment_method) }}</td>
-                                    <td>{{ $item->note ?? '-' }}</td>
+                                    {{-- <td>{{ $item->note ?? '-' }}</td> --}}
                                     <td>{{ $item->creator->name ?? '-' }}</td>
                                     <td>
                                         <span class="{{ $item->is_approved == 1 ? 'text-success' : 'text-danger' }}">

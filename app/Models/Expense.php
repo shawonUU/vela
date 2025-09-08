@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\PayToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
@@ -26,6 +27,10 @@ class Expense extends Model
     public function article()
     {
         return $this->belongsTo(ExpenseArticle::class, 'article_id');
+    }
+    public function payTo()
+    {
+        return $this->belongsTo(PayToUser::class, 'pay_to');
     }
 
     /**

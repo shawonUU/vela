@@ -176,6 +176,7 @@ $adminData = App\Models\User::find($id);
                         <span>Manage Expense</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">                        
+                        <li><a href="{{ route('payto.users.index') }}">Pay to Users</a></li>
                         <li><a href="{{ route('expenses.category.index') }}">Expense Category</a></li>
                         <li><a href="{{ route('expenses.article.index') }}">Expense Article</a></li>
                         <li><a href="{{ route('expenses.create') }}">Add Expense</a></li>

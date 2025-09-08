@@ -7,6 +7,7 @@ use App\Models\BusinessDay;
 use App\Models\Payment;
 use App\Models\Expense;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class BusinessDayController extends Controller
 {
@@ -171,6 +172,115 @@ class BusinessDayController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+
+
+    public function reprocessBusinessDays()
+    {
+
+        DB::beginTransaction();
+
+        try {
+            $firstDay = BusinessDay::orderBy('business_date', 'asc')->first();
+            $openingBalanceCutoffDate = $firstDay ? $firstDay->business_date : today()->toDateString();
+
+            $prevPayments = Payment::whereDate('created_at', '<', $openingBalanceCutoffDate)->get();
+            $prevExpenses = Expense::whereDate('date', '<', $openingBalanceCutoffDate)->get();
+
+            $openingData = [
+                'opening_balance'     => $prevPayments->sum('paid_amount') - $prevExpenses->sum('amount'),
+                'opening_cash'        => $prevPayments->sum('cash')        - $prevExpenses->where('payment_method','cash')->sum('amount'),
+                'opening_visa_card'   => $prevPayments->sum('visa_card')   - $prevExpenses->where('payment_method','visa_card')->sum('amount'),
+                'opening_master_card' => $prevPayments->sum('master_card') - $prevExpenses->where('payment_method','master_card')->sum('amount'),
+                'opening_bkash'       => $prevPayments->sum('bKash')       - $prevExpenses->where('payment_method','bkash')->sum('amount'),
+                'opening_nagad'       => $prevPayments->sum('Nagad')       - $prevExpenses->where('payment_method','nagad')->sum('amount'),
+                'opening_rocket'      => $prevPayments->sum('Rocket')      - $prevExpenses->where('payment_method','rocket')->sum('amount'),
+                'opening_upay'        => $prevPayments->sum('Upay')        - $prevExpenses->where('payment_method','upay')->sum('amount'),
+                'opening_surecash'    => $prevPayments->sum('SureCash')    - $prevExpenses->where('payment_method','surecash')->sum('amount'),
+                'opening_online'      => $prevPayments->sum('online')      - $prevExpenses->where('payment_method','online')->sum('amount'),
+            ];
+
+            if (! $firstDay) {
+                $firstDay = BusinessDay::create(array_merge($openingData, [
+                    'business_date'  => $openingBalanceCutoffDate,
+                    'opening_time'   => now(),
+                    'closing_balance'=> $openingData['opening_balance'],
+                    'status'         => 'open',
+                ]));
+            } else {
+                $firstDay->update($openingData);
+            }
+
+            $businessDays = BusinessDay::orderBy('business_date', 'asc')->get();
+            $previousClosing = null;
+
+            foreach ($businessDays as $day) {
+                if ($previousClosing) {
+                    $day->update([
+                        'opening_balance'     => $previousClosing['balance'],
+                        'opening_cash'        => $previousClosing['cash'],
+                        'opening_visa_card'   => $previousClosing['visa_card'],
+                        'opening_master_card' => $previousClosing['master_card'],
+                        'opening_bkash'       => $previousClosing['bkash'],
+                        'opening_nagad'       => $previousClosing['nagad'],
+                        'opening_rocket'      => $previousClosing['rocket'],
+                        'opening_upay'        => $previousClosing['upay'],
+                        'opening_surecash'    => $previousClosing['surecash'],
+                        'opening_online'      => $previousClosing['online'],
+                    ]);
+                }
+
+                $payments = Payment::whereDate('created_at', $day->business_date)->get();
+                $expenses = Expense::whereDate('date', $day->business_date)->get();
+
+                $closing = [
+                    'balance'     => $day->opening_balance + $payments->sum('paid_amount') - $expenses->sum('amount'),
+                    'cash'        => $day->opening_cash + $payments->sum('cash') - $expenses->where('payment_method','cash')->sum('amount'),
+                    'visa_card'   => $day->opening_visa_card + $payments->sum('visa_card') - $expenses->where('payment_method','visa_card')->sum('amount'),
+                    'master_card' => $day->opening_master_card + $payments->sum('master_card') - $expenses->where('payment_method','master_card')->sum('amount'),
+                    'bkash'       => $day->opening_bkash + $payments->sum('bKash') - $expenses->where('payment_method','bkash')->sum('amount'),
+                    'nagad'       => $day->opening_nagad + $payments->sum('Nagad') - $expenses->where('payment_method','nagad')->sum('amount'),
+                    'rocket'      => $day->opening_rocket + $payments->sum('Rocket') - $expenses->where('payment_method','rocket')->sum('amount'),
+                    'upay'        => $day->opening_upay + $payments->sum('Upay') - $expenses->where('payment_method','upay')->sum('amount'),
+                    'surecash'    => $day->opening_surecash + $payments->sum('SureCash') - $expenses->where('payment_method','surecash')->sum('amount'),
+                    'online'      => $day->opening_online + $payments->sum('online') - $expenses->where('payment_method','online')->sum('amount'),
+                ];
+
+                $day->update([
+                    'closing_balance'     => $closing['balance'],
+                    'closing_cash'        => $closing['cash'],
+                    'closing_visa_card'   => $closing['visa_card'],
+                    'closing_master_card' => $closing['master_card'],
+                    'closing_bkash'       => $closing['bkash'],
+                    'closing_nagad'       => $closing['nagad'],
+                    'closing_rocket'      => $closing['rocket'],
+                    'closing_upay'        => $closing['upay'],
+                    'closing_surecash'    => $closing['surecash'],
+                    'closing_online'      => $closing['online'],
+                ]);
+
+                $previousClosing = $closing;
+            }
+
+            $notification = array(
+                'message' => 'All business days recalculated successfully!',
+                'alert-type' => 'success'
+            );
+
+            DB::commit();
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with([
+                'message'    => 'Error during recalculation: ' . $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+        }
+
+    }
+
+
+
+
 
     public function dayList(Request $request)
     {

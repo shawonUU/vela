@@ -15,6 +15,10 @@
                     <input type="date" name="to_date" class="form-control me-2" value="{{ request('to_date') }}">
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </form>
+                <form action="{{ route('business-days.reprocess') }}" method="POST" class="d-flex">
+                    @csrf
+                    <button type="submit" class="btn btn-warning">Reprocess Business Days</button>
+                </form>
             </div>
         </div>
 

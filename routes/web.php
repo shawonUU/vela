@@ -446,6 +446,7 @@ Route::middleware(['business_day'])->group(function () {
         Route::get('business-days/list', 'dayList')->name('business-days.list');
         Route::get('business-days/reports/{id}', 'report')->name('business-days.report');
         Route::get('business-days/reports/{id}/pdf', 'generatePDF')->name('business-days.pdf');
+        Route::post('business-days/reprocess', 'reprocessBusinessDays')->name('business-days.reprocess');
     });
 
 

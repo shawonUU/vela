@@ -69,7 +69,6 @@ class BusinessDayController extends Controller
 
         $today = now()->toDateString();
         $existingDay = BusinessDay::where('business_date', $today)->first();
-
         if ($existingDay) {
             if ($existingDay->status === 'closed') {
                 $existingDay->update([
@@ -187,7 +186,17 @@ class BusinessDayController extends Controller
             $prevExpenses = Expense::whereDate('date', '<', $openingBalanceCutoffDate)->get();
 
             $openingData = [
-                'opening_balance'     => $prevPayments->sum('paid_amount') - $prevExpenses->sum('amount'),
+                'opening_balance' => array_sum([
+                    $prevPayments->sum('cash'),
+                    $prevPayments->sum('visa_card'),
+                    $prevPayments->sum('master_card'),
+                    $prevPayments->sum('bKash'),
+                    $prevPayments->sum('Nagad'),
+                    $prevPayments->sum('Rocket'),
+                    $prevPayments->sum('Upay'),
+                    $prevPayments->sum('SureCash'),
+                    $prevPayments->sum('online'),
+                ]) - $prevExpenses->sum('amount'),
                 'opening_cash'        => $prevPayments->sum('cash')        - $prevExpenses->where('payment_method','cash')->sum('amount'),
                 'opening_visa_card'   => $prevPayments->sum('visa_card')   - $prevExpenses->where('payment_method','visa_card')->sum('amount'),
                 'opening_master_card' => $prevPayments->sum('master_card') - $prevExpenses->where('payment_method','master_card')->sum('amount'),
@@ -233,7 +242,19 @@ class BusinessDayController extends Controller
                 $expenses = Expense::whereDate('date', $day->business_date)->get();
 
                 $closing = [
-                    'balance'     => $day->opening_balance + $payments->sum('paid_amount') - $expenses->sum('amount'),
+                    'balance'     => $day->opening_balance + 
+                    array_sum([
+                        $payments->sum('cash'),
+                        $payments->sum('visa_card'),
+                        $payments->sum('master_card'),
+                        $payments->sum('bKash'),
+                        $payments->sum('Nagad'),
+                        $payments->sum('Rocket'),
+                        $payments->sum('Upay'),
+                        $payments->sum('SureCash'),
+                        $payments->sum('online'),
+                    ])
+                    - $expenses->sum('amount'),
                     'cash'        => $day->opening_cash + $payments->sum('cash') - $expenses->where('payment_method','cash')->sum('amount'),
                     'visa_card'   => $day->opening_visa_card + $payments->sum('visa_card') - $expenses->where('payment_method','visa_card')->sum('amount'),
                     'master_card' => $day->opening_master_card + $payments->sum('master_card') - $expenses->where('payment_method','master_card')->sum('amount'),

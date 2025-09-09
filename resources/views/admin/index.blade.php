@@ -208,8 +208,6 @@ $org = App\Models\OrgDetails::first();
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">Total Expense</p>
                                 <h5 class="mb-2 text-success">৳ {{(!empty($total_expense)?number_format($total_expense,2):'0')}} Tk</h5>
-                                <!-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2">
-                                        <i class="ri-arrow-right-down-line me-1 align-middle"></i>৳ {{(!empty($total_refund)?number_format($total_refund,2):'0')}}</span>Profit Return</p> -->
                             </div>
                           
                         </div>
@@ -225,9 +223,7 @@ $org = App\Models\OrgDetails::first();
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">Balance</p>
-                                <h5 class="mb-2 text-success">৳ {{(!empty($total_amount - $total_expense)?number_format($total_amount - $total_expense,2):'0')}} Tk</h5>
-                                <!-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2">
-                                        <i class="ri-arrow-right-down-line me-1 align-middle"></i>৳ {{(!empty($total_refund)?number_format($total_refund,2):'0')}}</span>Profit Return</p> -->
+                                <h5 class="mb-2 text-success">৳ {{(!empty($total_balance)?number_format($total_balance,2):'0')}} Tk</h5>
                             </div>
                           
                         </div>

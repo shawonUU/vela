@@ -47,6 +47,18 @@ class DashboardController extends Controller
         $total_expense = Expense::whereBetween('date', [$startDate, $endDate])->sum('amount');
         // dd( $payment);
 
+        $total_balance = array_sum([
+                        $payment->sum('cash'),
+                        $payment->sum('visa_card'),
+                        $payment->sum('master_card'),
+                        $payment->sum('bKash'),
+                        $payment->sum('Nagad'),
+                        $payment->sum('Rocket'),
+                        $payment->sum('Upay'),
+                        $payment->sum('SureCash'),
+                        $payment->sum('online'),
+        ])-$total_expense;
+
         $total_amount = 0;
         $total_discount = 0;
         $total_due = 0;
@@ -102,7 +114,7 @@ class DashboardController extends Controller
          'total_refund',
          'show_start_date',
          'show_end_date',
-         'startDate', 'endDate', 'total_amount', 'total_profit', 'total_paid', 'total_due', 'top_selling_products', 'low_stock_products', 'out_of_stock_products','total_expense'));
+         'startDate', 'endDate', 'total_amount', 'total_profit', 'total_paid', 'total_due', 'top_selling_products', 'low_stock_products', 'out_of_stock_products','total_expense','total_balance'));
     }
 
     public function dashboardReportPrint($startDate, $endDate, $filterName = 'Today', $total_amount, $total_profit, $total_paid, $total_due)

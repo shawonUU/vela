@@ -47,16 +47,17 @@ class DashboardController extends Controller
         $total_expense = Expense::whereBetween('date', [$startDate, $endDate])->sum('amount');
         // dd( $payment);
 
+        $balance_payment = Payment::whereBetween('created_at', [$startDate, $endDate])->get();
         $total_balance = array_sum([
-                        $payment->sum('cash'),
-                        $payment->sum('visa_card'),
-                        $payment->sum('master_card'),
-                        $payment->sum('bKash'),
-                        $payment->sum('Nagad'),
-                        $payment->sum('Rocket'),
-                        $payment->sum('Upay'),
-                        $payment->sum('SureCash'),
-                        $payment->sum('online'),
+                        $balance_payment->sum('cash'),
+                        $balance_payment->sum('visa_card'),
+                        $balance_payment->sum('master_card'),
+                        $balance_payment->sum('bKash'),
+                        $balance_payment->sum('Nagad'),
+                        $balance_payment->sum('Rocket'),
+                        $balance_payment->sum('Upay'),
+                        $balance_payment->sum('SureCash'),
+                        $balance_payment->sum('online'),
         ])-$total_expense;
 
         $total_amount = 0;

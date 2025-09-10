@@ -325,7 +325,7 @@ class InvoiceController extends Controller
             //         : $request->customer_id;
             // }
             $cash = 0;
-            $total_payment = $request->cash + $request->visa_card + $request->master_card + $request->bKash + $request->Nagad + $request->Rocket + $request->Upay + $request->SureCash + $request->online;
+            $total_payment = $request->cash + $request->visa_card + $request->master_card + $request->bkash + $request->nagad + $request->rocket + $request->upay + $request->surecash + $request->online;
             if ($request->change < 0) {
                 $cash = $request->cash + $request->change;
             } else if ($total_payment == 0 && $request->change == 0) {
@@ -342,11 +342,11 @@ class InvoiceController extends Controller
                 'cash' => $cash ?? 0,
                 'visa_card' => $request->visa_card ?? 0,
                 'master_card' => $request->master_card ?? 0,
-                'bKash' => $request->bKash ?? 0,
-                'Nagad' => $request->Nagad ?? 0,
-                'Rocket' => $request->Rocket ?? 0,
-                'Upay' => $request->Upay ?? 0,
-                'SureCash' => $request->SureCash ?? 0,
+                'bkash' => $request->bkash ?? 0,
+                'nagad' => $request->nagad ?? 0,
+                'rocket' => $request->rocket ?? 0,
+                'upay' => $request->upay ?? 0,
+                'surecash' => $request->surecash ?? 0,
                 'online' => $request->online ?? 0,
                 'discount_amount' => $request->total_discount_amount,
                 'total_amount' => $request->total,
@@ -358,16 +358,33 @@ class InvoiceController extends Controller
                 // 'total_additional_charge_amount' => $request->total_additional_fees_amount,
             ]);
 
+            $methodWiseAmount = [
+                'cash' => $cash ?? 0,
+                'visa_card' => $request->visa_card ?? 0,
+                'master_card' => $request->master_card ?? 0,
+                'bkash' => $request->bkash ?? 0,
+                'nagad' => $request->nagad ?? 0,
+                'rocket' => $request->rocket ?? 0,
+                'upay' => $request->upay ?? 0,
+                'surecash' => $request->surecash ?? 0,
+                'online' => $request->online ?? 0,
+            ];
+
             // Create Payment Detail Record
             if ($request->saveBtn == 2 || $request->saveBtn == 4) {
-                PaymentDetail::create([
-                    'customer_id' => $customer_id,
-                    'transaction_id' => 'TXN-' . Str::upper(Str::random(8)),
-                    'invoice_id' => $invoice->id,
-                    'date' => date('Y-m-d', strtotime($request->date)),
-                    'current_paid_amount' => $payment->paid_amount,
-                    'received_by' => Auth::user()->name
-                ]);
+                foreach($methodWiseAmount as $method => $amount){
+                    if($amount > 0){
+                        PaymentDetail::create([
+                            'customer_id' => $customer_id,
+                            'transaction_id' => 'TXN-' . Str::upper(Str::random(8)),
+                            'invoice_id' => $invoice->id,
+                            'date' => date('Y-m-d', strtotime($request->date)),
+                            'payment_type' => $method,
+                            'current_paid_amount' => $amount,
+                            'received_by' => Auth::user()->name
+                        ]);
+                    }
+                }
             }
             return $invoice->id;  // Return Invoice ID
         });
@@ -635,7 +652,7 @@ class InvoiceController extends Controller
             //     }
             // }
             $cash = 0;
-            $total_payment = $request->cash + $request->visa_card + $request->master_card + $request->bKash + $request->Nagad + $request->Rocket + $request->Upay + $request->SureCash + $request->online;
+            $total_payment = $request->cash + $request->visa_card + $request->master_card + $request->bkash + $request->nagad + $request->rocket + $request->upay + $request->surecash + $request->online;
             if ($request->change < 0) {
                 $cash = $request->cash + $request->change;
             } else if ($total_payment == 0 && $request->change == 0) {
@@ -651,11 +668,11 @@ class InvoiceController extends Controller
                 'cash' => $cash ?? 0,
                 'visa_card' => $request->visa_card ?? 0,
                 'master_card' => $request->master_card ?? 0,
-                'bKash' => $request->bKash ?? 0,
-                'Nagad' => $request->Nagad ?? 0,
-                'Rocket' => $request->Rocket ?? 0,
-                'Upay' => $request->Upay ?? 0,
-                'SureCash' => $request->SureCash ?? 0,
+                'bkash' => $request->bkash ?? 0,
+                'nagad' => $request->nagad ?? 0,
+                'rocket' => $request->rocket ?? 0,
+                'upay' => $request->upay ?? 0,
+                'surecash' => $request->surecash ?? 0,
                 'online' => $request->online ?? 0,
                 'discount_amount' => $request->total_discount_amount,
                 'total_amount' => $request->total,

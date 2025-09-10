@@ -82,11 +82,11 @@
                                         <option value="">-- Select Method --</option>
                                         <option value="cash" {{ old('payment_method')=='cash' ? 'selected' : '' }}>Cash</option>
                                         <option value="bkash" {{ old('payment_method')=='bkash' ? 'selected' : '' }}>Bkash</option>
-                                        <option value="nagad" {{ old('payment_method')=='nagad' ? 'selected' : '' }}>Nagad</option>
+                                        <option value="nagad" {{ old('payment_method')=='nagad' ? 'selected' : '' }}>nagad</option>
                                         <option value="visa_card" {{ old('payment_method')=='visa_card' ? 'selected' : '' }}>Visa Card</option>
                                         <option value="master_card" {{ old('payment_method')=='master_card' ? 'selected' : '' }}>Master Card</option>
-                                        <option value="rocket" {{ old('payment_method')=='rocket' ? 'selected' : '' }}>Rocket</option>
-                                        <option value="upay" {{ old('payment_method')=='upay' ? 'selected' : '' }}>Upay</option>
+                                        <option value="rocket" {{ old('payment_method')=='rocket' ? 'selected' : '' }}>rocket</option>
+                                        <option value="upay" {{ old('payment_method')=='upay' ? 'selected' : '' }}>upay</option>
                                         <option value="surecash" {{ old('payment_method')=='surecash' ? 'selected' : '' }}>Surecash</option>
                                         <option value="online" {{ old('payment_method')=='online' ? 'selected' : '' }}>Online</option>
                                     </select>

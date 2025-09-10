@@ -47,11 +47,11 @@ return new class extends Migration
             $table->string('mobile_banking_sender_number', 50)->nullable();
             $table->string('mobile_banking_receiver_number', 50)->nullable();
             $table->enum('mobile_banking_type', [
-                'bKash',
-                'Nagad',
-                'Rocket',
-                'Upay',
-                'SureCash',
+                'bkash',
+                'nagad',
+                'rocket',
+                'upay',
+                'surecash',
                 'Tap',
                 'mCash',
                 'FirstCash',

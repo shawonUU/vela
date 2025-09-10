@@ -49,22 +49,22 @@
                                 <td>{{ number_format($closing['closing_bkash'], 2) }}</td>
                             </tr>
                             <tr>
-                                <td>Nagad</td>
+                                <td>nagad</td>
                                 <td>{{ number_format($businessDay->opening_nagad, 2) }}</td>
                                 <td>{{ number_format($closing['closing_nagad'], 2) }}</td>
                             </tr>
                             <tr>
-                                <td>Rocket</td>
+                                <td>rocket</td>
                                 <td>{{ number_format($businessDay->opening_rocket, 2) }}</td>
                                 <td>{{ number_format($closing['closing_rocket'], 2) }}</td>
                             </tr>
                             <tr>
-                                <td>Upay</td>
+                                <td>upay</td>
                                 <td>{{ number_format($businessDay->opening_upay, 2) }}</td>
                                 <td>{{ number_format($closing['closing_upay'], 2) }}</td>
                             </tr>
                             <tr>
-                                <td>SureCash</td>
+                                <td>surecash</td>
                                 <td>{{ number_format($businessDay->opening_surecash, 2) }}</td>
                                 <td>{{ number_format($closing['closing_surecash'], 2) }}</td>
                             </tr>
@@ -111,19 +111,19 @@
                                 <td>{{ number_format($previousDay?->closing_bkash, 2) }}</td>
                             </tr>
                             <tr>
-                                <td>Nagad</td>
+                                <td>nagad</td>
                                 <td>{{ number_format($previousDay?->closing_nagad, 2) }}</td>
                             </tr>
                             <tr>
-                                <td>Rocket</td>
+                                <td>rocket</td>
                                 <td>{{ number_format($previousDay?->closing_rocket, 2) }}</td>
                             </tr>
                             <tr>
-                                <td>Upay</td>
+                                <td>upay</td>
                                 <td>{{ number_format($previousDay?->closing_upay, 2) }}</td>
                             </tr>
                             <tr>
-                                <td>SureCash</td>
+                                <td>surecash</td>
                                 <td>{{ number_format($previousDay?->closing_surecash, 2) }}</td>
                             </tr>
                             <tr>

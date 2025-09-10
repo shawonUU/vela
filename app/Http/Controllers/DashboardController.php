@@ -52,11 +52,11 @@ class DashboardController extends Controller
                         $balance_payment->sum('cash'),
                         $balance_payment->sum('visa_card'),
                         $balance_payment->sum('master_card'),
-                        $balance_payment->sum('bKash'),
-                        $balance_payment->sum('Nagad'),
-                        $balance_payment->sum('Rocket'),
-                        $balance_payment->sum('Upay'),
-                        $balance_payment->sum('SureCash'),
+                        $balance_payment->sum('bkash'),
+                        $balance_payment->sum('nagad'),
+                        $balance_payment->sum('rocket'),
+                        $balance_payment->sum('upay'),
+                        $balance_payment->sum('surecash'),
                         $balance_payment->sum('online'),
         ])-$total_expense;
 

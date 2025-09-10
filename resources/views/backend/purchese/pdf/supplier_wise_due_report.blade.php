@@ -248,7 +248,7 @@
                             <option value="Hand Cash">Hand Cash</option>
                             <option value="Bkash">Bkash</option>
                             <option value="Nogod">Nagod</option>
-                            <option value="Rocket">Rocket</option>
+                            <option value="rocket">rocket</option>
                             <option value="Bank Payment">Bank Payment</option>
 
                         </select>

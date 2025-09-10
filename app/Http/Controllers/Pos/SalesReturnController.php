@@ -283,7 +283,7 @@ class SalesReturnController extends Controller
                     $invoice_id = $invoice->id;
                 }
 
-                $total_payment = $request->cash + $request->visa_card + $request->master_card + $request->bKash + $request->Nagad + $request->Rocket + $request->Upay + $request->SureCash + $request->online;
+                $total_payment = $request->cash + $request->visa_card + $request->master_card + $request->bkash + $request->nagad + $request->rocket + $request->upay + $request->surecash + $request->online;
 
                 $cash = ($request->change < 0)
                     ? $request->cash + $request->change
@@ -304,11 +304,11 @@ class SalesReturnController extends Controller
                     'cash' => $cash ?? 0,
                     'visa_card' => $request->visa_card ?? 0,
                     'master_card' => $request->master_card ?? 0,
-                    'bKash' => $request->bKash ?? 0,
-                    'Nagad' => $request->Nagad ?? 0,
-                    'Rocket' => $request->Rocket ?? 0,
-                    'Upay' => $request->Upay ?? 0,
-                    'SureCash' => $request->SureCash ?? 0,
+                    'bkash' => $request->bkash ?? 0,
+                    'nagad' => $request->nagad ?? 0,
+                    'rocket' => $request->rocket ?? 0,
+                    'upay' => $request->upay ?? 0,
+                    'surecash' => $request->surecash ?? 0,
                     'online' => $request->online ?? 0,
                     'discount_amount' => $request->total_discount_amount ?? 0,
                     'total_amount' => $request->total ?? 0,

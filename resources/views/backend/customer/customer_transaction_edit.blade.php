@@ -163,11 +163,11 @@
                     <label for="mobile_banking_type" class="form-label">Mobile Banking Type</label>
                     <select name="mobile_banking_type" class="form-select" id="mobile_banking_type">
                       <option value="">Select Mobile Banking</option>
-                      <option value="bKash" {{ $common['mobile_banking_type'] == 'bKash'? 'selected':'' }}>bKash</option>
-                      <option value="Nagad" {{ $common['mobile_banking_type'] == 'Nagad'? 'selected':'' }}>Nagad</option>
-                      <option value="Rocket" {{ $common['mobile_banking_type'] == 'Rocket'? 'selected':'' }}>Rocket</option>
-                      <option value="Upay" {{ $common['mobile_banking_type'] == 'Upay'? 'selected':'' }}>Upay</option>
-                      <option value="SureCash" {{ $common['mobile_banking_type'] == 'SureCash'? 'selected':'' }}>SureCash</option>
+                      <option value="bkash" {{ $common['mobile_banking_type'] == 'bkash'? 'selected':'' }}>bkash</option>
+                      <option value="nagad" {{ $common['mobile_banking_type'] == 'nagad'? 'selected':'' }}>nagad</option>
+                      <option value="rocket" {{ $common['mobile_banking_type'] == 'rocket'? 'selected':'' }}>rocket</option>
+                      <option value="upay" {{ $common['mobile_banking_type'] == 'upay'? 'selected':'' }}>upay</option>
+                      <option value="surecash" {{ $common['mobile_banking_type'] == 'surecash'? 'selected':'' }}>surecash</option>
                       <option value="Tap" {{ $common['mobile_banking_type'] == 'Tap'? 'selected':'' }}>Tap</option>
                       <option value="mCash" {{ $common['mobile_banking_type'] == 'mCash'? 'selected':'' }}>mCash</option>
                       <option value="FirstCash" {{ $common['mobile_banking_type'] == 'FirstCash'? 'selected':'' }}>FirstCash</option>

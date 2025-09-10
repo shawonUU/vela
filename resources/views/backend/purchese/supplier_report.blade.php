@@ -432,11 +432,11 @@
                 <label for="mobile_banking_type" class="form-label">Mobile Banking Type</label>
                 <select name="mobile_banking_type" class="form-select" id="mobile_banking_type">
                   <option value="">Select Mobile Banking</option>
-                  <option value="bKash">bKash</option>
-                  <option value="Nagad">Nagad</option>
-                  <option value="Rocket">Rocket</option>
-                  <option value="Upay">Upay</option>
-                  <option value="SureCash">SureCash</option>
+                  <option value="bkash">bkash</option>
+                  <option value="nagad">nagad</option>
+                  <option value="rocket">rocket</option>
+                  <option value="upay">upay</option>
+                  <option value="surecash">surecash</option>
                   <option value="Tap">Tap</option>
                   <option value="mCash">mCash</option>
                   <option value="FirstCash">FirstCash</option>

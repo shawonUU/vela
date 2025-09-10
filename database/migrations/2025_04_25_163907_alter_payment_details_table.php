@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('payment_details',function (Blueprint $table) {
             $table->foreignId('customer_id')->nullable()->after('invoice_id')->constrained('customers')->onDelete('cascade');
             $table->string('payee_name',100)->nullable()->after('current_paid_amount');
-            $table->enum('payment_type',['check_payment','online_transaction','cash_payment','card_payment','mobile_banking'])
+            $table->enum('payment_type',['cash', 'visa_card', 'master_card', 'bkash', 'nagad', 'rocket', 'upay','surecash','online'])
             ->default('cash_payment')->after('payee_name');
             $table->string('bank_name',50)->nullable()->after('payment_type');
             $table->string('bank_branch_name',50)->nullable()->after('bank_name');
@@ -44,11 +44,11 @@ return new class extends Migration
             $table->string('mobile_banking_sender_number',50)->nullable()->after('card_image');
             $table->string('mobile_banking_receiver_number',50)->nullable()->after('mobile_banking_sender_number');
             $table->enum('mobile_banking_type', [
-                'bKash',
-                'Nagad',
-                'Rocket',
-                'Upay',
-                'SureCash',
+                'bkash',
+                'nagad',
+                'rocket',
+                'upay',
+                'surecash',
                 'Tap',
                 'mCash',
                 'FirstCash',

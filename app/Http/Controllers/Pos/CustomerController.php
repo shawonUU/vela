@@ -307,10 +307,12 @@ class CustomerController extends Controller
                     if ($new_paid_amount >= $due->due_amount) {
                         $payment->paid_status = 'full-paid';
                         $payment->paid_amount += $due->due_amount;
+                        $payment->{$request->payment_type} = $due->due_amount;
                         $payment->due_amount = 0;
 
                         // payment details
                         $payment_details->transaction_id = $transaction_id;
+                        $payment_details->payment_type = $request->payment_type;
                         $payment_details->current_paid_amount = $due->due_amount;
                         $payment_details->invoice_id = $due->invoice_id;
 
@@ -350,11 +352,13 @@ class CustomerController extends Controller
 
                         $payment->paid_status = 'partial-paid';
                         $payment->paid_amount += $new_paid_amount;
+                        $payment->{$request->payment_type} = $new_paid_amount;
                         $payment->due_amount -= $new_paid_amount;
                         $payment->save();
 
                         //payment details
                         $payment_details->transaction_id = $transaction_id;
+                        $payment_details->payment_type = $request->payment_type;
                         $payment_details->current_paid_amount = $new_paid_amount;
                         $payment_details->invoice_id = $due->invoice_id;
 

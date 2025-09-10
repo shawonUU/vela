@@ -302,13 +302,13 @@ $org = App\Models\OrgDetails::first();
                                                     <!-- Card Payments -->
                                                     <!-- MFS Payments -->
                                                     <div class="col-md-3">
-                                                        <label for="bKash" class="form-label">bKash</label>
-                                                        <input type="text" name="bKash" id="bKash" class="form-control bKash" value="0" placeholder="bKash" autocomplete="off">
+                                                        <label for="bkash" class="form-label">bkash</label>
+                                                        <input type="text" name="bkash" id="bkash" class="form-control bkash" value="0" placeholder="bkash" autocomplete="off">
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label for="Nagad" class="form-label">Nagad</label>
-                                                        <input type="text" name="Nagad" id="Nagad" class="form-control Nagad" value="0" placeholder="Nagad" autocomplete="off">
+                                                        <label for="nagad" class="form-label">nagad</label>
+                                                        <input type="text" name="nagad" id="nagad" class="form-control nagad" value="0" placeholder="nagad" autocomplete="off">
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label for="visa_card" class="form-label">Visa Card</label>
@@ -322,18 +322,18 @@ $org = App\Models\OrgDetails::first();
 
 
                                                     <div class="col-md-3">
-                                                        <label for="Rocket" class="form-label">Rocket</label>
-                                                        <input type="text" name="Rocket" id="Rocket" class="form-control Rocket" value="0" placeholder="Rocket" autocomplete="off">
+                                                        <label for="rocket" class="form-label">rocket</label>
+                                                        <input type="text" name="rocket" id="rocket" class="form-control rocket" value="0" placeholder="rocket" autocomplete="off">
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label for="Upay" class="form-label">Upay</label>
-                                                        <input type="text" name="Upay" id="Upay" class="form-control Upay" value="0" placeholder="Upay" autocomplete="off">
+                                                        <label for="upay" class="form-label">upay</label>
+                                                        <input type="text" name="upay" id="upay" class="form-control upay" value="0" placeholder="upay" autocomplete="off">
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <label for="SureCash" class="form-label">SureCash</label>
-                                                        <input type="text" name="SureCash" id="SureCash" class="form-control SureCash" value="0" placeholder="SureCash" autocomplete="off">
+                                                        <label for="surecash" class="form-label">surecash</label>
+                                                        <input type="text" name="surecash" id="surecash" class="form-control surecash" value="0" placeholder="surecash" autocomplete="off">
                                                     </div>
 
                                                     <div class="col-md-3">
@@ -858,7 +858,7 @@ $org = App\Models\OrgDetails::first();
                     $(document).on('change', '#discount_status', updateInvoiceCalculations);
 
                     // General update triggers for key financial fields
-                    $(document).on('keyup', '#discount_amount, #paid_amount, #due_amount, #paid_status, .selling_qty, #discount_status,#cash, #visa_card, #master_card,#bKash,#Nagad,#Rocket,#Upay,#SureCash,#online,#discount_amount', updateInvoiceCalculations);
+                    $(document).on('keyup', '#discount_amount, #paid_amount, #due_amount, #paid_status, .selling_qty, #discount_status,#cash, #visa_card, #master_card,#bkash,#nagad,#rocket,#upay,#surecash,#online,#discount_amount', updateInvoiceCalculations);
 
                     $(document).on('keyup', '#round_amount', adjustPaidAmount);
 
@@ -1016,7 +1016,7 @@ $org = App\Models\OrgDetails::first();
                         //END
 
                         // Calculate total payment from all payment methods
-                        let total_payment = sumValues('#cash, #visa_card, #master_card,#bKash,#Nagad,#Rocket,#Upay,#SureCash,#online');
+                        let total_payment = sumValues('#cash, #visa_card, #master_card,#bkash,#nagad,#rocket,#upay,#surecash,#online');
 
                         // Determine paid amount and change
                         if (total_payment > 0) {

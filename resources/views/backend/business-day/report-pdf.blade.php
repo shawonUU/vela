@@ -60,31 +60,31 @@
         <td>{{ number_format($closing['closing_bkash'], 2) }}</td>
     </tr>
     <tr>
-        <td>Nagad</td>
+        <td>nagad</td>
         <td>{{ number_format($businessDay->opening_nagad, 2) }}</td>
         <td>{{ number_format($payment['nagad'], 2) }}</td>
         <td>{{ number_format($expense['nagad'], 2) }}</td>
         <td>{{ number_format($closing['closing_nagad'], 2) }}</td>
     </tr>
     <tr>
-        <td>Rocket</td>
+        <td>rocket</td>
         <td>{{ number_format($businessDay->opening_rocket, 2) }}</td>
         <td>{{ number_format($payment['rocket'], 2) }}</td>
-        <td>{{ number_format($expense['Rocket'], 2) }}</td>
+        <td>{{ number_format($expense['rocket'], 2) }}</td>
         <td>{{ number_format($closing['closing_rocket'], 2) }}</td>
     </tr>
     <tr>
-        <td>Upay</td>
+        <td>upay</td>
         <td>{{ number_format($businessDay->opening_upay, 2) }}</td>
         <td>{{ number_format($payment['upay'], 2) }}</td>
-        <td>{{ number_format($expense['Upay'], 2) }}</td>
+        <td>{{ number_format($expense['upay'], 2) }}</td>
         <td>{{ number_format($closing['closing_upay'], 2) }}</td>
     </tr>
     <tr>
-        <td>SureCash</td>
+        <td>surecash</td>
         <td>{{ number_format($businessDay->opening_surecash, 2) }}</td>
         <td>{{ number_format($payment['surecash'], 2) }}</td>
-        <td>{{ number_format($expense['SureCash'], 2) }}</td>
+        <td>{{ number_format($expense['surecash'], 2) }}</td>
         <td>{{ number_format($closing['closing_surecash'], 2) }}</td>
     </tr>
     <tr>

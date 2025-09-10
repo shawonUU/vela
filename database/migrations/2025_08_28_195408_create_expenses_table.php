@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('date')->index();                            // Expense date
             $table->text('note')->nullable();                         // Notes
             $table->string('pay_to')->nullable();                     // Pay to
-            $table->enum('payment_method', ['cash', 'bkash', 'nagad', 'bank'])->nullable(); // Payment method
+            $table->enum('payment_method', ['cash', 'visa_card', 'master_card', 'bkash', 'nagad', 'rocket', 'upay','surecash','online'])->nullable(); // Payment method
             $table->enum('is_approved', ['0', '1'])->default('0');   // Approval status
             $table->unsignedBigInteger('created_by')->index();        // Created by
             $table->unsignedBigInteger('updated_by')->nullable()->index(); // Updated by

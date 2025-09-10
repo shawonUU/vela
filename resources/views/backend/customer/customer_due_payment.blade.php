@@ -102,10 +102,19 @@
                         <div class="col-md-6 mb-3">
                             <label for="payment_type" class="form-label">Payment Type</label>
                             <select id="payment_type" class="form-select" name="payment_type">
-                                <option value="cash_payment">Cash Payment</option>
+                                <option value="cash" {{ old('payment_type')=='cash' ? 'selected' : '' }}>Cash</option>
+                                    <option value="bkash" {{ old('payment_type')=='bkash' ? 'selected' : '' }}>Bkash</option>
+                                    <option value="nagad" {{ old('payment_type')=='nagad' ? 'selected' : '' }}>nagad</option>
+                                    <option value="visa_card" {{ old('payment_type')=='visa_card' ? 'selected' : '' }}>Visa Card</option>
+                                    <option value="master_card" {{ old('payment_type')=='master_card' ? 'selected' : '' }}>Master Card</option>
+                                    <option value="rocket" {{ old('payment_type')=='rocket' ? 'selected' : '' }}>rocket</option>
+                                    <option value="upay" {{ old('payment_type')=='upay' ? 'selected' : '' }}>upay</option>
+                                    <option value="surecash" {{ old('payment_type')=='surecash' ? 'selected' : '' }}>Surecash</option>
+                                    <option value="online" {{ old('payment_type')=='online' ? 'selected' : '' }}>Online</option>
+                                <!-- <option value="cash_payment">Cash Payment</option>
                                 <option value="check_payment">Check Payment</option>
                                 <option value="online_transaction">Online Transaction</option>
-                                <option value="mobile_banking">Mobile Banking</option>
+                                <option value="mobile_banking">Mobile Banking</option> -->
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -219,11 +228,11 @@
                                 <label for="mobile_banking_type" class="form-label">Mobile Banking Type</label>
                                 <select name="mobile_banking_type" class="form-select" id="mobile_banking_type">
                                     <option value="">Select Mobile Banking</option>
-                                    <option value="bKash">bKash</option>
-                                    <option value="Nagad">Nagad</option>
-                                    <option value="Rocket">Rocket</option>
-                                    <option value="Upay">Upay</option>
-                                    <option value="SureCash">SureCash</option>
+                                    <option value="bkash">bkash</option>
+                                    <option value="nagad">nagad</option>
+                                    <option value="rocket">rocket</option>
+                                    <option value="upay">upay</option>
+                                    <option value="surecash">surecash</option>
                                     <option value="Tap">Tap</option>
                                     <option value="mCash">mCash</option>
                                     <option value="FirstCash">FirstCash</option>

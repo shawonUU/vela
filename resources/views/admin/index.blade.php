@@ -216,14 +216,31 @@ $org = App\Models\OrgDetails::first();
             </div><!-- end col -->
             <!-- end col -->
 
+            @if($businessDay?->status == 'open')
+                <div class="col-xl-2 col-md-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2">Opening Balance</p>
+                                    <h5 class="mb-2 text-success">৳ {{(!empty($opening_balance)?number_format($opening_balance,2):'0')}} Tk</h5>
+                                </div>
+                            
+                            </div>
+                        </div><!-- end cardbody -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <!-- end col -->
+            @endif
 
-             <div class="col-xl-2 col-md-2">
+
+            <div class="col-xl-2 col-md-2">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">Balance</p>
-                                <h5 class="mb-2 text-success">৳ {{(!empty($total_balance)?number_format($total_balance,2):'0')}} Tk</h5>
+                                <p class="text-truncate font-size-14 mb-2">Current Balance</p>
+                                <h5 class="mb-2 text-success">৳ {{(!empty($current_balance)?number_format($current_balance,2):'0')}} Tk</h5>
                             </div>
                           
                         </div>

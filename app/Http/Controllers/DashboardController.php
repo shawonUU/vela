@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BusinessDay;
+use Carbon\Carbon;
+use App\Models\Expense;
 use App\Models\Invoice;
-use App\Models\InvoiceDetail;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductSize;
 use App\Models\SalesReturn;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\InvoiceDetail;
+use App\Models\PaymentDetail;
 use Illuminate\Support\Facades\DB;
-use App\Models\Expense;
 
 class DashboardController extends Controller
 {
@@ -47,18 +49,21 @@ class DashboardController extends Controller
         $total_expense = Expense::whereBetween('date', [$startDate, $endDate])->sum('amount');
         // dd( $payment);
 
-        $balance_payment = Payment::whereBetween('created_at', [$startDate, $endDate])->get();
-        $total_balance = array_sum([
-                        $balance_payment->sum('cash'),
-                        $balance_payment->sum('visa_card'),
-                        $balance_payment->sum('master_card'),
-                        $balance_payment->sum('bkash'),
-                        $balance_payment->sum('nagad'),
-                        $balance_payment->sum('rocket'),
-                        $balance_payment->sum('upay'),
-                        $balance_payment->sum('surecash'),
-                        $balance_payment->sum('online'),
-        ])-$total_expense;
+        $businessDay = BusinessDay::orderBy('business_date', 'desc')->first();
+        $today = Carbon::today()->toDateString();
+        $today_expense = Expense::whereDate('date', $today)->sum('amount');
+        $today_payment = PaymentDetail::whereDate('date', $today)->sum('current_paid_amount');
+
+        $opening_balance = 0;
+        $current_balance = 0;
+        if($businessDay){
+            $opening_balance = $businessDay->opening_balance;
+            if($businessDay->status == 'closed') $current_balance = $businessDay->closing_balance;
+            else{
+                $current_balance = $opening_balance + $today_payment - $today_expense;
+            }
+        }
+
 
         $total_amount = 0;
         $total_discount = 0;
@@ -115,7 +120,7 @@ class DashboardController extends Controller
          'total_refund',
          'show_start_date',
          'show_end_date',
-         'startDate', 'endDate', 'total_amount', 'total_profit', 'total_paid', 'total_due', 'top_selling_products', 'low_stock_products', 'out_of_stock_products','total_expense','total_balance'));
+         'startDate', 'endDate', 'total_amount', 'total_profit', 'total_paid', 'total_due', 'top_selling_products', 'low_stock_products', 'out_of_stock_products','total_expense','businessDay','opening_balance','current_balance'));
     }
 
     public function dashboardReportPrint($startDate, $endDate, $filterName = 'Today', $total_amount, $total_profit, $total_paid, $total_due)

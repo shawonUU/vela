@@ -211,13 +211,13 @@
                                 <tr>
                                     <th width="5%">Sl</th>
                                     <th>Date</th>
-                                    <th>Category</th>
+                                    <!-- <th>Category</th> -->
                                     <th>Article ID</th>
                                     <th>Pay To</th>
-                                    <th>Amount</th>
                                     <th>Payment Method</th>
                                     {{-- <th>Notes</th> --}}
-                                    <th>Created By</th>
+                                    <!-- <th>Created By</th> -->
+                                    <th>Amount</th>
                                     <th>Approval Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -228,24 +228,30 @@
                                 <tr>
                                     <td width="5%">{{ $key + 1 }}</td>
                                     <td>{{ $item->date ?? '-' }}</td>                                     
-                                    <td>{{ $item->category->name ?? '-' }}</td>                                     
+                                    <!-- <td>{{ $item->category->name ?? '-' }}</td>                                      -->
                                     <td>{{ $item->article->name ?? '-' }}</td>
                                     <td>{{ $item->payTo->name ?? '-' }}</td>
-                                    <td>{{ $item->amount }}</td>
                                     <td>{{ ucfirst($item->payment_method) }}</td>
                                     {{-- <td>{{ $item->note ?? '-' }}</td> --}}
-                                    <td>{{ $item->creator->name ?? '-' }}</td>
+                                    <!-- <td>{{ $item->creator->name ?? '-' }}</td> -->
+                                    <td>{{ $item->amount }}</td>
                                     <td>
                                         <span class="{{ $item->is_approved == 1 ? 'text-success' : 'text-danger' }}">
                                             {{ $item->is_approved == 1 ? 'Approved' : 'Not Approved' }}
                                         </span>
                                     </td>
-
-                                    <td>
-                                        <a href="{{ route('expenses.edit', $item) }}" class="btn btn-info sm" title="Edit Expense">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
+                                 
+                                        <td>
+                                            @can('edit_expense')
+                                                <a href="{{ route('expenses.edit', $item) }}" class="btn btn-info sm" title="Edit Expense">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endcan
+                                            @can('delete_expense')
+                                                <a href="{{route('expenses.destroy',$item->id)}}" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
+                                            @endcan
+                                        </td>
+                                   
                                 </tr>
                                 @endforeach
                             </tbody>

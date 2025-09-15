@@ -3,7 +3,9 @@ $org = App\Models\OrgDetails::first();
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+@php 
+	//dd('okk bbb') 
+@endphp
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +19,9 @@ $org = App\Models\OrgDetails::first();
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-
+	@php 
+	//dd('okk bbb') 
+@endphp
 <body>
     <script>
         function printDiv() {
@@ -47,6 +51,8 @@ $org = App\Models\OrgDetails::first();
     @php
     $payment = App\Models\Payment::where('invoice_id', $invoice->id)->first();
     @endphp
+	
+
 
     <div class="row mx-auto" id="printableArea">
         <style>
@@ -143,6 +149,7 @@ $org = App\Models\OrgDetails::first();
                 }
             }
         </style>
+		
         <div class="col-md-12">
             <div class="mx-auto" style="width:290px">
                 <div class="text-center">

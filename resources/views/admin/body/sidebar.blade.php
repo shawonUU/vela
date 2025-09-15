@@ -169,7 +169,7 @@ $adminData = App\Models\User::find($id);
                 </li>
                 @endcan
 
-                {{-- @can('expanse-list') --}}
+                @can('expense_management')
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fa fa-credit-card" aria-hidden="true"></i>
@@ -183,7 +183,7 @@ $adminData = App\Models\User::find($id);
                         <li><a href="{{ route('expenses.index') }}">All Expense</a></li>
                     </ul>
                 </li>
-                {{-- @endcan --}}
+                @endcan
                 {{-- @can('cash-management') --}}
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -191,13 +191,17 @@ $adminData = App\Models\User::find($id);
                             <span>Business Day</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
-                            @if(!isDayOpen())
-                                <li><a href="{{ route('business-days.index') }}">Opening Day</a></li>
-                            @endif
-                            @if(isDayOpen())
-                                <li><a href="{{ route('business-days.index') }}">Closing Day</a></li>
-                            @endif
-                            <li><a href="{{ route('business-days.list') }}">Business Day List</a></li>
+                            @can('manage_business_day')
+                                @if(!isDayOpen())
+                                    <li><a href="{{ route('business-days.index') }}">Opening Day</a></li>
+                                @endif
+                                @if(isDayOpen())
+                                    <li><a href="{{ route('business-days.index') }}">Closing Day</a></li>
+                                @endif
+                            @endcan
+                            @can('business_day_list')
+                                <li><a href="{{ route('business-days.list') }}">Business Day List</a></li>
+                            @endcan
                         </ul>
                     </li>
                 {{-- @endcan --}}

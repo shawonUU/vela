@@ -193,7 +193,7 @@ Route::middleware(['business_day'])->group(function () {
             Route::get('/expenses/{expense}', 'show')->name('expenses.show');
             Route::get('/expenses/{expense}/edit', 'edit')->name('expenses.edit');
             Route::put('/expenses/{expense}', 'update')->name('expenses.update');
-            Route::delete('/expenses/{expense}', 'destroy')->name('expenses.destroy');
+            Route::get('/expenses/delete/{expense}', 'destroy')->name('expenses.destroy');
         });
 
         // Opening Cash Routes

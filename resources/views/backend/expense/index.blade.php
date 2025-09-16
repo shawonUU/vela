@@ -77,6 +77,30 @@
                             <option value="0" {{ ($approval === '0' ? 'selected' : '') }}>Not Approved</option>
                         </select>
                     </div>
+                    <div class="col-12 col-md-2">
+                        <label for="approval" class="form-label">Payment Method</label>
+                        <select name="payment_method" id="payment_method" class="form-select">
+                            <option value="">-- Select Method --</option>
+                            <option value="cash" {{ $request?->payment_method=='cash' ? 'selected' : '' }}>Cash</option>
+                            <option value="bkash" {{ $request?->payment_method=='bkash' ? 'selected' : '' }}>Bkash</option>
+                            <option value="nagad" {{ $request?->payment_method=='nagad' ? 'selected' : '' }}>nagad</option>
+                            <option value="visa_card" {{ $request?->payment_method=='visa_card' ? 'selected' : '' }}>Visa Card</option>
+                            <option value="master_card" {{ $request?->payment_method=='master_card' ? 'selected' : '' }}>Master Card</option>
+                            <option value="rocket" {{ $request?->payment_method=='rocket' ? 'selected' : '' }}>rocket</option>
+                            <option value="upay" {{ $request?->payment_method=='upay' ? 'selected' : '' }}>upay</option>
+                            <option value="surecash" {{ $request?->payment_method=='surecash' ? 'selected' : '' }}>Surecash</option>
+                            <option value="online" {{ $request?->payment_method=='online' ? 'selected' : '' }}>Online</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <label for="approval" class="form-label">Category</label>
+                        <select name="category_id" id="category_id" class="form-select">
+                            <option value="">Select</option>
+                            @foreach ($categories as $item)
+                                <option value="{{$item->id}}" {{ ($request?->category_id == $item->id ? 'selected' : '') }}>{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="col-12 col-md-2 col-lg-1">
                         <label for="customEndDate" class="form-label"></label>
                         <button type="button" class="btn btn-dark mt-3" style="height: 40px;" onclick="updateDashboardWithCustomRange()">
@@ -384,12 +408,17 @@
         const formattedEndDate = endDate.toISOString().split('T')[0];
         const filter = document.getElementById('dateFilter').value;
         const approval = document.getElementById('approval').value;
+        const category_id = document.getElementById('category_id').value;
+        const payment_method = document.getElementById('payment_method').value;
         // alert(formattedStartDate + formattedEndDate);
         var url = '{{ url()->current() }}?'
         url += '&startDate=' + formattedStartDate;
         url += '&endDate=' + formattedEndDate;
         url += '&filter=' + filter;
         url += '&approval=' + approval;
+        url += '&category_id=' + category_id;
+        url += '&payment_method=' + payment_method;
+        
         window.location.href = url;
 
     }

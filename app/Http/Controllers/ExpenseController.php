@@ -21,6 +21,9 @@ class ExpenseController extends Controller
         $show_end_date = $request->get('endDate');
         $filter = $request->get('filter');
         $approval = $request->get('approval');
+        $category_id = $request->get('category_id');
+        $payment_method = $request->get('payment_method');
+        $approval = $request->get('approval');
         if ($request->get('startDate') && $request->get('endDate')) {
             $startDate = Carbon::parse($request->get('startDate'));
             $endDate = Carbon::parse($request->get('endDate'));
@@ -32,9 +35,18 @@ class ExpenseController extends Controller
         }
         $expenses = Expense::whereBetween('date', [$startDate, $endDate]);
 
+        $categories = ExpenseCategory::where('status','1')->get();
+
 
         if ($approval != "") {
             $expenses = $expenses->where('is_approved', $approval);
+        }
+        if($payment_method != "" ){
+            $expenses = $expenses->where('payment_method', $payment_method);
+        }
+
+        if($category_id != "" ){
+            $expenses = $expenses->where('category_id', $category_id);
         }
 
         $expenses = $expenses->with(['category', 'creator', 'updater', 'article','payTo'])->latest()->get();
@@ -43,7 +55,8 @@ class ExpenseController extends Controller
         $totalNoApprovedExpanseAmount  = $expenses->where('is_approved', '0')->sum('amount');
         $totalExpanse                  = $expenses->count();
         $totalNoApprovedExpanse        = $expenses->where('is_approved', '0')->count();
-        return view('backend.expense.index', compact('totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date'));
+
+        return view('backend.expense.index', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories'));
     }
 
     /**

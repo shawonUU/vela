@@ -116,6 +116,9 @@ $adminData = App\Models\User::find($id);
                         @can('tax-list')
                         <li><a href="{{route('tax.index')}}">Taxes</a></li>
                         @endcan
+                        @can('product_discount_analysis')
+                           <li><a href="{{route('product.discount_analysis')}}">Product Discount Analysis</a></li>
+                        @endcan
                     </ul>
                 </li>
                 @endcan

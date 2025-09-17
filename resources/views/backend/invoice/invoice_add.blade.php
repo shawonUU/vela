@@ -445,8 +445,11 @@ $org = App\Models\OrgDetails::first();
                     <td class="serial-number"></td>
                     <td>
                         <span 
-                            title="Buying Price: @{{product_buying_price}}&#10;Profit (10% Discount): @{{profit_10}}&#10;Profit (15% Discount): @{{profit_15}}&#10;Profit (20% Discount): @{{profit_20}}&#10;Max Discount: @{{max_discount}}"
-                        >
+
+                            @can('view_discount_profit')
+                                title="Buying Price: @{{product_buying_price}}&#10;Profit (10% Discount): @{{profit_10}}&#10;Profit (15% Discount): @{{profit_15}}&#10;Profit (20% Discount): @{{profit_20}}&#10;Max Discount: @{{max_discount}}"
+                            @endcan
+                        > 
                             @{{ product_name }} (@{{ size_name }}) @{{brand_name}}
                         </span>
                 
@@ -498,7 +501,7 @@ $org = App\Models\OrgDetails::first();
                         <i class="btn btn-danger btn-sm fas fa-window-close removeeventmore"></i>
                     </td>
                     </tr>
-    </script>
+            </script>
             <!-- Product row insert in invoice End-->
 
             <!-- Customer add option -->

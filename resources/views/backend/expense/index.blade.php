@@ -266,6 +266,11 @@
                                     </td>
                                  
                                         <td>
+                                             @can('view_expense')
+                                                <a href="{{ route('expenses.show', $item) }}" class="btn btn-info sm" title="view Expense">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endcan
                                             @can('edit_expense')
                                                 <a href="{{ route('expenses.edit', $item) }}" class="btn btn-info sm" title="Edit Expense">
                                                     <i class="fas fa-edit"></i>

@@ -115,7 +115,10 @@ class ExpenseController extends Controller
      */
     public function show(Expense $expense)
     {
-        return view('backend.expense.show', compact('expense'));
+        $payToUsers = PayToUser::latest()->get();
+        $categories = ExpenseCategory::where('status', 1)->latest()->get();
+        $articles = ExpenseArticle::where('status', 1)->latest()->get();
+        return view('backend.expense.show', compact('expense', 'categories', 'articles','payToUsers'));
     }
 
     /**

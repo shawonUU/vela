@@ -190,7 +190,7 @@ Route::middleware(['business_day'])->group(function () {
             Route::get('/expenses', 'index')->name('expenses.index');
             Route::get('/expenses/create', 'create')->name('expenses.create');
             Route::post('/expenses', 'store')->name('expenses.store');
-            Route::get('/expenses/{expense}', 'show')->name('expenses.show');
+            Route::get('/expenses/{expense}/show', 'show')->name('expenses.show');
             Route::get('/expenses/{expense}/edit', 'edit')->name('expenses.edit');
             Route::put('/expenses/{expense}', 'update')->name('expenses.update');
             Route::get('/expenses/delete/{expense}', 'destroy')->name('expenses.destroy');
@@ -291,6 +291,8 @@ Route::middleware(['business_day'])->group(function () {
             Route::post('/product/update', 'ProductUpdate')->name('product.update');
             Route::get('/product/delete/{id}', 'ProductDelete')->name('product.delete');
             Route::get('/get-product-product', 'getProductSizes')->name('get.product.sizes');
+            Route::get('/product/discount/analysis', 'discountAnalysis')->name('product.discount_analysis');
+            
         });
         // Product Price code All Route
         Route::controller(ProductPriceCodeController::class)->group(function () {

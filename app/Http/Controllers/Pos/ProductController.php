@@ -344,6 +344,8 @@ class ProductController extends Controller
 
     public function discountAnalysis(){
         $products = Product::latest()->get();
+        $product = Product::first();
+
         return view('backend.product.discount_analysis', compact('products'));
     }
 }

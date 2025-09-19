@@ -27,7 +27,7 @@
                             @can('unit-list')
                             <li class="breadcrumb-item m-2 mt-3"><a href="{{route('unit.all')}}">ALL UNIT</a></li>
                             @endcan
-                            <li class=" m-2 "><a href="{{ route('product.add') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add </a></li>
+                            <!-- <li class=" m-2 "><a href="{{ route('product.add') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add </a></li> -->
                         </ol>
                     </div>
                 </div>
@@ -40,41 +40,104 @@
                     <div class="card-body">
                         <h4 class="card-title">All Product </h4>
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="datatable" class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%; white-space:nowrap;">
                                 <thead>
-                                    <tr>
+                                    <tr style="background: #eaeaea;">
                                         <th width="20px;">#</th>
-                                        <th>Image</th>
                                         <th>Name</th>
-                                        <th>Size</th>
-                                        <th>Brand</th>
-                                        <th>Category</th>
+                                        <th>Barcode Number</th>
+                                        <th>Purchase Price</th>
+                                        <th>Markup%</th>
+                                        <th>Selling Price</th>
+                                        <th>Profit</th>
+                                        <th>Discount 10%</th>
+                                        <th>Profit 10%</th>
+                                        <th>Discount 15%</th>
+                                        <th>Profit 15%</th>
+                                        <th>Discount 20%</th>
+                                        <th>Profit 20%</th>
+                                       
                                 </thead>
                                 <tbody>
                                     @php $dx = 1; @endphp
                                     @foreach($products as $key => $item)
                                         @foreach ($item['productSizes'] as $key => $tem)
-                                            <tr>
-                                                <td> {{ $dx++}} </td>
-                                                <td>
-                                                    <img class="rounded"
-                                                        src="{{ !empty($item->product_image) && file_exists(public_path($item->product_image)) ? asset($item->product_image)  : asset('upload/no_image.png') }}"
-                                                        style="width:50px; height:50px;">
+
+                                            @php
+                                                $buying  = $tem->buying_price > 0 ? $tem->buying_price : 1;
+                                                $selling = $tem->selling_price;
+                                                $profit  = $selling - $buying;
+                                                $markup  = round(100 * $profit / $buying);
+
+                                                // Discounts
+                                                $d10 = round($selling * 0.90);
+                                                $d15 = round($selling * 0.85);
+                                                $d20 = round($selling * 0.80);
+
+                                                // Profits after discount
+                                                $p10 = $d10 - $buying;
+                                                $p15 = $d15 - $buying;
+                                                $p20 = $d20 - $buying;
+
+                                                // Profit after 10% VAT cut
+                                                $vatProfit   = round($profit * 0.90);
+                                                $vatP10      = round($p10 * 0.90);
+                                                $vatP15      = round($p15 * 0.90);
+                                                $vatP20      = round($p20 * 0.90);
+                                            @endphp
+
+                                            <tr style="background: {{($dx%2) == 0 ? '#eaeaea' : '#ffffff'}};">
+                                                <td>{{ $dx++ }}</td>
+                                                <td>{{ $item->name }} ({{ $tem['size']->name }})</td>
+                                                <td>{{ $tem->barcode }}</td>
+                                                <td>{{ $buying }}</td>
+                                                <td>{{ $markup }}%</td>
+                                                <td>{{ $selling }}</td>
+                                                <td style="padding:0;">
+                                                    <table >
+                                                        <tr>
+                                                            <td style="border-right:none; border-bottom : 1px solid #000;">{{ $profit }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-right:none;">{{ $vatProfit }}</td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
-
-                                                <td> {{ $item->name }} </td>
-                                                <td>
-                                                    
-                                                    {{ $tem['size']->name.' ('.$tem->selling_price.' TK)' }}@if (!$loop->last), @endif
-                                                
+                                                <td>{{ $d10 }}</td>
+                                                <td style="padding:0;">
+                                                    <table >
+                                                        <tr>
+                                                            <td style="border-right:none; border-bottom : 1px solid #000;">{{ $p10 }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-right:none;">{{ $vatP10 }}</td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
-
-                                                <td> {{ !empty($item['brand']['name'])?$item['brand']['name']:'Null' }} </td>
-                                                <td> {{ (!empty($item['category']['name'])?$item['category']['name']:'Null') }}</td>
-                                                <!-- <td> {!! (!empty($item->product_code)?DNS1D::getBarcodeHTML($item->product_code,"PHARMA"):"Null") !!} </td>  -->
-                                                
-
+                                                <td>{{ $d15 }}</td>
+                                                <td style="padding:0;">
+                                                    <table >
+                                                        <tr>
+                                                            <td style="border-right:none; border-bottom : 1px solid #000;">{{ $p15 }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-right:none;">{{ $vatP15 }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>{{ $d20 }}</td>
+                                                <td style="padding:0;">
+                                                    <table >
+                                                        <tr>
+                                                            <td style="border-right:none; border-bottom : 1px solid #000;">{{ $p20 }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-right:none;">{{ $vatP20 }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                             </tr>
+                                           
                                         @endforeach
                                     @endforeach
 

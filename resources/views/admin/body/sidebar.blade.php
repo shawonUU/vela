@@ -38,6 +38,9 @@ $adminData = App\Models\User::find($id);
                         @can('invoice-create')
                         <li><a href="{{route('invoice.add')}}">Invoice Add</a></li>
                         @endcan
+                        @can('sales_discount_analysis')
+                           <li><a href="{{route('invoice.discount_analysis')}}">Sales Discount Analysis</a></li>
+                        @endcan
                         <!-- <li><a href="{{route('invoice.pending.list')}}">Approval Invoice</a></li> -->
                         <!-- <li><a href="{{route('print.invoice.list')}}">Print Invoice List</a></li> -->
                         <!-- <li><a href="{{route('daily.invoice.report')}}">Invoice Report</a></li> -->

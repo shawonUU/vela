@@ -361,6 +361,8 @@ Route::middleware(['business_day'])->group(function () {
             Route::post('/invoice/sms-send', 'InvoiceSmsSend')->name('invoice.sms-send');
             Route::post('/invoice/store', 'InvoiceStore')->name('invoice.store');
             Route::get('/invoice/pending/list', 'InvoicePending')->name('invoice.pending.list');
+            Route::get('/invoice/discount/analysis', 'discountAnalysis')->name('invoice.discount_analysis');
+            
 
 
             Route::get('/invoice/edit/{id}', 'InvoiceEdit')->name('invoice.edit');

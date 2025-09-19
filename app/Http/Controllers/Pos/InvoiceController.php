@@ -1007,4 +1007,17 @@ class InvoiceController extends Controller
             return view('backend.invoice.preview.invoice-preview', compact('data', 'finalProducts'));
         }
     }
+
+    public function discountAnalysis(Request $request){
+       $query = Invoice::query();
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $query->whereBetween('date', [$request->from_date, $request->to_date]);
+        } else {
+            $query->whereDate('date', now()->toDateString());
+        }
+        $invoices = $query->get();
+        // return $invoices[0]->invoice_details[0]->product_size->size;
+
+        return view('backend.invoice.discount_analysis', compact('invoices'));
+    }
 }

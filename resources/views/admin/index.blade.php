@@ -184,6 +184,8 @@ $org = App\Models\OrgDetails::first();
                     </div><!-- end cardbody -->
                 </div><!-- end card -->
             </div><!-- end col -->
+
+            @can('dashboard_profit')
             <div class="col-xl-2 col-md-2">
                 <div class="card">
                     <div class="card-body">
@@ -199,6 +201,9 @@ $org = App\Models\OrgDetails::first();
                     </div><!-- end cardbody -->
                 </div><!-- end card -->
             </div><!-- end col -->
+            @endcan
+
+
             <!-- end col -->
 
             <div class="col-xl-2 col-md-2">

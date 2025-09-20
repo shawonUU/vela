@@ -676,9 +676,9 @@ class CustomerController extends Controller
         foreach ($paymentDetails as $details) {
             $payment = $details[0]; // assume first entry represents group
             $commonData = [
-                'customer_id' => $payment['customer']->id,
-                'customer_name' => $payment['customer']->name,
-                'customer_phone' => $payment['customer']->mobile_no,
+                'customer_id' => $payment['customer']?->id,
+                'customer_name' => $payment['customer']?->name,
+                'customer_phone' => $payment['customer']?->mobile_no,
                 'transaction_id' => $payment->transaction_id,
                 'created_at' => $payment->created_at,
                 'total_amount' => $details->sum('current_paid_amount'),

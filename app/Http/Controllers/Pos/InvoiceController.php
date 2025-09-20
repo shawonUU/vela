@@ -1018,6 +1018,6 @@ class InvoiceController extends Controller
         $invoices = $query->get();
         // return $invoices[0]->invoice_details[0]->product_size->size;
 
-        return view('backend.invoice.discount_analysis', compact('invoices'));
+        return view('backend.invoice.discount_analysis', compact('invoices','request'));
     }
 }

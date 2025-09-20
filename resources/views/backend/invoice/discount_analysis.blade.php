@@ -39,6 +39,19 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">All Invoice </h4>
+                        <div>
+                            <form class="row g-2 align-items-center" action="{{route('invoice.discount_analysis')}}" method="get">
+                                <div class="col-md-4 col-12">
+                                    <input type="date" class="form-control" name="from_date" value="{{$request?->from_date}}" placeholder="From Date">
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <input type="date" class="form-control" name="to_date" value="{{$request?->to_date}}" placeholder="To Date">
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table id="datatable" class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%; white-space:nowrap;">
                                 <thead>
@@ -71,7 +84,6 @@
                                                 $actualPrice = $invoiceDetails->selling_price - $invoiceDetails->discount_amount;
                                                 $profit  = $actualPrice - $buying;
                                                 $pProfit = round(100 * $profit / $buying) 
-                                               
                                             @endphp
 
                                             <tr style="background: {{($dx%2) == 0 ? '#eaeaea' : '#ffffff'}};">

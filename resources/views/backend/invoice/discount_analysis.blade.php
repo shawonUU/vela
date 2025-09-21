@@ -39,13 +39,13 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">All Invoice </h4>
-                        <div>
+                        <div class="mb-3">
                             <form class="row g-2 align-items-center" action="{{route('invoice.discount_analysis')}}" method="get">
                                 <div class="col-md-4 col-12">
-                                    <input type="date" class="form-control" name="from_date" value="{{$request?->from_date}}" placeholder="From Date">
+                                    <input type="date" class="form-control" name="from_date" value="{{$request?->from_date ?? date('Y-m-d')}}" placeholder="From Date">
                                 </div>
                                 <div class="col-md-4 col-12">
-                                    <input type="date" class="form-control" name="to_date" value="{{$request?->to_date}}" placeholder="To Date">
+                                    <input type="date" class="form-control" name="to_date" value="{{$request?->to_date ?? date('Y-m-d')}}" placeholder="To Date">
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -53,7 +53,7 @@
                             </form>
                         </div>
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%; white-space:nowrap;">
+                            <table id="datatable" class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%; ">
                                 <thead>
                                     <tr style="background: #eaeaea;">
                                         <th width="20px;">#</th>
@@ -63,9 +63,9 @@
                                         <th>Date</th>
                                         <th>Qty</th>
                                         <th>Purchase Price</th>
-                                        <th>Selling Price</th>
-                                        <th>Discount%</th>
                                         <th>Actual Price</th>
+                                        <th>Discount%</th>
+                                        <th>Selling Price</th>
                                         <th>Profit</th>
                                         <th>% Of Profit</th>
                                        
@@ -81,8 +81,8 @@
                                                 $product = $productSize?->product;
                                                 $buying  = $invoiceDetails->buying_price > 0 ? $invoiceDetails->buying_price : 1;
                                                 $selling = $invoiceDetails->selling_price;
-                                                $actualPrice = $invoiceDetails->selling_price - $invoiceDetails->discount_amount;
-                                                $profit  = $actualPrice - $buying;
+                                                $actualPrice = $invoiceDetails->selling_qty * $invoiceDetails->unit_price;
+                                                $profit  = $selling - $buying;
                                                 $pProfit = round(100 * $profit / $buying) 
                                             @endphp
 
@@ -94,13 +94,11 @@
                                                 <td>{{$invoice->date }}</td>
                                                 <td>{{ $invoiceDetails->selling_qty }}</td>
                                                 <td>{{ $buying }}</td>
-                                                <td>{{ $selling }}</td>
+                                                <td>{{ $actualPrice }}</td>
                                                 <td>{{ $invoiceDetails->discount_rate }}</td>
-                                                <td>{{$actualPrice}}</td>
+                                                <td>{{$selling}}</td>
                                                 <td>{{$profit}}</td>
                                                 <td>{{$pProfit}}</td>
-
-                                               
                                             </tr>
                                             
                                         @endforeach

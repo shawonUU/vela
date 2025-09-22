@@ -1009,15 +1009,26 @@ class InvoiceController extends Controller
     }
 
     public function discountAnalysis(Request $request){
-       $query = Invoice::query();
+        $query = Invoice::query();
         if ($request->filled('from_date') && $request->filled('to_date')) {
             $query->whereBetween('date', [$request->from_date, $request->to_date]);
-        } else {
+        } else if(!$request->filled('product_id')){
             $query->whereDate('date', now()->toDateString());
         }
-        $invoices = $query->get();
-        // return $invoices[0]->invoice_details[0]->product_size->size;
 
-        return view('backend.invoice.discount_analysis', compact('invoices','request'));
+        if($request->filled('product_id')){
+            $query->whereHas('invoice_details.product_size.product', function ($q) use ($request) {
+                $q->where('id', $request->product_id);
+            });
+            $query = $query->with(['invoice_details' => function ($q) use ($request) {
+                $q->whereHas('product_size.product', function ($q2) use ($request) {
+                    $q2->where('id', $request->product_id);
+                })->with('product_size.product');
+            }]);
+        }
+        $invoices = $query->get();
+        $products = Product::get();
+
+        return view('backend.invoice.discount_analysis', compact('invoices','request','products'));
     }
 }

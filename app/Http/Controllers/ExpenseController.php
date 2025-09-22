@@ -56,7 +56,8 @@ class ExpenseController extends Controller
         $totalExpanse                  = $expenses->count();
         $totalNoApprovedExpanse        = $expenses->where('is_approved', '0')->count();
 
-        return view('backend.expense.index', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories'));
+        if($request->print == 'true') return view('backend.expense.expense_pdf', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories'));
+        else return view('backend.expense.index', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories'));
     }
 
     /**

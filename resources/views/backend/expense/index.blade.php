@@ -223,11 +223,13 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <h4 class="card-title">All Expanse Data </h4>
                             </div>
-                            <div class="col-6">
-                                
+                             <div class="col-6">
+                                <div class="text-sm-end">
+                                    <a href="javascript:void(0)" onclick="updateDashboardWithCustomRange(true)" target="_blank" class="btn btn-dark waves-effect waves-light mb-2 me-2"><i class="mdi mdi-printer"></i> Print </a>
+                                </div>
                             </div>
                         </div>
                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -236,7 +238,7 @@
                                     <th width="5%">Sl</th>
                                     <th>Date</th>
                                     <!-- <th>Category</th> -->
-                                    <th>Article ID</th>
+                                    <th>Particular Name</th>
                                     <th>Pay To</th>
                                     <th>Payment Method</th>
                                     {{-- <th>Notes</th> --}}
@@ -394,20 +396,20 @@
         fetchDashboardData(startDate, endDate);
     }
 
-    function updateDashboardWithCustomRange() {
+    function updateDashboardWithCustomRange(print=false) {
         const customStartDate = document.getElementById('customStartDate').value;
         const customEndDate = document.getElementById('customEndDate').value;
 
         if (customStartDate && customEndDate) {
             const startDate = new Date(customStartDate);
             const endDate = new Date(customEndDate);
-            fetchDashboardData(startDate, endDate);
+            fetchDashboardData(startDate, endDate, print);
         } else {
             alert('Please select both start and end dates for the custom range.');
         }
     }
 
-    function fetchDashboardData(startDate, endDate) {
+    function fetchDashboardData(startDate, endDate, print=false) {
         // Convert dates to a suitable format for your backend
         const formattedStartDate = startDate.toISOString().split('T')[0];
         const formattedEndDate = endDate.toISOString().split('T')[0];
@@ -423,8 +425,10 @@
         url += '&approval=' + approval;
         url += '&category_id=' + category_id;
         url += '&payment_method=' + payment_method;
+        url += '&print=' + print;
         
-        window.location.href = url;
+        if(print)window.open(url, '_blank');
+        else window.location.href = url;
 
     }
 </script>

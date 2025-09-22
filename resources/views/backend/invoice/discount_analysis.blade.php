@@ -40,15 +40,27 @@
                     <div class="card-body">
                         <h4 class="card-title">All Invoice </h4>
                         <div class="mb-3">
-                            <form class="row g-2 align-items-center" action="{{route('invoice.discount_analysis')}}" method="get">
-                                <div class="col-md-4 col-12">
-                                    <input type="date" class="form-control" name="from_date" value="{{$request?->from_date ?? date('Y-m-d')}}" placeholder="From Date">
+                            <form id="filter_form" class="row g-2 align-items-center" action="{{route('invoice.discount_analysis')}}" method="get">
+                                <div class="col-md-3 col-12">
+                                    <label for="">From</label>
+                                    <input type="date" class="form-control" name="from_date"  id="from_date" value="{{$request?->from_date ?? ($request?->product_id ? '' : date('Y-m-d'))}}" placeholder="From Date">
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <input type="date" class="form-control" name="to_date" value="{{$request?->to_date ?? date('Y-m-d')}}" placeholder="To Date">
+                                <div class="col-md-3 col-12">
+                                    <label for="">To</label>
+                                    <input type="date" class="form-control" name="to_date" id="to_date" value="{{$request?->to_date ?? ($request?->product_id ? '' : date('Y-m-d'))}}" placeholder="To Date">
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                                <div  class="col-md-3 col-12">
+                                    <label for="">Product</label>
+                                    <select name="product_id" id="product_id" class="form-select">
+                                        <option value="">--Select--</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{$product->id}}" {{$request?->product_id == $product->id ? 'selected' : ''}}>{{$product->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <label for="">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary w-100 ">Submit</button>
                                 </div>
                             </form>
                         </div>
@@ -88,7 +100,11 @@
 
                                             <tr style="background: {{($dx%2) == 0 ? '#eaeaea' : '#ffffff'}};">
                                                 <td>{{ $dx++ }}</td>
-                                                <td>{{ $product->name }} ({{ $productSize['size']->name }})</td>
+                                                <td>
+                                                    <a href="javascript:void(0)" onclick="clickProduct({{$product->id}})">
+                                                        {{ $product->name }} ({{ $productSize['size']->name }})
+                                                    </a>
+                                                </td>
                                                 <td>{{ $productSize->barcode }}</td>
                                                 <td>{{ $invoice->invoice_no }}</td>
                                                 <td>{{$invoice->date }}</td>
@@ -119,5 +135,18 @@
     </div> <!-- container-fluid -->
 </div>
 
+
+<script>
+     $(document).ready(function() {
+        $("#product_id").select2();
+    });
+
+    function clickProduct(id){
+        document.getElementById('product_id').value = id;
+        document.getElementById('from_date').value = '';
+        document.getElementById('to_date').value = '';
+        document.getElementById('filter_form').submit();
+    }
+</script>
 
 @endsection

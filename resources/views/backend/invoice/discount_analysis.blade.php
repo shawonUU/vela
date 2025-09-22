@@ -106,7 +106,15 @@
                                                     </a>
                                                 </td>
                                                 <td>{{ $productSize->barcode }}</td>
-                                                <td>{{ $invoice->invoice_no }}</td>
+                                                <td>
+                                                    @can('invoice-view')
+                                                        <a href="{{ url('print/report') }}/{{$invoice->id }}/3 "  title="Invoice Print">
+                                                            {{ $invoice->invoice_no }}
+                                                        </a>
+                                                    @else
+                                                     {{ $invoice->invoice_no }}
+                                                    @endcan
+                                                </td>
                                                 <td>{{$invoice->date }}</td>
                                                 <td>{{ $invoiceDetails->selling_qty }}</td>
                                                 <td>{{ $buying }}</td>

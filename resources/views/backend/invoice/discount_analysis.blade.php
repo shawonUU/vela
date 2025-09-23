@@ -76,11 +76,37 @@
                                         <th>Qty</th>
                                         <th>Purchase Price</th>
                                         <th>Actual Price</th>
-                                        <th>Discount%</th>
+                                        <th>
+                                            <table >
+                                                <tr>
+                                                    <th style="border-right:none; border-bottom : 1px solid #000;">Discount</th>
+                                                </tr>
+                                                <tr>
+                                                    <th style="border-right:none;">Discount%</th>
+                                                </tr>
+                                            </table>
+                                        </th>
                                         <th>Selling Price</th>
-                                        <th>Profit</th>
-                                        <th>% Of Profit</th>
-                                       
+                                        <th>
+                                            <table >
+                                                <tr>
+                                                    <th style="border-right:none; border-bottom : 1px solid #000;">Profit</th>
+                                                </tr>
+                                                <tr>
+                                                    <th style="border-right:none;">10% Vat</th>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                        <th>
+                                            <table >
+                                                <tr>
+                                                    <th style="border-right:none; border-bottom : 1px solid #000;">% Of Profit</th>
+                                                </tr>
+                                                <tr>
+                                                    <th style="border-right:none;">10% Vat</th>
+                                                </tr>
+                                            </table>
+                                        </th>
                                        
                                 </thead>
                                 <tbody>
@@ -92,10 +118,19 @@
                                                 $productSize = $invoiceDetails->product_size;
                                                 $product = $productSize?->product;
                                                 $buying  = $invoiceDetails->buying_price > 0 ? $invoiceDetails->buying_price : 1;
-                                                $selling = $invoiceDetails->selling_price;
                                                 $actualPrice = $invoiceDetails->selling_qty * $invoiceDetails->unit_price;
+                                                $selling = $invoiceDetails->selling_price;
                                                 $profit  = $selling - $buying;
-                                                $pProfit = round(100 * $profit / $buying) 
+                                                $pProfit = round(100 * $profit / $buying);
+
+                                                $vatP   = round($profit * 0.90); 
+                                                $pVatProfit = round(100 * $vatP / $buying);
+
+                                                if($actualPrice > 0) {
+                                                    $discountPercentage = (($actualPrice - $selling) / $actualPrice) * 100;
+                                                } else {
+                                                    $discountPercentage = 0;
+                                                }
                                             @endphp
 
                                             <tr style="background: {{($dx%2) == 0 ? '#eaeaea' : '#ffffff'}};">
@@ -119,10 +154,37 @@
                                                 <td>{{ $invoiceDetails->selling_qty }}</td>
                                                 <td>{{ $buying }}</td>
                                                 <td>{{ $actualPrice }}</td>
-                                                <td>{{ $invoiceDetails->discount_rate }}</td>
+                                                <td style="padding:0;">
+                                                    <table >
+                                                        <tr>
+                                                            <td  style="border-right:none; border-bottom : 1px solid #000;">{{ $invoiceDetails->discount_amount }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-right:none;">{{ round($discountPercentage) }} %</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                                 <td>{{$selling}}</td>
-                                                <td>{{$profit}}</td>
-                                                <td>{{$pProfit}}</td>
+                                                <td style="padding:0;">
+                                                    <table >
+                                                        <tr>
+                                                            <td style="border-right:none; border-bottom : 1px solid #000;">{{$profit }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-right:none;">{{ $vatP }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td style="padding:0;">
+                                                    <table >
+                                                        <tr>
+                                                            <td style="border-right:none; border-bottom : 1px solid #000;">{{$pProfit }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-right:none;">{{ $pVatProfit }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                             </tr>
                                             
                                         @endforeach

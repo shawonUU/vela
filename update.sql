@@ -113,3 +113,8 @@ ALTER TABLE `payments`
   CHANGE COLUMN `Rocket` `rocket` DOUBLE NOT NULL DEFAULT 0,
   CHANGE COLUMN `Upay` `upay` DOUBLE NOT NULL DEFAULT 0,
   CHANGE COLUMN `SureCash` `surecash` DOUBLE NOT NULL DEFAULT 0;
+
+
+  -- NEXT 
+
+  ALTER TABLE `product_sizes` ADD `fixed_price` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `discounted_price`, ADD `max_discount` INT NULL DEFAULT '0' AFTER `fixed_price`, ADD `offer_discount` INT NULL DEFAULT '0' AFTER `max_discount`, ADD `offer_from` DATE NULL AFTER `offer_discount`, ADD `offer_to` DATE NULL AFTER `offer_from`; 

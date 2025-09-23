@@ -149,6 +149,11 @@ class ProductController extends Controller
                     'discounted_price'     => $request->discounted_price[$index] ?? 0,
                     'wholesell_price'     => $request->wholesell_price[$index] ?? 0,
                     'wholesell_discounted_price'     => $request->wholesell_discounted_price[$index] ?? 0,
+                    'fixed_price' => $request->fiexed_price[$index] ?? 0,
+                    'max_discount' => $request->max_discount[$index] ?? 0,
+                    'offer_discount' => $request->offer_discount[$index] ?? 0,
+                    'offer_from' => $request->offer_from[$index] ?? 0,
+                    'offer_to' => $request->offer_to[$index] ?? 0,
                 ]);
             }
         }

@@ -463,10 +463,10 @@ $org = App\Models\OrgDetails::first();
                     <input type="text" class="form-control unit_price text-right" name="unit_price[]" value="@{{product_price}}" readonly> 
                     <input type="text" class="form-control unit_price_code text-right" name="product_price_code" value="@{{product_price_code}}" readonly>
                     </td>
-                <!-- <td colspan="2">
-                    <input type="text" class="form-control unit_price_code text-right" name="product_price_code" value="@{{product_price_code}}" readonly> 
-                </td> -->
-                <!-- VAT  -->
+                    <!-- <td colspan="2">
+                        <input type="text" class="form-control unit_price_code text-right" name="product_price_code" value="@{{product_price_code}}" readonly> 
+                    </td> -->
+                    <!-- VAT  -->
                     {{--  
                     <td class="discount-row">
                         <select name="product_tax[@{{product_id}}][]" multiple="multiple" class="form-group form-select product_tax">
@@ -495,12 +495,14 @@ $org = App\Models\OrgDetails::first();
                         <input type="text" class="form-control buying_price text-right" id="buying_price" name="buying_price[]" value="0" hidden>
                         <input type="text" class="form-control product_tax_amount text-right" id="" name="product_tax_amount[]" value="0" readonly hidden>
                         <input type="text" class="form-control product_price_for_tax text-right" id="" name="product_price_for_tax[]" value="0" readonly hidden>
+                        <input type="text" class="form-control fixed_price" value="@{{fixed_price}}" name="fixed_price[]" hidden>
+                        <input type="text" class="form-control max_discount_percent" value="@{{max_discount_percent}}" name="max_discount_percent[]" hidden>
                     </td>
 
                     <td style="width:fit-content;">
                         <i class="btn btn-danger btn-sm fas fa-window-close removeeventmore"></i>
                     </td>
-                    </tr>
+                </tr>
             </script>
             <!-- Product row insert in invoice End-->
 
@@ -714,7 +716,17 @@ $org = App\Models\OrgDetails::first();
                             var product_price = discounted_price && discounted_price !== '' ? discounted_price : product_list.selling_price;
                             var product_price_code = product_list.buying_price_code;
                             var quantity = product_list.quantity;
-                            var product_discount = 0;
+                            var fixed_price = product_list.fixed_price;
+                            var max_discount_percent = product_list.max_discount;
+                            if (product_list.fixed_price == '0') {
+                                let today = new Date();
+                                let offerFrom = new Date(product_list.offer_from);
+                                let offerTo   = new Date(product_list.offer_to);
+
+                                if (today >= offerFrom && today <= offerTo) {
+                                    product_discount = parseFloat(product_list.offer_discount) || 0;
+                                }
+                            }
                             var product_buying_price = product_list.buying_price ? product_list.buying_price : 0;
                             if (quantity == 0) {
                                 $.notify("Product is out of stock.", {
@@ -760,6 +772,8 @@ $org = App\Models\OrgDetails::first();
                                 brand_name: brand_name,
                                 size_name: size_name,
                                 product_discount: product_discount,
+                                fixed_price:fixed_price,
+                                max_discount_percent:max_discount_percent,
                             };
 
                             var html = template(data);
@@ -875,7 +889,33 @@ $org = App\Models\OrgDetails::first();
                         let discount = parseFloat(row.find("input.discount_rate").val()) || 0;
                         let isFixedDiscount = row.find('.discount_per_product').is(':checked');
                         let discountLabel = row.find('.discount_label');
+                        let maxDiscountPercent = parseFloat(row.find("input.max_discount_percent").val()) || 0;
+                        let fixedPrice = parseFloat(row.find("input.fixed_price").val()) || 0;
                         let totalDiscount = 0;
+
+                        if(fixedPrice=='1'){
+                            discount = 0;
+                        }else{
+                            let finalDiscount = 0;
+                            if (isFixedDiscount) {
+                                let discountPercent = (discount / unitPrice) * 100;
+
+                                if (discountPercent > maxDiscountPercent) {
+                                    finalDiscount = (unitPrice * maxDiscountPercent) / 100;
+                                } else {
+                                    finalDiscount = discount;
+                                }
+                            } else {
+                                if (discount > maxDiscountPercent) {
+                                    finalDiscount = maxDiscountPercent;
+                                } else {
+                                    finalDiscount = discount;
+                                }
+                            }
+
+                            discount = finalDiscount;
+                        }
+                        row.find("input.discount_rate").val(discount);
 
                         // Calculate discount per product
                         if (!isNaN(discount)) {

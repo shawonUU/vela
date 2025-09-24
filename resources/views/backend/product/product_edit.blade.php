@@ -211,6 +211,37 @@
                                         <input name="wholesell_discounted_price[]" class="form-control wholesale_offer" type="text" value="{{$variant->wholesell_discounted_price}}">
                                     </div>
 
+                                    <div class="form-group col-sm-6">
+                                        <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fixed_price[]" {{$variant->fixed_price ? 'checked'  : ''}}> <label for="" class="mb-2">Fiexed Price</label>
+                                    </div>
+
+
+                                    <hr style="margin: 10px; height: 2px;">
+
+                                    <div class="form-group col-12">
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Max Discount%</label>
+                                                <input name="max_discount[]" class="form-control" type="number" placeholder="Max Discount" min="0" max="100" value="{{$variant->max_discount}}">
+                                            </div>
+                                            
+                                            <div class="form-group col-sm-6">
+                                                <label>Offer Discount%</label>
+                                                <input name="offer_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100"value="{{$variant->offer_discount}}">
+                                            </div>
+
+                                            <div class="form-group col-sm-6">
+                                                <label for="example-text-input">Offer From</label>
+                                                <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From" value="{{$variant->offer_from}}">
+                                            </div>
+
+                                            <div class="form-group col-sm-6">
+                                                <label for="example-text-input">Offer To</label>
+                                                <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To" value="{{$variant->offer_to}}">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Remove Button -->
                                     <div class="form-group col-sm-12 text-end pt-2">
                                         <button type="button" class="btn btn-danger btn-sm removeVariantRow">Remove</button>
@@ -389,6 +420,37 @@
                 <div class="form-group col-sm-6"><label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
                     <input type="range" min="0" max="100" value="0" class="form-control-range wholesaleOfferRange">
                     <input name="wholesell_discounted_price[]" class="form-control wholesale_offer" type="text" value="0" >
+                </div>
+
+                 <div class="form-group col-sm-6">
+                    <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fixed_price[]"> <label for="" class="mb-2">Fiexed Price</label>
+                </div>
+
+
+                <hr style="margin: 10px; height: 2px;">
+
+                <div class="form-group col-12">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Max Discount%</label>
+                            <input name="max_discount[]" class="form-control" type="number" placeholder="Max Discount" min="0" max="100" value="0">
+                        </div>
+                        
+                        <div class="form-group col-sm-6">
+                            <label>Offer Discount%</label>
+                            <input name="offer_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100" value="0">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label for="example-text-input">Offer From</label>
+                            <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label for="example-text-input">Offer To</label>
+                            <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group col-sm-12 text-end pt-2">

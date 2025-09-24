@@ -149,7 +149,7 @@ class ProductController extends Controller
                     'discounted_price'     => $request->discounted_price[$index] ?? 0,
                     'wholesell_price'     => $request->wholesell_price[$index] ?? 0,
                     'wholesell_discounted_price'     => $request->wholesell_discounted_price[$index] ?? 0,
-                    'fixed_price' => $request->fiexed_price[$index] ?? 0,
+                    'fixed_price' => is_numeric($request->fiexed_price[$index] ?? 0) ? $request->fiexed_price[$index] : 0,
                     'max_discount' => $request->max_discount[$index] ?? 0,
                     'offer_discount' => $request->offer_discount[$index] ?? 0,
                     'offer_from' => $request->offer_from[$index] ?? 0,
@@ -272,7 +272,14 @@ class ProductController extends Controller
                 'discounted_price' => $request->discounted_price[$index] ?? 0,
                 'wholesell_price' => $request->wholesell_price[$index] ?? 0,
                 'wholesell_discounted_price' => $request->wholesell_discounted_price[$index] ?? 0,
+                'fixed_price' => (int)($request->fixed_price[$index] ?? 0),
+                'max_discount' => $request->max_discount[$index] ?? 0,
+                'offer_discount' => $request->offer_discount[$index] ?? 0,
+                'offer_from' => $request->offer_from[$index] ?? null,
+                'offer_to' => $request->offer_to[$index] ?? null,
             ];
+
+            // return $sizeData;
 
             if ($psId === 0) {
                 ProductSize::create($sizeData);

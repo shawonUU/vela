@@ -250,7 +250,7 @@
                             </div>
 
                             <div class="form-group col-sm-6">
-                                <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fiexed_price"> <label for="" class="mb-2">Fiexed Price</label>
+                                <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fixed_price[]"> <label for="" class="mb-2">Fiexed Price</label>
                             </div>
 
 
@@ -259,23 +259,23 @@
                             <div class="form-group col-12">
                                 <div class="row">
                                     <div class="form-group col-sm-6">
-                                        <label>Max Discount</label>
+                                        <label>Max Discount%</label>
                                         <input name="max_discount[]" class="form-control" type="number" placeholder="Max Discount" min="0" max="100" value="0">
                                     </div>
                                     
                                     <div class="form-group col-sm-6">
-                                        <label>Offer Discount</label>
-                                        <input name="default_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100" value="0">
+                                        <label>Offer Discount%</label>
+                                        <input name="offer_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100" value="0">
                                     </div>
 
                                     <div class="form-group col-sm-6">
                                         <label for="example-text-input">Offer From</label>
-                                        <input name="offer_from" class="form-control" type="date" autocomplete="off" placeholder="Offer From">
+                                        <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From">
                                     </div>
 
                                     <div class="form-group col-sm-6">
                                         <label for="example-text-input">Offer To</label>
-                                        <input name="offer_to" class="form-control" type="date" autocomplete="off" placeholder="Offer To">
+                                        <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To">
                                     </div>
                                 </div>
                             </div>
@@ -513,29 +513,29 @@
                 </div>
 
                  <div class="form-group col-sm-6">
-                    <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fiexed_price"> <label for="" class="mb-2">Fiexed Price</label>
+                    <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fixed_price[]"> <label for="" class="mb-2">Fiexed Price</label>
                 </div>
                 <hr style="margin: 10px; height: 2px;">
                 <div class="form-group col-12">
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>Max Discount</label>
+                            <label>Max Discount%</label>
                             <input name="max_discount[]" class="form-control" type="number" placeholder="Max Discount" min="0" max="100" value="0">
                         </div>
                         
                         <div class="form-group col-sm-6">
-                            <label>Offer Discount</label>
-                            <input name="default_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100" value="0">
+                            <label>Offer Discount%</label>
+                            <input name="offer_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100" value="0">
                         </div>
 
                         <div class="form-group col-sm-6">
                             <label for="example-text-input">Offer From</label>
-                            <input name="offer_from" class="form-control" type="date" autocomplete="off" placeholder="Offer From">
+                            <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From">
                         </div>
 
                         <div class="form-group col-sm-6">
                             <label for="example-text-input">Offer To</label>
-                            <input name="offer_to" class="form-control" type="date" autocomplete="off" placeholder="Offer To">
+                            <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To">
                         </div>
                     </div>
                 </div>

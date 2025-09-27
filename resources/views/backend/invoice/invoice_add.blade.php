@@ -718,6 +718,7 @@ $org = App\Models\OrgDetails::first();
                             var quantity = product_list.quantity;
                             var fixed_price = product_list.fixed_price;
                             var max_discount_percent = product_list.max_discount;
+                            var product_discount = 0;
                             if (product_list.fixed_price == '0') {
                                 let today = new Date();
                                 let offerFrom = new Date(product_list.offer_from);

@@ -294,7 +294,8 @@ class InvoiceController extends Controller
             }
             // Handle New or Existing Customer NEW VERSION
             if (empty($request->mobile_no) && empty($request->name) && empty($request->email)) {
-                $customer_id = random_int(1000, 9999); // Generate a random customer ID for walking customers
+                //$customer_id = random_int(1000, 9999); // Generate a random customer ID for walking customers
+                $customer_id = 400;
             } else if (!empty($request->mobile_no)) {
                 $customer = Customer::where('mobile_no', $request->mobile_no)->first();
                 if ($customer) {
@@ -616,7 +617,8 @@ class InvoiceController extends Controller
             $payment = Payment::where('invoice_id', $invoice->id)->first();
             // Handle New or Existing Customer NEW VERSION
             if (empty($request->mobile_no) && empty($request->name) && empty($request->email)) {
-                $customer_id = random_int(1000, 9999); // Generate a random customer ID for walking customers
+                //$customer_id = random_int(1000, 9999); // Generate a random customer ID for walking customers
+                $customer_id = 400;
             } else if (!empty($request->mobile_no)) {
                 $customer = Customer::where('mobile_no', $request->mobile_no)->first();
                 if ($customer) {

@@ -56,8 +56,10 @@ class ProductController extends Controller
     // Save Product insert form to Database
     public function ProductStore(Request $request)
     {
+        
         // dd($request->all());
         // Validate the request
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'product_sort_name' => 'nullable|string|max:255',
@@ -149,7 +151,7 @@ class ProductController extends Controller
                     'discounted_price'     => $request->discounted_price[$index] ?? 0,
                     'wholesell_price'     => $request->wholesell_price[$index] ?? 0,
                     'wholesell_discounted_price'     => $request->wholesell_discounted_price[$index] ?? 0,
-                    'fixed_price' => is_numeric($request->fiexed_price[$index] ?? 0) ? $request->fiexed_price[$index] : 0,
+                    'fixed_price' => isset($request->fixed_price[$index]) ? ($request->fixed_price[$index] == 'on' ? '1' : '0') : '0',
                     'max_discount' => $request->max_discount[$index] ?? 0,
                     'offer_discount' => $request->offer_discount[$index] ?? 0,
                     'offer_from' => $request->offer_from[$index] ?? 0,
@@ -272,7 +274,7 @@ class ProductController extends Controller
                 'discounted_price' => $request->discounted_price[$index] ?? 0,
                 'wholesell_price' => $request->wholesell_price[$index] ?? 0,
                 'wholesell_discounted_price' => $request->wholesell_discounted_price[$index] ?? 0,
-                'fixed_price' => (int)($request->fixed_price[$index] ?? 0),
+                'fixed_price' => isset($request->fixed_price[$index]) ? ($request->fixed_price[$index] == 'on' ? '1' : '0') : '0',
                 'max_discount' => $request->max_discount[$index] ?? 0,
                 'offer_discount' => $request->offer_discount[$index] ?? 0,
                 'offer_from' => $request->offer_from[$index] ?? null,

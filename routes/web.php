@@ -38,6 +38,7 @@ use App\Http\Controllers\Pos\DeliveryzoneController;
 use App\Http\Controllers\ProductLabelsPrintController;
 use App\Http\Controllers\Pos\PurchasePaymentController;
 use App\Http\Controllers\pos\ProductPriceCodeController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,15 @@ use App\Http\Controllers\pos\ProductPriceCodeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/cache-clear', function () {
+    Artisan::call('permission:cache-reset');
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    return response()->json([
+        'message' => '✅ Permission cache, app cache & config cache cleared successfully.'
+    ]);
+});
 
 Route::middleware(['business_day'])->group(function () {
 

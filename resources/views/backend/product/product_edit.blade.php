@@ -400,25 +400,25 @@
 
                 <!-- Retail Price -->
                 <div class="form-group col-sm-6"><label>Retail Markup <span class="retailMarkupValue">0%</span></label>
-                    <input type="range" min="0" max="100" value="0" class="form-control-range retailMarkupRange">
+                    <input type="number" min="0" max="100" value="0" class="form-control-range retailMarkupRange">
                     <input name="selling_prices[]" class="form-control selling_price" type="text" value="0" >
                 </div>
 
                 <!-- Retail Offer -->
                 <div class="form-group col-sm-6"><label>Retail Offer Markup <span class="retailOfferValue">0%</span></label>
-                    <input type="range" min="0" max="100" value="0" class="form-control-range retailOfferRange">
+                    <input type="number" min="0" max="100" value="0" class="form-control-range retailOfferRange">
                     <input name="discounted_price[]" class="form-control retail_offer" type="text" value="0" >
                 </div>
 
                 <!-- Wholesale -->
                 <div class="form-group col-sm-6"><label>Wholesale Markup <span class="wholesaleMarkupValue">0%</span></label>
-                    <input type="range" min="0" max="100" value="0" class="form-control-range wholesaleMarkupRange">
+                    <input type="number" min="0" max="100" value="0" class="form-control-range wholesaleMarkupRange">
                     <input name="wholesell_price[]" class="form-control wholesale_price" type="text" value="0" >
                 </div>
 
                 <!-- Wholesale Offer -->
                 <div class="form-group col-sm-6"><label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
-                    <input type="range" min="0" max="100" value="0" class="form-control-range wholesaleOfferRange">
+                    <input type="number" min="0" max="100" value="0" class="form-control-range wholesaleOfferRange">
                     <input name="wholesell_discounted_price[]" class="form-control wholesale_offer" type="text" value="0" >
                 </div>
 

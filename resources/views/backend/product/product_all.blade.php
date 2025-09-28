@@ -43,9 +43,16 @@
                             <thead>
                                 <tr>
                                     <th width="20px;">#</th>
-                                    <th>Image</th>
+                                    <!-- <th>Image</th> -->
                                     <th>Name</th>
-                                    <th>Size(Selling Price)</th>
+                                    <th class="">
+                                        <table class="w-100 table-bordered">
+                                            <tr style="">
+                                                <th > Size</th>
+                                                <th >Selling Price</th>
+                                            </tr>
+                                        </table>
+                                    </th>
                                     <th>Brand</th>
                                     <th>Category</th>
                                     <th width="30px;">Action</th>
@@ -54,25 +61,32 @@
                                 @foreach($products as $key => $item)
                                 <tr>
                                     <td> {{ $key+1}} </td>
-                                    <td>
+                                    <!-- <td>
                                         <img class="rounded"
                                             src="{{ !empty($item->product_image) && file_exists(public_path($item->product_image)) 
                 ? asset($item->product_image) 
                 : asset('upload/no_image.png') }}"
                                             style="width:50px; height:50px;">
-                                    </td>
+                                    </td> -->
 
                                     <td> {{ $item->name }} </td>
                                     <td>
-                                        @foreach ($item['productSizes'] as $key => $tem)
-                                        {{ $tem['size']->name.' ('.$tem->selling_price.' TK)' }}@if (!$loop->last), @endif
-                                        @endforeach
+                                        <table class="w-100">
+                                            @foreach ($item['productSizes'] as $key => $tem)
+                                            <tr style="border-bottom : 1px solid #000;">
+                                                <td style="border-right:none; ">{{$tem['size']->name}}</td>
+                                                <td style="border-right:none;">{{$tem->selling_price}} TK</td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
+                                        
                                     </td>
 
                                     <td> {{ !empty($item['brand']['name'])?$item['brand']['name']:'Null' }} </td>
                                     <td> {{ (!empty($item['category']['name'])?$item['category']['name']:'Null') }}</td>
                                     <!-- <td> {!! (!empty($item->product_code)?DNS1D::getBarcodeHTML($item->product_code,"PHARMA"):"Null") !!} </td>  -->
                                     <td>
+                                        <a href="{{route('product.edit',$item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-eye"></i> </a>
                                         @can('product-edit')
                                         <a href="{{route('product.edit',$item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
                                         @endcan

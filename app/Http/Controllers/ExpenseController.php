@@ -24,6 +24,7 @@ class ExpenseController extends Controller
         $category_id = $request->get('category_id');
         $payment_method = $request->get('payment_method');
         $approval = $request->get('approval');
+        $payto_user_id = $request->get('payto_user_id');
         if ($request->get('startDate') && $request->get('endDate')) {
             $startDate = Carbon::parse($request->get('startDate'));
             $endDate = Carbon::parse($request->get('endDate'));
@@ -37,6 +38,8 @@ class ExpenseController extends Controller
 
         $categories = ExpenseCategory::where('status','1')->get();
 
+        $payToUsers = PayToUser::latest()->get();
+
 
         if ($approval != "") {
             $expenses = $expenses->where('is_approved', $approval);
@@ -49,6 +52,10 @@ class ExpenseController extends Controller
             $expenses = $expenses->where('category_id', $category_id);
         }
 
+        if($payto_user_id != "" ){
+            $expenses = $expenses->where('pay_to', $payto_user_id);
+        }
+
         $expenses = $expenses->with(['category', 'creator', 'updater', 'article','payTo'])->latest()->get();
 
         $totalExpanseAmount            = $expenses->sum('amount');
@@ -56,8 +63,8 @@ class ExpenseController extends Controller
         $totalExpanse                  = $expenses->count();
         $totalNoApprovedExpanse        = $expenses->where('is_approved', '0')->count();
 
-        if($request->print == 'true') return view('backend.expense.expense_pdf', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories'));
-        else return view('backend.expense.index', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories'));
+        if($request->print == 'true') return view('backend.expense.expense_pdf', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories','payToUsers'));
+        else return view('backend.expense.index', compact('request','totalExpanseAmount', 'totalNoApprovedExpanseAmount', 'totalExpanse', 'totalNoApprovedExpanse', 'expenses', 'filter', 'approval', 'show_start_date', 'show_end_date','categories','payToUsers'));
     }
 
     /**

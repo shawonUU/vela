@@ -101,6 +101,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-12 col-md-2">
+                        <label for="payto_user_id" class="form-label">Pay To</label>
+                        <select name="payto_user_id" id="payto_user_id" class="form-select">
+                            <option value="">Select</option>
+                            @foreach ($payToUsers as $item)
+                                <option value="{{$item->id}}" {{ ($request?->payto_user_id == $item->id ? 'selected' : '') }}>{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="col-12 col-md-2 col-lg-1">
                         <label for="customEndDate" class="form-label"></label>
                         <button type="button" class="btn btn-dark mt-3" style="height: 40px;" onclick="updateDashboardWithCustomRange()">
@@ -417,6 +426,8 @@
         const approval = document.getElementById('approval').value;
         const category_id = document.getElementById('category_id').value;
         const payment_method = document.getElementById('payment_method').value;
+        const payto_user_id = document.getElementById('payto_user_id').value;
+        
         // alert(formattedStartDate + formattedEndDate);
         var url = '{{ url()->current() }}?'
         url += '&startDate=' + formattedStartDate;
@@ -425,6 +436,7 @@
         url += '&approval=' + approval;
         url += '&category_id=' + category_id;
         url += '&payment_method=' + payment_method;
+        url += '&payto_user_id=' + payto_user_id;
         url += '&print=' + print;
         
         if(print)window.open(url, '_blank');

@@ -45,57 +45,43 @@
                                     <th width="20px;">#</th>
                                     <!-- <th>Image</th> -->
                                     <th>Name</th>
-                                    <th class="">
-                                        <table class="w-100 table-bordered">
-                                            <tr style="">
-                                                <th > Size</th>
-                                                <th >Selling Price</th>
-                                            </tr>
-                                        </table>
-                                    </th>
+                                    <th>Barcode</th>
+                                    <th> Size</th>
+                                    <th>Selling Price</th>
                                     <th>Brand</th>
                                     <th>Category</th>
                                     <th width="30px;">Action</th>
                             </thead>
                             <tbody>
+                                @php $dx=0; @endphp
                                 @foreach($products as $key => $item)
-                                <tr>
-                                    <td> {{ $key+1}} </td>
-                                    <!-- <td>
-                                        <img class="rounded"
-                                            src="{{ !empty($item->product_image) && file_exists(public_path($item->product_image)) 
-                ? asset($item->product_image) 
-                : asset('upload/no_image.png') }}"
-                                            style="width:50px; height:50px;">
-                                    </td> -->
+                                    @foreach ($item['productSizes'] as $key => $tem)
+                                        <tr>
+                                            <td> {{ $dx++ }} </td>
+                                            <!-- <td>
+                                                <img class="rounded" src="{{ !empty($item->product_image) && file_exists(public_path($item->product_image)) ? asset($item->product_image) : asset('upload/no_image.png') }}" style="width:50px; height:50px;">
+                                            </td> -->
+                                            <td> {{ $item->name }} </td>
+                                            <td> {{ $tem->barcode }} </td>
+                                            <td style="border-right:none; ">{{$tem['size']->name}}</td>
+                                            <td style="border-right:none;">{{$tem->selling_price}} TK</td>
+                                            <td> {{ !empty($item['brand']['name'])?$item['brand']['name']:'Null' }} </td>
+                                            <td> {{ (!empty($item['category']['name'])?$item['category']['name']:'Null') }}</td>
+                                            <!-- <td> {!! (!empty($item->product_code)?DNS1D::getBarcodeHTML($item->product_code,"PHARMA"):"Null") !!} </td>  -->
+                                            <td>
+                                                @can('product-details')
+                                                    <a href="{{route('product.show',$item->id)}}" class="btn btn-info sm" title="Show Data"> <i class="fas fa-eye"></i> </a>
+                                                @endcan
+                                                @can('product-edit')
+                                                <a href="{{route('product.edit',$item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
+                                                @endcan
+                                                @can('product-delete')
+                                                <a href="{{route('product.delete',$item->id)}}" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
+                                                @endcan
+                                            </td>
 
-                                    <td> {{ $item->name }} </td>
-                                    <td>
-                                        <table class="w-100">
-                                            @foreach ($item['productSizes'] as $key => $tem)
-                                            <tr style="border-bottom : 1px solid #000;">
-                                                <td style="border-right:none; ">{{$tem['size']->name}}</td>
-                                                <td style="border-right:none;">{{$tem->selling_price}} TK</td>
-                                            </tr>
-                                            @endforeach
-                                        </table>
-                                        
-                                    </td>
-
-                                    <td> {{ !empty($item['brand']['name'])?$item['brand']['name']:'Null' }} </td>
-                                    <td> {{ (!empty($item['category']['name'])?$item['category']['name']:'Null') }}</td>
-                                    <!-- <td> {!! (!empty($item->product_code)?DNS1D::getBarcodeHTML($item->product_code,"PHARMA"):"Null") !!} </td>  -->
-                                    <td>
-                                        <a href="{{route('product.edit',$item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-eye"></i> </a>
-                                        @can('product-edit')
-                                        <a href="{{route('product.edit',$item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
-                                        @endcan
-                                        @can('product-delete')
-                                        <a href="{{route('product.delete',$item->id)}}" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
-                                        @endcan
-                                    </td>
-
-                                </tr>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
 
 

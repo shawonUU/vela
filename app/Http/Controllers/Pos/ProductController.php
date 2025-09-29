@@ -180,6 +180,18 @@ class ProductController extends Controller
     } //End Method
 
 
+    public function ProductShow($id){
+        $supplier = Supplier::all();
+        $category = Category::all();
+        $brands   = Brand::all();
+        $unit     = Unit::all();
+        $productPriceCode = ProductPriceCodes::all();
+        $size = Size::all();
+        $fabrics = Fabric::all();
+        $product = Product::findOrFail($id);
+        return view('backend.product.product_show', compact('product', 'supplier', 'category', 'unit', 'brands', 'productPriceCode', 'size', 'fabrics'));
+    }
+
 
     // Product Edit form
     public function ProductEdit($id)

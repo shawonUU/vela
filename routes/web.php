@@ -302,6 +302,7 @@ Route::middleware(['business_day'])->group(function () {
             Route::get('/product/delete/{id}', 'ProductDelete')->name('product.delete');
             Route::get('/get-product-product', 'getProductSizes')->name('get.product.sizes');
             Route::get('/product/discount/analysis', 'discountAnalysis')->name('product.discount_analysis');
+            Route::get('/product/show/{id}', 'ProductShow')->name('product.show');
             
         });
         // Product Price code All Route

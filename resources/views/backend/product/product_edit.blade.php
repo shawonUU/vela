@@ -187,31 +187,71 @@
                                     </div>
 
                                     <!-- Retail Price -->
-                                    <div class="form-group col-sm-6"><label>Retail Markup<span class="retailMarkupValue">0%</span></label>
-                                        
-                                        <input type="number" min="0" max="100" value="{{$retail??0}}" class="form-control-range retailMarkupRange">
-                                        <input name="selling_prices[]" class="form-control selling_price" type="text">
+                                    <div class="form-group col-sm-6">
+
+                                        <div class="card my-2">
+                                            <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                            <label>Retail Markup <span class="retailMarkupValue">0%</span></label>
+                                                            <hr class="m-0">
+                                                            <label for="" >Retail Price</label>
+                                                            <input type="number" min="0" max="100" value="{{$retail??0}}" class="form-control retailMarkupRange">
+                                                            <input name="selling_prices[]" class="form-control selling_price" type="text" value="0" >
+                                                    </div>
+                                                    <div class="col-6">
+                                                            <label for="">Profit</label>
+                                                            <hr class="m-0">
+                                                            <label for="" >Vat 10%</label>
+                                                            <input type="number" class="form-control retailProfitShow" value="0" readonly>
+                                                            <input  type="text" class="form-control vatRetailProfitShow" value="0" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
                                     </div>
 
                                     <!-- Retail Offer -->
-                                    <div class="form-group col-sm-6"><label>Retail Offer Markup <span class="retailOfferValue">0%</span></label>
+                                    <div class="form-group col-sm-6 d-none"><label>Retail Offer Markup <span class="retailOfferValue">0%</span></label>
                                         <input type="number" min="0" max="100" value="{{$retailOffer??0}}" class="form-control-range retailOfferRange">
                                         <input name="discounted_price[]" class="form-control retail_offer" type="text" value="{{$variant->discounted_price}}">
                                     </div>
 
                                     <!-- Wholesale -->
-                                    <div class="form-group col-sm-6"><label>Wholesale Markup <span class="wholesaleMarkupValue">0%</span></label>
-                                        <input type="number" min="0" max="100" value="{{ $wholesale??0}}" class="form-control-range wholesaleMarkupRange">
-                                        <input name="wholesell_price[]" class="form-control wholesale_price" type="text" value="{{$variant->wholesell_price}}">
+                                    <div class="form-group col-sm-6">
+
+                                        <div class="card my-2">
+                                            <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                            <label>Wholesale Markup <span class="wholesaleMarkupValue">0%</span></label>
+                                                            <hr class="m-0">
+                                                            <label for="" >Wholesale Price</label>
+                                                            <input type="number" min="0" max="100" value="{{ $wholesale??0}}" class="form-control -range wholesaleMarkupRange">
+                                                            <input name="wholesell_price[]" class="form-control wholesale_price" type="text" value="{{$variant->wholesell_price}}" >
+                                                    </div>
+                                                    <div class="col-6">
+                                                            <label for="">Profit</label>
+                                                            <hr class="m-0">
+                                                            <label for="" >Vat 10%</label>
+                                                            <input type="number" class="form-control wholesaleProfitShow" value="0" readonly>
+                                                            <input  type="text" class="form-control vatWholesaleProfitShow" value="0" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <!-- Wholesale Offer -->
-                                    <div class="form-group col-sm-6"><label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
+                                    <div class="form-group col-sm-6 d-none">
+                                        <label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
                                         <input type="number" min="0" max="100" value="{{$wholesaleOffer??0}}" class="form-control-range wholesaleOfferRange">
                                         <input name="wholesell_discounted_price[]" class="form-control wholesale_offer" type="text" value="{{$variant->wholesell_discounted_price}}">
                                     </div>
 
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-12">
                                         <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fixed_price[]" {{$variant->fixed_price ? 'checked'  : ''}}> <label for="" class="mb-2">Fiexed Price</label>
                                     </div>
 
@@ -221,24 +261,60 @@
                                     <div class="form-group col-12">
                                         <div class="row">
                                             <div class="form-group col-sm-6">
-                                                <label>Max Discount%</label>
-                                                <input name="max_discount[]" class="form-control" type="number" placeholder="Max Discount" min="0" max="100" value="{{$variant->max_discount}}">
+
+                                                <div class="card my-2">
+                                                    <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                    <label>Max Discount%</label>
+                                                                    <hr class="m-0">
+                                                                    <label for="" >&nbsp;</label>
+                                                                    <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="{{$variant->max_discount}}">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                    <label for="">Profit</label>
+                                                                    <hr class="m-0">
+                                                                    <label for="" >Vat 10%</label>
+                                                                    <input type="number" class="form-control maxDiscountShow" value="0" readonly>
+                                                                    <input  type="text" class="form-control vatMaxDiscountShow" value="0" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             
                                             <div class="form-group col-sm-6">
-                                                <label>Offer Discount%</label>
-                                                <input name="offer_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100"value="{{$variant->offer_discount}}">
+
+                                                <div class="card my-2">
+                                                    <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                    <label>Offer Discount%</label>
+                                                                    <hr class="m-0">
+                                                                    <label for="" >&nbsp;</label>
+                                                                    <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0" max="100" value="{{$variant->offer_discount}}">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                    <label for="">Profit</label>
+                                                                    <hr class="m-0">
+                                                                    <label for="" >Vat 10%</label>
+                                                                    <input type="number" class="form-control offerDiscountShow" value="0" readonly>
+                                                                    <input  type="text" class="form-control vatOfferDiscountShow" value="0" readonly>
+                                                            </div>
+                                                            <div class="form-group col-sm-6">
+                                                                <label for="example-text-input">Offer From</label>
+                                                                <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From" value="{{$variant->offer_from}}">
+                                                            </div>
+                                                            <div class="form-group col-sm-6">
+                                                                <label for="example-text-input">Offer To</label>
+                                                                <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To" value="{{$variant->offer_to}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
 
-                                            <div class="form-group col-sm-6">
-                                                <label for="example-text-input">Offer From</label>
-                                                <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From" value="{{$variant->offer_from}}">
-                                            </div>
-
-                                            <div class="form-group col-sm-6">
-                                                <label for="example-text-input">Offer To</label>
-                                                <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To" value="{{$variant->offer_to}}">
-                                            </div>
                                         </div>
                                     </div>
 
@@ -283,11 +359,11 @@
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update </button>
                                 </div>
                             </div>
-                    </div>
-                </div>
-            </div> <!-- end col -->
+                                </div>
+                            </div>
+                            </div> <!-- end col -->
 
-            </form>
+                        </form>
         </div>
     </div>
 </div>
@@ -320,42 +396,85 @@
                 retailOffer: $row.find('.retailOfferRange'),
                 wholesale: $row.find('.wholesaleMarkupRange'),
                 wholesaleOffer: $row.find('.wholesaleOfferRange'),
+                offerDiscount: $row.find('.offerDiscount'),
+                maxDiscount: $row.find('.maxDiscount')
             };
 
             const outputs = {
                 retail: $row.find('.selling_price'),
                 retailOffer: $row.find('.retail_offer'),
                 wholesale: $row.find('.wholesale_price'),
-                wholesaleOffer: $row.find('.wholesale_offer'),
+                wholesaleOffer: $row.find('.wholesale_offer')
             };
 
             const labels = {
                 retail: $row.find('.retailMarkupValue'),
                 retailOffer: $row.find('.retailOfferValue'),
                 wholesale: $row.find('.wholesaleMarkupValue'),
-                wholesaleOffer: $row.find('.wholesaleOfferValue'),
+                wholesaleOffer: $row.find('.wholesaleOfferValue')
+            };
+
+            const profits = {
+                retail: {
+                    profit: $row.find('.retailProfitShow'),
+                    vatProfit: $row.find('.vatRetailProfitShow')
+                },
+                wholesale: {
+                    profit: $row.find('.wholesaleProfitShow'),
+                    vatProfit: $row.find('.vatWholesaleProfitShow')
+                },
+                offerDiscount: {
+                    profit: $row.find('.offerDiscountShow'),
+                    vatProfit: $row.find('.vatOfferDiscountShow')
+                },
+                maxDiscount: {
+                    profit: $row.find('.maxDiscountShow'),
+                    vatProfit: $row.find('.vatMaxDiscountShow')
+                }
             };
 
             function calculate(type) {
                 const buying = parseFloat($buying.val()) || 0;
-                const percent = parseInt(ranges[type].val()) || 0;
+                let percent = 0;
+                let selling = 0;
 
-                if (percent === 0 || buying === 0) {
-                    outputs[type].val(0);
-                } else {
-                    const value = customRound(buying + (buying * percent / 100));
-                    outputs[type].val(value);
+                // Markup type (retail, wholesale, etc.)
+                if (ranges[type] && outputs[type]) {
+                    percent = parseFloat(ranges[type].val()) || 0;
+                    if (percent === 0 || buying === 0) {
+                        outputs[type].val(0);
+                    } else {
+                        selling = customRound(buying + (buying * percent / 100));
+                        outputs[type].val(selling);
+                    }
+                    if (labels[type]) labels[type].text(percent + '%');
                 }
 
-                labels[type].text(percent + '%');
+                if (type === "offerDiscount" || type === "maxDiscount") {
+                    percent = parseFloat(ranges[type].val()) || 0;
+                    const retailSelling = parseFloat(outputs.retail.val()) || 0;
+                    if (retailSelling > 0 && percent > 0) {
+                        selling = customRound(retailSelling - (retailSelling * percent / 100));
+                    } else {
+                        selling = retailSelling;
+                    }
+                }
+
+                // Profit & Vat Profit হিসাব
+                if (profits[type]) {
+                    const profit = customRound(selling - buying);
+                    const vatProfit = customRound(profit - (profit * 0.10));
+                    profits[type].profit.val(profit);
+                    profits[type].vatProfit.val(vatProfit);
+                }
             }
 
             function bindEvents(type) {
-                ranges[type].on('input change', () => calculate(type));
+                if (ranges[type]) ranges[type].on('input change', () => calculate(type));
                 $buying.on('input', () => calculate(type));
             }
 
-            ['retail', 'retailOffer', 'wholesale', 'wholesaleOffer'].forEach(type => {
+            ['retail', 'retailOffer', 'wholesale', 'wholesaleOffer', 'offerDiscount', 'maxDiscount'].forEach(type => {
                 bindEvents(type);
                 calculate(type);
             });
@@ -363,7 +482,7 @@
 
         // Color field name update (indexed)
         function updateColorFieldNames() {
-            $('#variantContainer .variantRow').each(function(index) {
+            $('#variantContainer .variantRow').each(function (index) {
                 $(this).find('.colors').attr('name', `colors[${index}][]`);
             });
         }
@@ -372,7 +491,6 @@
         function createVariantRow() {
             const html = `
             <div class="row mb-3 variantRow border p-3 rounded">
-                <input name="product_size_id[]" class="form-control" type="number" value="0" readonly hidden>
                 <div class="form-group col-sm-2">
                     <label>Size</label>
                     <select class="form-select" name="sizes[]" required>
@@ -399,56 +517,125 @@
                 <div class="form-group col-sm-6"><label>Price Code</label><input name="price_codes[]" class="form-control" type="text" readonly></div>
 
                 <!-- Retail Price -->
-                <div class="form-group col-sm-6"><label>Retail Markup <span class="retailMarkupValue">0%</span></label>
-                    <input type="number" min="0" max="100" value="0" class="form-control-range retailMarkupRange">
-                    <input name="selling_prices[]" class="form-control selling_price" type="text" value="0" >
+                <div class="form-group col-sm-6">
+
+                    <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                        <div class="row">
+                            <div class="col-6">
+                                    <label>Retail Markup <span class="retailMarkupValue">0%</span></label>
+                                    <hr class="m-0">
+                                    <label for="" >Retail Price</label>
+                                    <input type="number" min="0" max="100" value="0" class="form-control retailMarkupRange">
+                                    <input name="selling_prices[]" class="form-control selling_price" type="text" value="0" >
+                            </div>
+                            <div class="col-6">
+                                    <label for="">Profit</label>
+                                    <hr class="m-0">
+                                    <label for="" >Vat 10%</label>
+                                    <input type="number" class="form-control retailProfitShow" value="0" readonly>
+                                    <input  type="text" class="form-control vatRetailProfitShow" value="0" readonly>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Retail Offer -->
-                <div class="form-group col-sm-6"><label>Retail Offer Markup <span class="retailOfferValue">0%</span></label>
+                <div class="form-group col-sm-6 d-none">
+                    <label>Retail Offer Markup <span class="retailOfferValue">0%</span></label>
                     <input type="number" min="0" max="100" value="0" class="form-control-range retailOfferRange">
                     <input name="discounted_price[]" class="form-control retail_offer" type="text" value="0" >
                 </div>
 
                 <!-- Wholesale -->
-                <div class="form-group col-sm-6"><label>Wholesale Markup <span class="wholesaleMarkupValue">0%</span></label>
-                    <input type="number" min="0" max="100" value="0" class="form-control-range wholesaleMarkupRange">
-                    <input name="wholesell_price[]" class="form-control wholesale_price" type="text" value="0" >
+                <div class="form-group col-sm-6">
+
+                     <div class="card my-2">
+                        <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                            <div class="row">
+                                <div class="col-6">
+                                        <label>Wholesale Markup <span class="wholesaleMarkupValue">0%</span></label>
+                                        <hr class="m-0">
+                                        <label for="" >Wholesale Price</label>
+                                        <input type="number" min="0" max="100" value="0" class="form-control -range wholesaleMarkupRange">
+                                        <input name="wholesell_price[]" class="form-control wholesale_price" type="text" value="0" >
+                                </div>
+                                <div class="col-6">
+                                        <label for="">Profit</label>
+                                        <hr class="m-0">
+                                        <label for="" >Vat 10%</label>
+                                        <input type="number" class="form-control wholesaleProfitShow" value="0" readonly>
+                                        <input  type="text" class="form-control vatWholesaleProfitShow" value="0" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <!-- Wholesale Offer -->
-                <div class="form-group col-sm-6"><label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
+                <div class="form-group col-sm-6 d-none">
+                    <label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
                     <input type="number" min="0" max="100" value="0" class="form-control-range wholesaleOfferRange">
                     <input name="wholesell_discounted_price[]" class="form-control wholesale_offer" type="text" value="0" >
                 </div>
 
-                 <div class="form-group col-sm-6">
+                 <div class="form-group col-sm-12">
                     <input type="checkbox" style="margin-top:10px; height: 20px; width:20px;" name="fixed_price[]"> <label for="" class="mb-2">Fiexed Price</label>
                 </div>
-
-
                 <hr style="margin: 10px; height: 2px;">
-
                 <div class="form-group col-12">
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>Max Discount%</label>
-                            <input name="max_discount[]" class="form-control" type="number" placeholder="Max Discount" min="0" max="100" value="0">
+
+                            <div class="card my-2">
+                                <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                    <div class="row">
+                                        <div class="col-6">
+                                                <label>Max Discount%</label>
+                                                <hr class="m-0">
+                                                <label for="" >&nbsp;</label>
+                                                <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="0">
+                                        </div>
+                                        <div class="col-6">
+                                                <label for="">Profit</label>
+                                                <hr class="m-0">
+                                                <label for="" >Vat 10%</label>
+                                                <input type="number" class="form-control maxDiscountShow" value="0" readonly>
+                                                <input  type="text" class="form-control vatMaxDiscountShow" value="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="form-group col-sm-6">
-                            <label>Offer Discount%</label>
-                            <input name="offer_discount[]" class="form-control" type="number" placeholder="Default Discount" min="0" max="100" value="0">
-                        </div>
-
-                        <div class="form-group col-sm-6">
-                            <label for="example-text-input">Offer From</label>
-                            <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From">
-                        </div>
-
-                        <div class="form-group col-sm-6">
-                            <label for="example-text-input">Offer To</label>
-                            <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To">
+                            <div class="card my-2">
+                                <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                    <div class="row">
+                                        <div class="col-6">
+                                                <label>Offer Discount%</label>
+                                                <hr class="m-0">
+                                                <label for="" >&nbsp;</label>
+                                                <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0" max="100" value="0">
+                                        </div>
+                                        <div class="col-6">
+                                                <label for="">Profit</label>
+                                                <hr class="m-0">
+                                                <label for="" >Vat 10%</label>
+                                                <input type="number" class="form-control offerDiscountShow" value="0" readonly>
+                                                <input  type="text" class="form-control vatOfferDiscountShow" value="0" readonly>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="example-text-input">Offer From</label>
+                                            <input name="offer_from[]" class="form-control" type="date" autocomplete="off" placeholder="Offer From">
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="example-text-input">Offer To</label>
+                                            <input name="offer_to[]" class="form-control" type="date" autocomplete="off" placeholder="Offer To">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

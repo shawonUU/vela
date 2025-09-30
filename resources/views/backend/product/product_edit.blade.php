@@ -388,7 +388,7 @@
         }
 
         // Attach logic to one variant row
-        function attachPriceLogic($row) {
+         unction attachPriceLogic($row) {
             const $buying = $row.find('input[name="buying_prices[]"]');
 
             const ranges = {
@@ -438,7 +438,6 @@
                 let percent = 0;
                 let selling = 0;
 
-                // Markup type (retail, wholesale, etc.)
                 if (ranges[type] && outputs[type]) {
                     percent = parseFloat(ranges[type].val()) || 0;
                     if (percent === 0 || buying === 0) {
@@ -460,7 +459,13 @@
                     }
                 }
 
-                // Profit & Vat Profit হিসাব
+                if(type === "retailAmount"){
+                    if(buying>0){
+                        labels.retail.text(customRound(((parseFloat(outputs.retail.val()) || 0) - buying) / buying * 100) + '%');
+                        ranges.retail.val(customRound(((parseFloat(outputs.retail.val()) || 0) - buying) / buying * 100));
+                    } 
+                }
+
                 if (profits[type]) {
                     const profit = customRound(selling - buying);
                     const vatProfit = customRound(profit - (profit * 0.10));
@@ -472,6 +477,18 @@
             function bindEvents(type) {
                 if (ranges[type]) ranges[type].on('input change', () => calculate(type));
                 $buying.on('input', () => calculate(type));
+
+                if(type === 'retail') {
+                    outputs.retail.on('input change', () => {
+                        calculate('offerDiscount');
+                        calculate('maxDiscount');
+                        calculate('retailAmount');
+                    });
+                    ranges.retail.on('input change', () => {
+                        calculate('offerDiscount');
+                        calculate('maxDiscount');
+                    });
+                }
             }
 
             ['retail', 'retailOffer', 'wholesale', 'wholesaleOffer', 'offerDiscount', 'maxDiscount'].forEach(type => {

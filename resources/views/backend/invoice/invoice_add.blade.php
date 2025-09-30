@@ -896,7 +896,7 @@ $org = App\Models\OrgDetails::first();
 
                         if(fixedPrice=='1'){
                             discount = 0;
-                        }else{
+                        }else if(maxDiscountPercent > 0){
                             let finalDiscount = 0;
                             if (isFixedDiscount) {
                                 let discountPercent = (discount / unitPrice) * 100;

@@ -46,7 +46,6 @@
                                     <!-- <th>Image</th> -->
                                     <th>Name</th>
                                     <th>Barcode</th>
-                                    <th> Size</th>
                                     <th>Selling Price</th>
                                     <th>Brand</th>
                                     <th>Category</th>
@@ -61,9 +60,8 @@
                                             <!-- <td>
                                                 <img class="rounded" src="{{ !empty($item->product_image) && file_exists(public_path($item->product_image)) ? asset($item->product_image) : asset('upload/no_image.png') }}" style="width:50px; height:50px;">
                                             </td> -->
-                                            <td> {{ $item->name }} </td>
+                                            <td> {{ $item->name }} ({{$tem['size']->name}})</td>
                                             <td> {{ $tem->barcode }} </td>
-                                            <td style="border-right:none; ">{{$tem['size']->name}}</td>
                                             <td style="border-right:none;">{{$tem->selling_price}} TK</td>
                                             <td> {{ !empty($item['brand']['name'])?$item['brand']['name']:'Null' }} </td>
                                             <td> {{ (!empty($item['category']['name'])?$item['category']['name']:'Null') }}</td>

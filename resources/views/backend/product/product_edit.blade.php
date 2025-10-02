@@ -260,28 +260,7 @@
 
                                     <div class="form-group col-12">
                                         <div class="row">
-                                            <div class="form-group col-sm-6">
-
-                                                <div class="card my-2">
-                                                    <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                    <label>Max Discount%</label>
-                                                                    <hr class="m-0">
-                                                                    <label for="" >&nbsp;</label>
-                                                                    <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="{{$variant->max_discount}}">
-                                                            </div>
-                                                            <div class="col-6">
-                                                                    <label for="">Profit</label>
-                                                                    <hr class="m-0">
-                                                                    <label for="" >Vat 10%</label>
-                                                                    <input type="number" class="form-control maxDiscountShow" value="0" readonly>
-                                                                    <input  type="text" class="form-control vatMaxDiscountShow" value="0" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
                                             
                                             <div class="form-group col-sm-6">
 
@@ -291,8 +270,9 @@
                                                             <div class="col-6">
                                                                     <label>Offer Discount%</label>
                                                                     <hr class="m-0">
-                                                                    <label for="" >&nbsp;</label>
+                                                                    <label for="" >Offer Price</label>
                                                                     <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0" max="100" value="{{$variant->offer_discount}}">
+                                                                    <input name="offer_price[]" class="form-control offerPrice" type="number" placeholder="Offer Price" min="0" value="0">
                                                             </div>
                                                             <div class="col-6">
                                                                     <label for="">Profit</label>
@@ -313,6 +293,30 @@
                                                     </div>
                                                 </div>
 
+                                            </div>
+
+                                            <div class="form-group col-sm-6">
+
+                                                <div class="card my-2">
+                                                    <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                    <label>Max Discount%</label>
+                                                                    <hr class="m-0">
+                                                                    <label for="" >Min Price</label>
+                                                                    <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="{{$variant->max_discount}}">
+                                                                    <input name="min_price[]" class="form-control minPrice" type="number" placeholder="Min Price" min="0" value="0">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                    <label for="">Profit</label>
+                                                                    <hr class="m-0">
+                                                                    <label for="" >Vat 10%</label>
+                                                                    <input type="number" class="form-control maxDiscountShow" value="0" readonly>
+                                                                    <input  type="text" class="form-control vatMaxDiscountShow" value="0" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -388,96 +392,269 @@
         }
 
         // Attach logic to one variant row
-        function attachPriceLogic($row) {
+         function attachPriceLogic($row){
             const $buying = $row.find('input[name="buying_prices[]"]');
 
-            const ranges = {
+            const changable = {
                 retail: $row.find('.retailMarkupRange'),
                 retailOffer: $row.find('.retailOfferRange'),
                 wholesale: $row.find('.wholesaleMarkupRange'),
                 wholesaleOffer: $row.find('.wholesaleOfferRange'),
                 offerDiscount: $row.find('.offerDiscount'),
-                maxDiscount: $row.find('.maxDiscount')
+                maxDiscount: $row.find('.maxDiscount'),
+                sellingPrice : $row.find('.selling_price'),
+                wholesalePrice : $row.find('.wholesale_price'),
+                minPrice: $row.find('.minPrice'),
+                offerPrice: $row.find('.offerPrice'),
             };
 
-            const outputs = {
-                retail: $row.find('.selling_price'),
+            const inputs = {
+                retail: $row.find('.retailMarkupRange'),
+                sellingPrice: $row.find('.selling_price'),
                 retailOffer: $row.find('.retail_offer'),
+                wholesaleMarkupRange: $row.find('.wholesaleMarkupRange'),
                 wholesale: $row.find('.wholesale_price'),
-                wholesaleOffer: $row.find('.wholesale_offer')
+                wholesaleOffer: $row.find('.wholesale_offer'),
+                minPrice: $row.find('.minPrice'),
+                offerPrice: $row.find('.offerPrice'),
+                offerDiscount: $row.find('.offerDiscount'),
+                maxDiscount: $row.find('.maxDiscount'),
             };
 
             const labels = {
                 retail: $row.find('.retailMarkupValue'),
                 retailOffer: $row.find('.retailOfferValue'),
                 wholesale: $row.find('.wholesaleMarkupValue'),
-                wholesaleOffer: $row.find('.wholesaleOfferValue')
+                wholesaleOffer: $row.find('.wholesaleOfferValue'),
             };
+
 
             const profits = {
                 retail: {
                     profit: $row.find('.retailProfitShow'),
-                    vatProfit: $row.find('.vatRetailProfitShow')
+                    vatProfit: $row.find('.vatRetailProfitShow'),
                 },
                 wholesale: {
                     profit: $row.find('.wholesaleProfitShow'),
-                    vatProfit: $row.find('.vatWholesaleProfitShow')
+                    vatProfit: $row.find('.vatWholesaleProfitShow'),
                 },
                 offerDiscount: {
                     profit: $row.find('.offerDiscountShow'),
-                    vatProfit: $row.find('.vatOfferDiscountShow')
+                    vatProfit: $row.find('.vatOfferDiscountShow'),
                 },
                 maxDiscount: {
                     profit: $row.find('.maxDiscountShow'),
-                    vatProfit: $row.find('.vatMaxDiscountShow')
-                }
+                    vatProfit: $row.find('.vatMaxDiscountShow'),
+                },
             };
 
             function calculate(type) {
                 const buying = parseFloat($buying.val()) || 0;
-                let percent = 0;
                 let selling = 0;
+                let wholeselling = 0;
 
-                // Markup type (retail, wholesale, etc.)
-                if (ranges[type] && outputs[type]) {
-                    percent = parseFloat(ranges[type].val()) || 0;
+                if(type === 'retail'){
+                    labels.retail.text(changable.retail.val() + '%');
+                    var percent = parseFloat(changable.retail.val()) || 0;
                     if (percent === 0 || buying === 0) {
-                        outputs[type].val(0);
+                        inputs.sellingPrice.val(0);
                     } else {
                         selling = customRound(buying + (buying * percent / 100));
-                        outputs[type].val(selling);
+                        inputs.sellingPrice.val(selling);
                     }
-                    if (labels[type]) labels[type].text(percent + '%');
-                }
 
-                if (type === "offerDiscount" || type === "maxDiscount") {
-                    percent = parseFloat(ranges[type].val()) || 0;
-                    const retailSelling = parseFloat(outputs.retail.val()) || 0;
-                    if (retailSelling > 0 && percent > 0) {
-                        selling = customRound(retailSelling - (retailSelling * percent / 100));
+                    var profit = customRound(selling - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.retail.profit.val(profit);
+                    profits.retail.vatProfit.val(vatProfit);
+
+                    // wholesale
+                    percent = parseFloat(changable.wholesale.val()) || 0;
+                    if (percent === 0 || buying === 0) {
+                        inputs.wholesale.val(0);
                     } else {
-                        selling = retailSelling;
+                        wholeselling = customRound(buying + (buying * percent / 100));
+                        inputs.wholesale.val(wholeselling);
+                    }
+                    profit = customRound(wholeselling - buying);
+                    vatProfit = customRound(profit - (profit * 0.10));
+                    profits.wholesale.profit.val(profit);
+                    profits.wholesale.vatProfit.val(vatProfit);
+
+                    // Max Discount
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
+                    var maxDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
+                    var profit = customRound(maxDiscountSellingPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.maxDiscount.profit.val(profit);
+                    profits.maxDiscount.vatProfit.val(vatProfit);
+
+                    // Offer Discount
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
+                    var offerDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * offerDiscount / 100));
+                    var profit = customRound(offerDiscountSellingPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.offerDiscount.profit.val(profit);
+                    profits.offerDiscount.vatProfit.val(vatProfit);
+
+
+                }
+                if(type === 'sellingPrice'){
+                    selling = parseFloat(changable.sellingPrice.val()) || 0; 
+                    if(buying>0){
+                        labels.retail.text(customRound((selling - buying) / buying * 100) + '%');
+                        inputs.retail.val(customRound((selling - buying) / buying * 100));
+                    } 
+
+                    var profit = customRound(selling - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.retail.profit.val(profit);
+                    profits.retail.vatProfit.val(vatProfit);
+
+                    // wholesale
+                    percent = parseFloat(changable.wholesale.val()) || 0;
+                    if (percent === 0 || buying === 0) {
+                        inputs.wholesale.val(0);
+                    } else {
+                        wholeselling = customRound(buying + (buying * percent / 100));
+                        inputs.wholesale.val(wholeselling);
+                    }
+                    profit = customRound(wholeselling - buying);
+                    vatProfit = customRound(profit - (profit * 0.10));
+                    profits.wholesale.profit.val(profit);
+                    profits.wholesale.vatProfit.val(vatProfit);
+
+                    // Max Discount
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
+                    var maxDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
+                    var profit = customRound(maxDiscountSellingPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.maxDiscount.profit.val(profit);
+                    profits.maxDiscount.vatProfit.val(vatProfit);
+
+                    // Offer Discount
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
+                    var offerDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * offerDiscount / 100));
+                    var profit = customRound(offerDiscountSellingPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.offerDiscount.profit.val(profit);
+                    profits.offerDiscount.vatProfit.val(vatProfit);
+                }
+                if(type === 'wholesale'){
+                    var percent = parseFloat(changable.wholesale.val()) || 0;
+                    labels.wholesale.text(changable.wholesale.val() + '%');
+                    if (percent === 0 || buying === 0) {
+                        inputs.wholesale.val(0);
+                    } else {
+                        wholeselling = customRound(buying + (buying * percent / 100));
+                        inputs.wholesale.val(wholeselling);
+                    }
+                    profit = customRound(wholeselling - buying);
+                    vatProfit = customRound(profit - (profit * 0.10));
+                    profits.wholesale.profit.val(profit);
+                    profits.wholesale.vatProfit.val(vatProfit);
+                }
+                if(type === 'wholesalePrice'){
+                    wholeselling = parseFloat(changable.wholesalePrice.val()) || 0; 
+                    if(buying>0){
+                        labels.wholesale.text(customRound((wholeselling - buying) / buying * 100) + '%');
+                        inputs.wholesaleMarkupRange.val(customRound((wholeselling - buying) / buying * 100));
+                    } 
+
+                    
+                    profit = customRound(wholeselling - buying);
+                    vatProfit = customRound(profit - (profit * 0.10));
+                    profits.wholesale.profit.val(profit);
+                    profits.wholesale.vatProfit.val(vatProfit);
+                }
+                if(type === 'offerDiscount'){
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
+                    var offerDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * offerDiscount / 100));
+                    var profit = customRound(offerDiscountSellingPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    inputs.offerPrice.val(offerDiscountSellingPrice);
+                    profits.offerDiscount.profit.val(profit);
+                    profits.offerDiscount.vatProfit.val(vatProfit);
+
+                    //Max Discount
+                    var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
+                    var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
+                    if(offerDiscount > maxDiscount){
+                        inputs.maxDiscount.val(offerDiscount);
+                        var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                        var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
+                        var minDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
+                        inputs.minPrice.val(minDiscountSellingPrice);
+                        var profit = customRound(minDiscountSellingPrice - buying);
+                        var vatProfit = customRound(profit - (profit * 0.10));
+                        profits.maxDiscount.profit.val(profit);
+                        profits.maxDiscount.vatProfit.val(vatProfit);
                     }
                 }
+                if(type === 'maxDiscount'){
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
+                    var minDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
+                    inputs.minPrice.val(minDiscountSellingPrice);
+                    var profit = customRound(minDiscountSellingPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.maxDiscount.profit.val(profit);
+                    profits.maxDiscount.vatProfit.val(vatProfit);
+                }
+                if(type === 'offerPrice'){
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var offerPrice = parseFloat( changable.offerPrice.val()) || 0;
+                    if(sellingPrice>0){
+                        inputs.offerDiscount.val(customRound((sellingPrice - offerPrice) / sellingPrice * 100));
+                    } 
+                    var profit = customRound(offerPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.offerDiscount.profit.val(profit);
+                    profits.offerDiscount.vatProfit.val(vatProfit);
 
-                // Profit & Vat Profit হিসাব
-                if (profits[type]) {
-                    const profit = customRound(selling - buying);
-                    const vatProfit = customRound(profit - (profit * 0.10));
-                    profits[type].profit.val(profit);
-                    profits[type].vatProfit.val(vatProfit);
+                    //Max Discount
+                    var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
+                    var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
+                    if(offerDiscount > maxDiscount){
+                        inputs.maxDiscount.val(offerDiscount);
+                        var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                        var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
+                        var minDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
+                        inputs.minPrice.val(minDiscountSellingPrice);
+                        var profit = customRound(minDiscountSellingPrice - buying);
+                        var vatProfit = customRound(profit - (profit * 0.10));
+                        profits.maxDiscount.profit.val(profit);
+                        profits.maxDiscount.vatProfit.val(vatProfit);
+                    }
+                }
+                if(type === 'minPrice'){
+                    var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
+                    var minPrice = parseFloat( changable.minPrice.val()) || 0;
+                    if(sellingPrice>0){
+                        inputs.maxDiscount.val(customRound((sellingPrice - minPrice) / sellingPrice * 100));
+                    } 
+                    var profit = customRound(minPrice - buying);
+                    var vatProfit = customRound(profit - (profit * 0.10));
+                    profits.maxDiscount.profit.val(profit);
+                    profits.maxDiscount.vatProfit.val(vatProfit);
                 }
             }
 
             function bindEvents(type) {
-                if (ranges[type]) ranges[type].on('input change', () => calculate(type));
+                if (changable[type]) changable[type].on('input change', () => calculate(type));
                 $buying.on('input', () => calculate(type));
             }
 
-            ['retail', 'retailOffer', 'wholesale', 'wholesaleOffer', 'offerDiscount', 'maxDiscount'].forEach(type => {
+            ['retail', 'retailOffer', 'wholesale', 'wholesaleOffer', 'offerDiscount', 'maxDiscount', 'sellingPrice','wholesalePrice', 'offerPrice','minPrice'].forEach(type => {
                 bindEvents(type);
                 calculate(type);
             });
+
         }
 
         // Color field name update (indexed)
@@ -585,38 +762,17 @@
                 <hr style="margin: 10px; height: 2px;">
                 <div class="form-group col-12">
                     <div class="row">
-                        <div class="form-group col-sm-6">
 
-                            <div class="card my-2">
-                                <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
-                                    <div class="row">
-                                        <div class="col-6">
-                                                <label>Max Discount%</label>
-                                                <hr class="m-0">
-                                                <label for="" >&nbsp;</label>
-                                                <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="0">
-                                        </div>
-                                        <div class="col-6">
-                                                <label for="">Profit</label>
-                                                <hr class="m-0">
-                                                <label for="" >Vat 10%</label>
-                                                <input type="number" class="form-control maxDiscountShow" value="0" readonly>
-                                                <input  type="text" class="form-control vatMaxDiscountShow" value="0" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group col-sm-6">
+                                            <div class="form-group col-sm-6">
                             <div class="card my-2">
                                 <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
                                     <div class="row">
                                         <div class="col-6">
                                                 <label>Offer Discount%</label>
                                                 <hr class="m-0">
-                                                <label for="" >&nbsp;</label>
+                                                <label for="" >Offer Price</label>
                                                 <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0" max="100" value="0">
+                                                <input name="offer_price[]" class="form-control offerPrice" type="number" placeholder="Offer Price" min="0" value="0">
                                         </div>
                                         <div class="col-6">
                                                 <label for="">Profit</label>
@@ -637,6 +793,33 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group col-sm-6">
+
+                            <div class="card my-2">
+                                <div class="card-body p-2" style="border: 1px solid #000; border-radius: 15px;">
+                                    <div class="row">
+                                        <div class="col-6">
+                                                <label>Max Discount%</label>
+                                                <hr class="m-0">
+                                                <label for="" >Min Price</label>
+                                                <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="0">
+                                                <input name="min_price[]" class="form-control minPrice" type="number" placeholder="Min Price" min="0" value="0">
+                                                
+                                        </div>
+                                        <div class="col-6">
+                                                <label for="">Profit</label>
+                                                <hr class="m-0">
+                                                <label for="" >Vat 10%</label>
+                                                <input type="number" class="form-control maxDiscountShow" value="0" readonly>
+                                                <input  type="text" class="form-control vatMaxDiscountShow" value="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+
                     </div>
                 </div>
 

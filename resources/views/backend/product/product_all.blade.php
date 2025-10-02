@@ -53,7 +53,7 @@
                                     <th width="30px;">Action</th>
                             </thead>
                             <tbody>
-                                @php $dx=0; @endphp
+                                @php $dx=1; @endphp
                                 @foreach($products as $key => $item)
                                     @foreach ($item['productSizes'] as $key => $tem)
                                         <tr>

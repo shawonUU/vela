@@ -303,6 +303,7 @@ Route::middleware(['business_day'])->group(function () {
             Route::get('/get-product-product', 'getProductSizes')->name('get.product.sizes');
             Route::get('/product/discount/analysis', 'discountAnalysis')->name('product.discount_analysis');
             Route::get('/product/show/{id}', 'ProductShow')->name('product.show');
+            Route::post('/product/download/excel', 'downloadExcel')->name('product.download_excel');
             
         });
         // Product Price code All Route

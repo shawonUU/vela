@@ -374,4 +374,62 @@ class ProductController extends Controller
 
         return view('backend.product.discount_analysis', compact('products'));
     }
+
+    public function downloadExcel(Request $request){
+        $products = Product::latest()->get();
+
+        $fileName = "products.csv";
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="'.$fileName.'";');
+
+        $output = fopen('php://output', 'w');
+
+        fputcsv($output, ['Product Name', 'Buying Price', 'Selling Price', 'Brand', 'Category']);
+
+        foreach($products as $key => $item) {
+            foreach ($item['productSizes'] as $key => $tem) {
+                fputcsv($output, [
+                    $item->name. '(' . $tem['size']->name . ')',
+                    $tem->buying_price,
+                    $tem->selling_price,
+                    !empty($item['brand']['name'])?$item['brand']['name']:'',
+                    (!empty($item['category']['name'])?$item['category']['name']:''),
+                ]);
+            }
+        }
+
+        fclose($output);
+        exit;
+    }
+
+    public function downloadExcel2(Request $request)
+    {
+        $products = Product::latest()->get();
+
+        $fileName = "products.xls";
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename="'.$fileName.'";');
+
+        $output = fopen('php://output', 'w');
+
+        // header row
+        fputcsv($output, ['Product Name', 'Buying Price', 'Selling Price', 'Brand', 'Category'], "\t"); // \t = tab separator
+
+        foreach($products as $item) {
+            foreach ($item['productSizes'] as $tem) {
+                fputcsv($output, [
+                    $item->name . '(' . $tem['size']->name . ')',
+                    $tem->buying_price,
+                    $tem->selling_price,
+                    $item['brand']['name'] ?? '',
+                    $item['category']['name'] ?? '',
+                ], "\t");
+            }
+        }
+
+        fclose($output);
+        exit;
+    }
+
 }

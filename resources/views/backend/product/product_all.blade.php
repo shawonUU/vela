@@ -40,11 +40,43 @@
                     <div class="card-body">
                         <h4 class="card-title">All Product </h4>
                         <div class="d-flex justify-content-end mb-2">
-                            <form action="{{route('product.download_excel')}}" target="_blank" method="post">
+                            <form id="filter_form" action="" method="get" class="d-flex align-items-center gap-2">
                                 @csrf
-                                 <button type="submit" class="btn btn-sm btn-primary">Download Excel</button>
+
+                                <!-- Category -->
+                                <div>
+                                    <select class="selectpicker form-control" id="category" name="category_id" data-live-search="true" title="Choose Category">
+                                        <option value="">Select</option>
+                                        @foreach ($categories as $item)
+                                            <option value="{{ $item->id }}" {{ $request?->category_id == $item->id ? 'selected' : '' }}>
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Brand (only if user has permission) -->
+                                @can('show_brand')
+                                    <div>
+                                        <select class="selectpicker form-control" id="brand" name="brand_id" data-live-search="true" title="Choose Brand">
+                                            <option value="">Select</option>
+                                            @foreach ($brands as $item)
+                                                <option value="{{ $item->id }}" {{ $request?->brand_id == $item->id ? 'selected' : '' }}>
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endcan
+
+                                <!-- Buttons -->
+                                <div> 
+                                    <button onclick="document.getElementById('filter_form').action='{{ route('product.all') }}'; document.getElementById('filter_form').submit();" name="filter" value="1" class="btn btn-sm btn-primary">Filter</button>
+                                    <button onclick="document.getElementById('filter_form').action='{{ route('product.download_excel') }}'; document.getElementById('filter_form').submit();" name="download" value="1" class="btn btn-sm btn-success">Download Excel</button>
+                                </div>
                             </form>
                         </div>
+
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -53,7 +85,9 @@
                                     <th>Name</th>
                                     <th>Barcode</th>
                                     <th>Selling Price</th>
+                                    @can('show_brand')
                                     <th>Brand</th>
+                                    @endcan
                                     <th>Category</th>
                                     <th width="30px;">Action</th>
                             </thead>
@@ -69,7 +103,9 @@
                                             <td> {{ $item->name }} ({{$tem['size']->name}})</td>
                                             <td> {{ $tem->barcode }} </td>
                                             <td style="border-right:none;">{{$tem->selling_price}} TK</td>
+                                            @can('show_brand')
                                             <td> {{ !empty($item['brand']['name'])?$item['brand']['name']:'Null' }} </td>
+                                            @endcan
                                             <td> {{ (!empty($item['category']['name'])?$item['category']['name']:'Null') }}</td>
                                             <!-- <td> {!! (!empty($item->product_code)?DNS1D::getBarcodeHTML($item->product_code,"PHARMA"):"Null") !!} </td>  -->
                                             <td>

@@ -64,6 +64,11 @@
                                 <button type="button" id="addVariantRow" class="btn btn-primary w-100">+ Add More Sizes</button>
                             </div>
 
+                            <div>
+                                <input type="hidden" value="0" name="is_size_included">
+                                <input type="checkbox" value="1" name="is_size_included" style="height: 20px; width:20px;"> <label for="">Show Size on Barcode</label>
+                            </div>
+
                             <button type="submit" class="btn btn-success" name="btn" value="1"><i class="fas fa-plus-circle"></i> A4 Page Label Print</button>
                             <button type="submit" class="btn btn-success" name="btn" value="2"><i class="fas fa-plus-circle"></i> Thermal Label Print</button>
                         </form>

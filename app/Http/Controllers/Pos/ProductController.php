@@ -33,12 +33,24 @@ class ProductController extends Controller
         $this->middleware(['permission:product-delete'], ['only' => ['ProductDelete']]);
     }
     // Product show from database
-    public function ProductAll()
+    public function ProductAll(Request $request)
     {
-        $products = Product::latest()->get();
-        // dd($products);
-        return view('backend.product.product_all', compact('products'));
-    } //End Method
+        $query = Product::with(['category', 'brand', 'productSizes'])->latest();
+        
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        $products = $query->get();
+        $categories = Category::get();
+        $brands = Brand::get();
+
+        return view('backend.product.product_all', compact('products','categories','brands','request'));
+    }
 
 
     // Product insert form
@@ -376,7 +388,17 @@ class ProductController extends Controller
     }
 
     public function downloadExcel(Request $request){
-        $products = Product::latest()->get();
+        $query = Product::with(['category', 'brand', 'productSizes'])->latest();
+        
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        $products = $query->get();
 
         $fileName = "products.csv";
         header('Content-Type: text/csv');
@@ -384,7 +406,7 @@ class ProductController extends Controller
 
         $output = fopen('php://output', 'w');
 
-        fputcsv($output, ['Product Name', 'Buying Price', 'Selling Price', 'Brand', 'Category']);
+        fputcsv($output, ['Product Name', 'Buying Price', 'Selling Price', auth()->user()->can('show_brand') ? 'Brand' : '', 'Category']);
 
         foreach($products as $key => $item) {
             foreach ($item['productSizes'] as $key => $tem) {
@@ -392,7 +414,7 @@ class ProductController extends Controller
                     $item->name. '(' . $tem['size']->name . ')',
                     $tem->buying_price,
                     $tem->selling_price,
-                    !empty($item['brand']['name'])?$item['brand']['name']:'',
+                    auth()->user()->can('show_brand') ? (!empty($item['brand']['name']) ? $item['brand']['name'] : '') : '',
                     (!empty($item['category']['name'])?$item['category']['name']:''),
                 ]);
             }

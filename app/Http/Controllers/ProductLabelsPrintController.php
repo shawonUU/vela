@@ -41,13 +41,16 @@ class ProductLabelsPrintController extends Controller
                 'qty' => $quantities[$i],
             ];
         }
+
+        $is_size_included = $request->is_size_included;
+
         // dd($labelItems);
         if ($request->btn == 1) {
             // A4 Page Label Print
-            return view('backend.product.print_labels.pdf.product_labels_print', compact('labelItems'));
+            return view('backend.product.print_labels.pdf.product_labels_print', compact('labelItems','is_size_included'));
         } elseif ($request->btn == 2) {
             // Thermal Label Print
-            return view('backend.product.print_labels.pdf.product_labels_thermal_print', compact('labelItems'));
+            return view('backend.product.print_labels.pdf.product_labels_thermal_print', compact('labelItems','is_size_included'));
         }
     }
 }

@@ -118,7 +118,12 @@
                     <div class="label-box">
                         <span>
                             <b style="display: block; text-align: center; font-size:12px;">{{ $org->org_name_en ?? 'Company Name' }}</b>
-                            <b>{{ $item['product'] }}</b>
+                            <b>
+                                {{ $item['product'] }}
+                                @if($is_size_included=='1')
+                                    ({{ $item['size_name'] }})
+                                @endif
+                            </b>
                             <div style="display: flex; justify-content: space-between;">
                                 <b>Code: {{ $item['buying_price_code'] }}</b>
                                 <b>BC: {{ $item['barcode'] !== 'N/A' ? $item['barcode'] : 'No Barcode' }}</b>

@@ -196,8 +196,8 @@
                                                             <label>Retail Markup <span class="retailMarkupValue">0%</span></label>
                                                             <hr class="m-0">
                                                             <label for="" >Retail Price</label>
-                                                            <input type="number" min="0" max="100" value="{{$retail??0}}" class="form-control retailMarkupRange">
-                                                            <input name="selling_prices[]" class="form-control selling_price" type="text" value="0" >
+                                                            <input type="number" min="0"  value="{{$retail??0}}" class="form-control retailMarkupRange">
+                                                            <input name="selling_prices[]" class="form-control selling_price" type="text" value="{{$variant->selling_price}}" >
                                                     </div>
                                                     <div class="col-6">
                                                             <label for="">Profit</label>
@@ -214,7 +214,7 @@
 
                                     <!-- Retail Offer -->
                                     <div class="form-group col-sm-6 d-none"><label>Retail Offer Markup <span class="retailOfferValue">0%</span></label>
-                                        <input type="number" min="0" max="100" value="{{$retailOffer??0}}" class="form-control-range retailOfferRange">
+                                        <input type="number" min="0"  value="{{$retailOffer??0}}" class="form-control-range retailOfferRange">
                                         <input name="discounted_price[]" class="form-control retail_offer" type="text" value="{{$variant->discounted_price}}">
                                     </div>
 
@@ -228,7 +228,7 @@
                                                             <label>Wholesale Markup <span class="wholesaleMarkupValue">0%</span></label>
                                                             <hr class="m-0">
                                                             <label for="" >Wholesale Price</label>
-                                                            <input type="number" min="0" max="100" value="{{ $wholesale??0}}" class="form-control -range wholesaleMarkupRange">
+                                                            <input type="number" min="0"  value="{{ $wholesale??0}}" class="form-control -range wholesaleMarkupRange">
                                                             <input name="wholesell_price[]" class="form-control wholesale_price" type="text" value="{{$variant->wholesell_price}}" >
                                                     </div>
                                                     <div class="col-6">
@@ -247,7 +247,7 @@
                                     <!-- Wholesale Offer -->
                                     <div class="form-group col-sm-6 d-none">
                                         <label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
-                                        <input type="number" min="0" max="100" value="{{$wholesaleOffer??0}}" class="form-control-range wholesaleOfferRange">
+                                        <input type="number" min="0"  value="{{$wholesaleOffer??0}}" class="form-control-range wholesaleOfferRange">
                                         <input name="wholesell_discounted_price[]" class="form-control wholesale_offer" type="text" value="{{$variant->wholesell_discounted_price}}">
                                     </div>
 
@@ -271,7 +271,7 @@
                                                                     <label>Offer Discount%</label>
                                                                     <hr class="m-0">
                                                                     <label for="" >Offer Price</label>
-                                                                    <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0" max="100" value="{{$variant->offer_discount}}">
+                                                                    <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0"  value="{{$variant->offer_discount}}">
                                                                     <input name="offer_price[]" class="form-control offerPrice" type="number" placeholder="Offer Price" min="0" value="0">
                                                             </div>
                                                             <div class="col-6">
@@ -304,7 +304,7 @@
                                                                     <label>Max Discount%</label>
                                                                     <hr class="m-0">
                                                                     <label for="" >Min Price</label>
-                                                                    <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="{{$variant->max_discount}}">
+                                                                    <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0"  value="{{$variant->max_discount}}">
                                                                     <input name="min_price[]" class="form-control minPrice" type="number" placeholder="Min Price" min="0" value="0">
                                                             </div>
                                                             <div class="col-6">
@@ -392,7 +392,8 @@
         }
 
         // Attach logic to one variant row
-         function attachPriceLogic($row){
+        function attachPriceLogic($row){
+            
             const $buying = $row.find('input[name="buying_prices[]"]');
 
             const changable = {
@@ -448,12 +449,12 @@
                 },
             };
 
-            function calculate(type) {
+            function calculate(type, isInitial=false) {
                 const buying = parseFloat($buying.val()) || 0;
                 let selling = 0;
                 let wholeselling = 0;
 
-                if(type === 'retail'){
+                if(type === 'retail' && !isInitial){
                     labels.retail.text(changable.retail.val() + '%');
                     var percent = parseFloat(changable.retail.val()) || 0;
                     if (percent === 0 || buying === 0) {
@@ -544,7 +545,7 @@
                     profits.offerDiscount.profit.val(profit);
                     profits.offerDiscount.vatProfit.val(vatProfit);
                 }
-                if(type === 'wholesale'){
+                if(type === 'wholesale'  && !isInitial){
                     var percent = parseFloat(changable.wholesale.val()) || 0;
                     labels.wholesale.text(changable.wholesale.val() + '%');
                     if (percent === 0 || buying === 0) {
@@ -571,7 +572,7 @@
                     profits.wholesale.profit.val(profit);
                     profits.wholesale.vatProfit.val(vatProfit);
                 }
-                if(type === 'offerDiscount'){
+                if(type === 'offerDiscount'  && !isInitial){
                     var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
                     var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
                     var offerDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * offerDiscount / 100));
@@ -596,7 +597,7 @@
                         profits.maxDiscount.vatProfit.val(vatProfit);
                     }
                 }
-                if(type === 'maxDiscount'){
+                if(type === 'maxDiscount'  && !isInitial){
                     var sellingPrice = parseFloat( changable.sellingPrice.val()) || 0;
                     var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
                     var minDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
@@ -650,9 +651,9 @@
                 $buying.on('input', () => calculate(type));
             }
 
-            ['retail', 'retailOffer', 'wholesale', 'wholesaleOffer', 'offerDiscount', 'maxDiscount', 'sellingPrice','wholesalePrice', 'offerPrice','minPrice'].forEach(type => {
+            ['sellingPrice', 'retail', 'retailOffer', 'wholesale', 'wholesaleOffer', 'offerDiscount', 'maxDiscount','wholesalePrice', 'offerPrice','minPrice'].forEach(type => {
                 bindEvents(type);
-                calculate(type);
+                calculate(type, true);
             });
 
         }
@@ -702,7 +703,7 @@
                                     <label>Retail Markup <span class="retailMarkupValue">0%</span></label>
                                     <hr class="m-0">
                                     <label for="" >Retail Price</label>
-                                    <input type="number" min="0" max="100" value="0" class="form-control retailMarkupRange">
+                                    <input type="number" min="0"  value="0" class="form-control retailMarkupRange">
                                     <input name="selling_prices[]" class="form-control selling_price" type="text" value="0" >
                             </div>
                             <div class="col-6">
@@ -719,7 +720,7 @@
                 <!-- Retail Offer -->
                 <div class="form-group col-sm-6 d-none">
                     <label>Retail Offer Markup <span class="retailOfferValue">0%</span></label>
-                    <input type="number" min="0" max="100" value="0" class="form-control-range retailOfferRange">
+                    <input type="number" min="0"  value="0" class="form-control-range retailOfferRange">
                     <input name="discounted_price[]" class="form-control retail_offer" type="text" value="0" >
                 </div>
 
@@ -733,7 +734,7 @@
                                         <label>Wholesale Markup <span class="wholesaleMarkupValue">0%</span></label>
                                         <hr class="m-0">
                                         <label for="" >Wholesale Price</label>
-                                        <input type="number" min="0" max="100" value="0" class="form-control -range wholesaleMarkupRange">
+                                        <input type="number" min="0"  value="0" class="form-control -range wholesaleMarkupRange">
                                         <input name="wholesell_price[]" class="form-control wholesale_price" type="text" value="0" >
                                 </div>
                                 <div class="col-6">
@@ -752,7 +753,7 @@
                 <!-- Wholesale Offer -->
                 <div class="form-group col-sm-6 d-none">
                     <label>Wholesale Offer Markup <span class="wholesaleOfferValue">0%</span></label>
-                    <input type="number" min="0" max="100" value="0" class="form-control-range wholesaleOfferRange">
+                    <input type="number" min="0"  value="0" class="form-control-range wholesaleOfferRange">
                     <input name="wholesell_discounted_price[]" class="form-control wholesale_offer" type="text" value="0" >
                 </div>
 
@@ -771,7 +772,7 @@
                                                 <label>Offer Discount%</label>
                                                 <hr class="m-0">
                                                 <label for="" >Offer Price</label>
-                                                <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0" max="100" value="0">
+                                                <input name="offer_discount[]" class="form-control offerDiscount" type="number" placeholder="Default Discount" min="0"  value="0">
                                                 <input name="offer_price[]" class="form-control offerPrice" type="number" placeholder="Offer Price" min="0" value="0">
                                         </div>
                                         <div class="col-6">
@@ -803,7 +804,7 @@
                                                 <label>Max Discount%</label>
                                                 <hr class="m-0">
                                                 <label for="" >Min Price</label>
-                                                <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0" max="100" value="0">
+                                                <input name="max_discount[]" class="form-control maxDiscount" type="number" placeholder="Max Discount" min="0"  value="0">
                                                 <input name="min_price[]" class="form-control minPrice" type="number" placeholder="Min Price" min="0" value="0">
                                                 
                                         </div>

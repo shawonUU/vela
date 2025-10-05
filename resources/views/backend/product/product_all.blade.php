@@ -72,7 +72,9 @@
                                 <!-- Buttons -->
                                 <div> 
                                     <button onclick="document.getElementById('filter_form').action='{{ route('product.all') }}'; document.getElementById('filter_form').submit();" name="filter" value="1" class="btn btn-sm btn-primary">Filter</button>
-                                    <button onclick="document.getElementById('filter_form').action='{{ route('product.download_excel') }}'; document.getElementById('filter_form').submit();" name="download" value="1" class="btn btn-sm btn-success">Download Excel</button>
+                                    @can('download_product_excel')
+                                        <button onclick="document.getElementById('filter_form').action='{{ route('product.download_excel') }}'; document.getElementById('filter_form').submit();" name="download" value="1" class="btn btn-sm btn-success">Download Excel</button>
+                                    @endcan
                                 </div>
                             </form>
                         </div>

@@ -406,11 +406,14 @@ class ProductController extends Controller
 
         $output = fopen('php://output', 'w');
 
-        fputcsv($output, ['Product Name', 'Buying Price', 'Selling Price', auth()->user()->can('show_brand') ? 'Brand' : '', 'Category']);
+        fputcsv($output, ['Product Id', 'Size Id', 'Category Id', 'Product Name', 'Buying Price', 'Selling Price', auth()->user()->can('show_brand') ? 'Brand' : '', 'Category']);
 
         foreach($products as $key => $item) {
             foreach ($item['productSizes'] as $key => $tem) {
                 fputcsv($output, [
+                    $item->id,
+                    $tem->id,
+                    (!empty($item['category']['id'])?$item['category']['id']:''),
                     $item->name. '(' . $tem['size']->name . ')',
                     $tem->buying_price,
                     $tem->selling_price,

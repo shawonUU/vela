@@ -487,7 +487,8 @@
                     var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
                     var maxDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
                     var profit = customRound(maxDiscountSellingPrice - buying);
-                    var vatProfit = customRound(profit - (profit * 0.10));
+                    var vatMaxDiscountSellingPrice = customRound(maxDiscountSellingPrice - (maxDiscountSellingPrice * 0.10));
+                    var vatProfit = customRound(vatMaxDiscountSellingPrice - buying);
                     profits.maxDiscount.profit.val(profit);
                     profits.maxDiscount.vatProfit.val(vatProfit);
 
@@ -496,7 +497,8 @@
                     var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
                     var offerDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * offerDiscount / 100));
                     var profit = customRound(offerDiscountSellingPrice - buying);
-                    var vatProfit = customRound(profit - (profit * 0.10));
+                    var vatOfferDiscountSellingPrice = customRound(offerDiscountSellingPrice - (offerDiscountSellingPrice * 0.10));
+                    var vatProfit = customRound(vatOfferDiscountSellingPrice - buying);
                     profits.offerDiscount.profit.val(profit);
                     profits.offerDiscount.vatProfit.val(vatProfit);
 
@@ -532,7 +534,8 @@
                     var maxDiscount = parseFloat( changable.maxDiscount.val()) || 0;
                     var maxDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * maxDiscount / 100));
                     var profit = customRound(maxDiscountSellingPrice - buying);
-                    var vatProfit = customRound(profit - (profit * 0.10));
+                    var vatMaxDiscountSellingPrice = customRound(maxDiscountSellingPrice - (maxDiscountSellingPrice * 0.10));
+                    var vatProfit = customRound(vatMaxDiscountSellingPrice - buying);
                     profits.maxDiscount.profit.val(profit);
                     profits.maxDiscount.vatProfit.val(vatProfit);
 
@@ -541,7 +544,8 @@
                     var offerDiscount = parseFloat( changable.offerDiscount.val()) || 0;
                     var offerDiscountSellingPrice = customRound(sellingPrice - (sellingPrice * offerDiscount / 100));
                     var profit = customRound(offerDiscountSellingPrice - buying);
-                    var vatProfit = customRound(profit - (profit * 0.10));
+                    var vatOfferDiscountSellingPrice = customRound(offerDiscountSellingPrice - (offerDiscountSellingPrice * 0.10));
+                    var vatProfit = customRound(vatOfferDiscountSellingPrice - buying);
                     profits.offerDiscount.profit.val(profit);
                     profits.offerDiscount.vatProfit.val(vatProfit);
                 }

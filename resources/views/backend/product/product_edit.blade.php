@@ -1037,4 +1037,11 @@
     });
 </script>
 
-@endsection
+@endsection 
+
+
+<!-- 1) product filter on barcode 
+2) sort name on barcode
+3) signature on after table on expense print;
+4) date formate issue on expanse
+4) purchas list sirial; ase sort add item, expanse view -->

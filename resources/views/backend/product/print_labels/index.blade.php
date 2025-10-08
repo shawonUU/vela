@@ -33,9 +33,9 @@
                                 <div class="row mb-3 variantRow border p-3 rounded">
                                     <div class="form-group col-sm-4">
                                         <label>Product</label>
-                                        <select name="product_id[]" class="form-select product_id" required>
+                                        <select id="product_id" name="product_id[]" class="form-select product_id" required>
                                             <option value="">Select Product</option>
-                                            @foreach(\App\Models\Product::all() as $product)
+                                            @foreach(\App\Models\Product::orderBy('name', 'asc')->get() as $product)
                                             <option value="{{ $product->id }}">{{ $product->name }}</option>
                                             @endforeach
                                         </select>
@@ -81,6 +81,7 @@
 </div>
 <script>
 $(document).ready(function () {
+    $("#product_id").select2();
     // Load sizes based on product
     $(document).on('change', '.product_id', function () {
         const $row = $(this).closest('.variantRow');

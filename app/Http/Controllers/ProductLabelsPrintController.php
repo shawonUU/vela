@@ -32,7 +32,7 @@ class ProductLabelsPrintController extends Controller
             $productSize = \App\Models\ProductSize::with('size')->where('size_id',$sizes[$i])->where('product_id', $productIds[$i])->first();
 
             $labelItems[] = [
-                'product' => $product ? $product->name : 'N/A',
+                'product' => $product ? $product->product_sort_name : 'N/A',
                 'size_name' => $productSize && $productSize->size ? $productSize->size->name : 'N/A',
                 'barcode' => $productSize ? $productSize->barcode : 'N/A',
                 'buying_price_code' => $productSize ? $productSize->buying_price_code : 'N/A',
